@@ -35,6 +35,9 @@ class EventQueueTimer;
 class ILogOutputter;
 class IEventQueue;
 class ISocketFactory;
+#if defined(HAVE_AUDIO_SUPPORT)
+class AudioServer;
+#endif
 
 namespace deskflow {
 class ServerArgs;
@@ -109,6 +112,9 @@ private:
   bool m_suspended = false;
   Server *m_server = nullptr;
   ServerState m_serverState = ServerState::Uninitialized;
+#if defined(HAVE_AUDIO_SUPPORT)
+  AudioServer *m_audioServer = nullptr;
+#endif
   deskflow::Screen *m_serverScreen = nullptr;
   PrimaryClient *m_primaryClient = nullptr;
   ClientListener *m_listener = nullptr;

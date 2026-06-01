@@ -59,6 +59,8 @@ static const OptionID kOptionDefaultLockToScreenState = OPTION_CODE("LTSS");
 static const OptionID kOptionDisableLockToScreen = OPTION_CODE("DLTS");
 static const OptionID kOptionClipboardSharing = OPTION_CODE("CLPS");
 static const OptionID kOptionClipboardSharingSize = OPTION_CODE("CLSZ");
+static const OptionID kOptionAudioRouting = OPTION_CODE("AUDR");
+static const OptionID kOptionAudioPort = OPTION_CODE("AUDP");
 //@}
 
 //! @name Screen switch corner masks

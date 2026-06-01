@@ -882,6 +882,14 @@ Additionally, check you are able to %1 the server config file: %2</source>
         <translation>移除(&amp;R)</translation>
     </message>
     <message>
+        <source>Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route audio to this computer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Screen name is empty</source>
         <translation>屏幕名称为空</translation>
     </message>

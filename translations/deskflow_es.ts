@@ -880,6 +880,14 @@ Además, verifique que puede %1 el archivo de configuración del servidor: %2</t
         <translation type="unfinished">Elimina&amp;r</translation>
     </message>
     <message>
+        <source>Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route audio to this computer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Screen name is empty</source>
         <translation type="unfinished">El nombre de pantalla está vacío</translation>
     </message>

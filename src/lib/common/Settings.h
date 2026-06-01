@@ -122,6 +122,10 @@ public:
     inline static const auto Win32KeepForeground = QStringLiteral("server/win32KeepForeground");
     inline static const auto XdpRestoreToken = QStringLiteral("server/xdpRestoreToken");
   };
+  struct Audio
+  {
+    inline static const auto Port = QStringLiteral("audio/port");
+  };
 
   // Enums types used in settings
   // The use of enum classes is not use for these

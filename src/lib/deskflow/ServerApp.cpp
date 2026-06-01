@@ -28,6 +28,11 @@
 #include "server/PrimaryClient.h"
 #include "server/Server.h"
 
+#if defined(HAVE_AUDIO_SUPPORT)
+#include "audio/AudioServer.h"
+#include "audio/AudioTypes.h"
+#endif
+
 // must be before screen header includes
 #include <QFileInfo>
 
@@ -202,6 +207,15 @@ void ServerApp::stopServer()
     closeClientListener(m_listener);
     m_server = nullptr;
     m_listener = nullptr;
+
+#if defined(HAVE_AUDIO_SUPPORT)
+    if (m_audioServer != nullptr) {
+      m_audioServer->close();
+      delete m_audioServer;
+      m_audioServer = nullptr;
+    }
+#endif
+
     m_serverState = Initialized;
   } else if (m_serverState == Starting) {
     stopRetryTimer();
@@ -371,6 +385,19 @@ bool ServerApp::startServer()
     listener->setServer(m_server);
     m_server->setListener(listener);
     m_listener = listener;
+
+#if defined(HAVE_AUDIO_SUPPORT)
+    const QVariant audioPortSetting = Settings::value(Settings::Audio::Port);
+    const quint16 audioPort =
+        audioPortSetting.isValid() ? static_cast<quint16>(audioPortSetting.toUInt()) : kDefaultAudioPort;
+    m_audioServer = new AudioServer(audioPort);
+    if (!m_audioServer->listen()) {
+      LOG_WARN("audio server failed to start — audio routing unavailable");
+      delete m_audioServer;
+      m_audioServer = nullptr;
+    }
+#endif
+
     LOG_DEBUG("started server, waiting for clients");
     ipcSendConnectionState(deskflow::core::ConnectionState::Listening);
     m_serverState = Started;
