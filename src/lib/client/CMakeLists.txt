@@ -15,3 +15,7 @@ target_link_libraries(client PUBLIC common)
 if(UNIX)
   target_link_libraries(client PUBLIC app io)
 endif()
+
+if(BUILD_AUDIO_SUPPORT)
+  target_link_libraries(client PUBLIC Qt6::Network)
+endif()
