@@ -27,6 +27,11 @@
 #include "net/SecureSocket.h"
 #include "net/TCPSocket.h"
 
+#if defined(HAVE_AUDIO_SUPPORT)
+#include "audio/AudioClient.h"
+#include "audio/AudioTypes.h"
+#endif
+
 #include <QMetaEnum>
 
 #include <cstdlib>
@@ -303,6 +308,27 @@ void Client::setOptions(const OptionsList &options)
       if (index != options.end()) {
         m_maximumClipboardSize = *index;
       }
+#if defined(HAVE_AUDIO_SUPPORT)
+    } else if (id == kOptionAudioRouting) {
+      index++;
+      if (index != options.end()) {
+        const bool enabled = (*index != 0);
+        if (enabled && m_audioClient == nullptr) {
+          const QVariant audioPortSetting = Settings::value(Settings::Audio::Port);
+          const quint16 audioPort =
+              audioPortSetting.isValid() ? static_cast<quint16>(audioPortSetting.toUInt()) : kDefaultAudioPort;
+          const QString serverHost = QString::fromStdString(m_serverAddress.getHostname());
+          const QString clientName = QString::fromStdString(m_name);
+          m_audioClient = std::make_unique<AudioClient>(serverHost, audioPort, clientName);
+          m_audioClient->start();
+          LOG_INFO("audio routing enabled — streaming to %s:%d", qPrintable(serverHost), audioPort);
+        } else if (!enabled && m_audioClient != nullptr) {
+          m_audioClient->stop();
+          m_audioClient.reset();
+          LOG_INFO("audio routing disabled by server");
+        }
+      }
+#endif
     }
   }
 

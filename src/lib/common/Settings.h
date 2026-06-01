@@ -108,6 +108,10 @@ public:
     inline static const auto Protocol = QStringLiteral("server/protocol");
     inline static const auto XdpRestoreToken = QStringLiteral("server/xdpRestoreToken");
   };
+  struct Audio
+  {
+    inline static const auto Port = QStringLiteral("audio/port");
+  };
 
   // Enums types used in settings
   // The use of enum classes is not use for these

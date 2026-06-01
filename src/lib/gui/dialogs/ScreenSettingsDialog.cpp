@@ -61,6 +61,8 @@ ScreenSettingsDialog::ScreenSettingsDialog(QWidget *parent, Screen *screen, cons
   ui->chkFixScrollLock->setChecked(m_screen->fix(ScrollLock));
   ui->chkFixXTest->setChecked(m_screen->fix(XTest));
 
+  ui->chkAudioRouting->setChecked(m_screen->audioRouting());
+
   connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &ScreenSettingsDialog::accept);
   connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &ScreenSettingsDialog::reject);
   connect(ui->btnAddAlias, &QPushButton::clicked, this, &ScreenSettingsDialog::addAlias);
@@ -115,6 +117,8 @@ void ScreenSettingsDialog::accept()
   m_screen->setFix(NumLock, ui->chkFixNumLock->isChecked());
   m_screen->setFix(ScrollLock, ui->chkFixScrollLock->isChecked());
   m_screen->setFix(XTest, ui->chkFixXTest->isChecked());
+
+  m_screen->setAudioRouting(ui->chkAudioRouting->isChecked());
 
   QDialog::accept();
 }

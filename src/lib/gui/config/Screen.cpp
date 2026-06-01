@@ -31,6 +31,7 @@ void Screen::loadSettings(QSettingsProxy &settings)
   readSettings(settings, modifiers(), "modifier", static_cast<int>(DefaultMod), static_cast<int>(NumModifiers));
   readSettings(settings, switchCorners(), "switchCorner", false, static_cast<int>(NumSwitchCorners));
   readSettings(settings, fixes(), "fix", 0, static_cast<int>(NumFixes));
+  setAudioRouting(settings.value("audioRouting", false).toBool());
 }
 
 void Screen::saveSettings(QSettingsProxy &settings) const
@@ -46,6 +47,7 @@ void Screen::saveSettings(QSettingsProxy &settings) const
   writeSettings(settings, modifiers(), "modifier");
   writeSettings(settings, switchCorners(), "switchCorner");
   writeSettings(settings, fixes(), "fix");
+  settings.setValue("audioRouting", audioRouting());
 }
 
 QString Screen::screensSection() const
@@ -70,6 +72,10 @@ QString Screen::screensSection() const
 
   out.append(lineTemplate.arg(QStringLiteral("switchCornerSize"), QString::number(switchCornerSize())));
 
+  if (audioRouting()) {
+    out.append(lineTemplate.arg(QStringLiteral("audioRouting"), QStringLiteral("true")));
+  }
+
   return out;
 }
 
@@ -89,5 +95,6 @@ bool Screen::operator==(const Screen &screen) const
 {
   return m_Name == screen.m_Name && m_Aliases == screen.m_Aliases && m_Modifiers == screen.m_Modifiers &&
          m_SwitchCorners == screen.m_SwitchCorners && m_SwitchCornerSize == screen.m_SwitchCornerSize &&
-         m_Fixes == screen.m_Fixes && m_Swapped == screen.m_Swapped && m_isServer == screen.m_isServer;
+         m_Fixes == screen.m_Fixes && m_Swapped == screen.m_Swapped && m_isServer == screen.m_isServer &&
+         m_audioRouting == screen.m_audioRouting;
 }

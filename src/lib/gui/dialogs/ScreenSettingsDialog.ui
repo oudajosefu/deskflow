@@ -722,6 +722,22 @@
     </layout>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupAudio">
+     <property name="title">
+      <string>Audio</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayoutAudio">
+      <item>
+       <widget class="QCheckBox" name="chkAudioRouting">
+        <property name="text">
+         <string>Route audio to this computer</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="minimumSize">
       <size>
