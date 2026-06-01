@@ -31,13 +31,13 @@ class Screen : public ScreenConfig
   friend QDataStream &operator<<(QDataStream &outStream, const Screen &screen)
   {
     return outStream << screen.name() << screen.switchCornerSize() << screen.aliases() << screen.modifiers()
-                     << screen.switchCorners() << screen.fixes() << screen.isServer();
+                     << screen.switchCorners() << screen.fixes() << screen.isServer() << screen.audioRouting();
   }
 
   friend QDataStream &operator>>(QDataStream &inStream, Screen &screen)
   {
     return inStream >> screen.m_Name >> screen.m_SwitchCornerSize >> screen.m_Aliases >> screen.m_Modifiers >>
-           screen.m_SwitchCorners >> screen.m_Fixes >> screen.m_isServer;
+           screen.m_SwitchCorners >> screen.m_Fixes >> screen.m_isServer >> screen.m_audioRouting;
   }
 
 public:
@@ -59,6 +59,10 @@ public:
   [[nodiscard]] bool isNull() const
   {
     return m_Name.isEmpty();
+  }
+  [[nodiscard]] bool audioRouting() const
+  {
+    return m_audioRouting;
   }
   [[nodiscard]] int modifier(int m) const
   {
@@ -155,6 +159,10 @@ protected:
   {
     m_Swapped = on;
   }
+  void setAudioRouting(const bool on)
+  {
+    m_audioRouting = on;
+  }
 
 private:
   QPixmap m_Pixmap = QIcon::fromTheme("video-display").pixmap(QSize(96, 96));
@@ -166,4 +174,5 @@ private:
   QList<bool> m_Fixes{false, false, false, false};
   bool m_Swapped = false;
   bool m_isServer = false;
+  bool m_audioRouting = false;
 };

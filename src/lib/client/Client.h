@@ -16,6 +16,7 @@
 #include "net/NetworkAddress.h"
 
 #include <climits>
+#include <memory>
 
 class Event;
 class EventQueueTimer;
@@ -31,6 +32,9 @@ class IStream;
 class IEventQueue;
 class Thread;
 class TCPSocket;
+#if defined(HAVE_AUDIO_SUPPORT)
+class AudioClient;
+#endif
 
 //! Deskflow client
 /*!
@@ -202,4 +206,7 @@ private:
   bool m_enableClipboard = true;
   size_t m_maximumClipboardSize = INT_MAX;
   size_t m_resolvedAddressesCount = 0;
+#if defined(HAVE_AUDIO_SUPPORT)
+  std::unique_ptr<AudioClient> m_audioClient;
+#endif
 };

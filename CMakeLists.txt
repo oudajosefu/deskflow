@@ -158,8 +158,17 @@ elseif (APPLE)
   option(BUILD_OSX_BUNDLE "Build mac os bundle" ON)
 endif()
 
+option(BUILD_AUDIO_SUPPORT "Build with audio routing support" ON)
+
 include(cmake/Libraries.cmake)
 configure_libs()
+
+include(cmake/AudioLibraries.cmake)
+configure_audio_libs()
+
+if(BUILD_AUDIO_SUPPORT)
+  add_definitions(-DHAVE_AUDIO_SUPPORT)
+endif()
 
 if(BUILD_OSX_BUNDLE AND APPLE_CODESIGN_DEV)
   include(cmake/MacCodesign.cmake)

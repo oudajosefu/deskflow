@@ -14,3 +14,7 @@ add_subdirectory(net)
 add_subdirectory(platform)
 add_subdirectory(server)
 add_subdirectory(gui)
+
+if(BUILD_AUDIO_SUPPORT)
+  add_subdirectory(audio)
+endif()

@@ -39,6 +39,10 @@ target_link_libraries(
   Qt6::Widgets
   ${libs})
 
+if(BUILD_AUDIO_SUPPORT)
+  target_link_libraries(${target} audio)
+endif()
+
 install(
   TARGETS ${target}
   RUNTIME_DEPENDENCY_SET coreDeps
