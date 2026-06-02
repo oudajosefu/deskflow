@@ -50,11 +50,13 @@ runs:
                 cmake make ninja gcc-c++ rpm-build libopenssl-devel \
                 glib2-devel libXtst-devel libxkbfile-devel qt6-base-devel qt6-tools-devel \
                 qt6-linguist-devel gtk3-devel doxygen \
-                googletest-devel googlemock-devel libei-devel libportal-devel help2man
+                googletest-devel googlemock-devel libei-devel libportal-devel help2man \
+                libopus-devel libpulse-devel
             elif [ ${{ inputs.like }} == "arch" ]; then
               pacman -Syu --noconfirm base-devel cmake ninja \
                 gcc openssl glib2 libxtst libxkbfile gtest libei libportal \
-                qt6-base qt6-tools qt6-svg qt6-translations qt6-declarative gtk3 help2man doxygen graphviz rsync
+                qt6-base qt6-tools qt6-svg qt6-translations qt6-declarative gtk3 help2man doxygen graphviz rsync \
+                opus libpulse
             else
               echo "Unknown like"
             fi
