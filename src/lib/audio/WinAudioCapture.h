@@ -33,4 +33,7 @@ private:
 
   WAVEFORMATEX *m_mixFormat = nullptr;
   bool m_comInitialized = false;
+  // When true, the loopback stream uses the device mix format and readFrames() must convert each frame to float32
+  // stereo. When false, WASAPI auto-converts to our 48 kHz float32 stereo format and readFrames() copies directly.
+  bool m_convertFromDeviceFormat = false;
 };
