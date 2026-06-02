@@ -38,7 +38,7 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/.git)
       ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE
     )
     execute_process(
-      COMMAND ${GIT_EXECUTABLE} describe --long --match v* --always
+      COMMAND ${GIT_EXECUTABLE} describe --tags --long --match v* --always
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
       OUTPUT_VARIABLE GITREV
       ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE
