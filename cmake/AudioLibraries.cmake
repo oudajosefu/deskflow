@@ -6,7 +6,7 @@
 # Sets AUDIO_CAPTURE_AVAILABLE and AUDIO_PLAYBACK_AVAILABLE,
 # and AUDIO_CAPTURE_BACKEND / AUDIO_PLAYBACK_BACKEND for diagnostics.
 #
-macro(configure_audio_libs)
+function(configure_audio_libs)
 
   if(NOT BUILD_AUDIO_SUPPORT)
     return()
@@ -73,4 +73,4 @@ macro(configure_audio_libs)
   message(STATUS "Audio capture backend : ${AUDIO_CAPTURE_BACKEND}")
   message(STATUS "Audio playback backend: ${AUDIO_PLAYBACK_BACKEND}")
 
-endmacro()
+endfunction()
