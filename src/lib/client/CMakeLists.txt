@@ -17,5 +17,5 @@ if(UNIX)
 endif()
 
 if(BUILD_AUDIO_SUPPORT)
-  target_link_libraries(client PUBLIC Qt6::Network)
+  target_link_libraries(client PUBLIC audio Qt6::Network)
 endif()

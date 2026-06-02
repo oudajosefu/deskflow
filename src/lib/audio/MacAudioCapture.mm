@@ -16,10 +16,12 @@
 // Objective-C delegate – receives audio buffers from SCStream
 // ---------------------------------------------------------------------------
 
+API_AVAILABLE(macos(13.0))
 @interface DeskflowAudioStreamOutput : NSObject <SCStreamOutput>
 - (instancetype)initWithCapture:(MacAudioCapture *)capture;
 @end
 
+API_AVAILABLE(macos(13.0))
 @implementation DeskflowAudioStreamOutput {
   MacAudioCapture *_capture;
 }
