@@ -27,6 +27,11 @@ elseif(APPLE)
     MacAudioPlayback.cpp
     MacAudioPlayback.h
   )
+  # MacAudioCapture.mm is written in ARC idiom (no manual retain/release; Obj-C
+  # object members released by assigning nullptr). It must be compiled with ARC,
+  # otherwise the SCShareableContent returned by the async completion handler is
+  # never retained and is freed before use -> EXC_BAD_ACCESS in objc_msgSend.
+  set_source_files_properties(MacAudioCapture.mm PROPERTIES COMPILE_OPTIONS "-fobjc-arc")
 else()
   list(APPEND AUDIO_SOURCES
     LinuxAudioCapture.cpp
