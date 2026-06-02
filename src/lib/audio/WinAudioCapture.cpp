@@ -10,6 +10,10 @@
 #include "base/Log.h"
 
 #include <functiondiscoverykeys_devpkey.h>
+
+#include <algorithm>
+#include <cstdint>
+#include <cstring>
 #include <vector>
 
 namespace {
@@ -28,6 +32,60 @@ inline bool formatIsCompatible(const WAVEFORMATEX *fmt)
            fmt->nChannels == kAudioChannels;
   }
   return false;
+}
+
+// True when the device mix format stores IEEE float samples (vs integer PCM).
+inline bool formatIsFloat(const WAVEFORMATEX *fmt)
+{
+  if (fmt->wFormatTag == WAVE_FORMAT_IEEE_FLOAT) {
+    return true;
+  }
+  if (fmt->wFormatTag == WAVE_FORMAT_EXTENSIBLE) {
+    const auto *ext = reinterpret_cast<const WAVEFORMATEXTENSIBLE *>(fmt);
+    return ext->SubFormat == KSDATAFORMAT_SUBTYPE_IEEE_FLOAT;
+  }
+  return false;
+}
+
+// Convert one channel's sample at p to float in [-1, 1] for the given bit depth.
+inline float sampleToFloat(const BYTE *p, WORD bitsPerSample, bool isFloat)
+{
+  if (isFloat) {
+    if (bitsPerSample == 32) {
+      float f = 0.0f;
+      std::memcpy(&f, p, sizeof(f));
+      return f;
+    }
+    if (bitsPerSample == 64) {
+      double d = 0.0;
+      std::memcpy(&d, p, sizeof(d));
+      return static_cast<float>(d);
+    }
+    return 0.0f;
+  }
+  switch (bitsPerSample) {
+  case 16: {
+    int16_t v = 0;
+    std::memcpy(&v, p, sizeof(v));
+    return static_cast<float>(v) / 32768.0f;
+  }
+  case 32: {
+    int32_t v = 0;
+    std::memcpy(&v, p, sizeof(v));
+    return static_cast<float>(v) / 2147483648.0f;
+  }
+  case 24: {
+    int32_t v = static_cast<int32_t>(p[0]) | (static_cast<int32_t>(p[1]) << 8) | (static_cast<int32_t>(p[2]) << 16);
+    if (v & 0x800000) {
+      v |= ~0xFFFFFF; // sign-extend negative 24-bit values
+    }
+    return static_cast<float>(v) / 8388608.0f;
+  }
+  case 8:
+    return (static_cast<float>(p[0]) - 128.0f) / 128.0f; // 8-bit PCM is unsigned
+  default:
+    return 0.0f;
+  }
 }
 
 } // namespace
@@ -85,7 +143,12 @@ bool WinAudioCapture::start()
   }
 
   if (!formatIsCompatible(m_mixFormat)) {
-    LOG_WARN("WASAPI capture: mix format is not float32 stereo 48 kHz — audio may be silent");
+    LOG_WARN(
+        "WASAPI capture: device mix format is %u-bit, %u channel(s), %lu Hz; converting to float32 stereo "
+        "(sample-rate differences are not resampled)",
+        static_cast<unsigned>(m_mixFormat->wBitsPerSample), static_cast<unsigned>(m_mixFormat->nChannels),
+        static_cast<unsigned long>(m_mixFormat->nSamplesPerSec)
+    );
   }
 
   constexpr REFERENCE_TIME bufferDuration = 200 * 10000; // 200 ms in 100-ns units
@@ -146,10 +209,25 @@ size_t WinAudioCapture::readFrames(float *buf, size_t frames)
     }
 
     const size_t toCopy = std::min(static_cast<size_t>(numFrames), frames - filled);
+    float *out = buf + filled * kAudioChannels;
     if (flags & AUDCLNT_BUFFERFLAGS_SILENT) {
-      std::fill(buf + filled * kAudioChannels, buf + (filled + toCopy) * kAudioChannels, 0.0f);
+      std::fill(out, out + toCopy * kAudioChannels, 0.0f);
     } else {
-      std::memcpy(buf + filled * kAudioChannels, data, toCopy * kAudioChannels * sizeof(float));
+      // The WASAPI buffer is in the device mix format (m_mixFormat), which may not be float32 stereo. Convert each
+      // frame to interleaved float32 stereo — reading exactly nBlockAlign bytes per frame avoids the buffer overread
+      // that a blind float32-stereo memcpy causes on 16/24-bit or mono devices.
+      const WORD bits = m_mixFormat->wBitsPerSample;
+      const WORD srcChannels = m_mixFormat->nChannels;
+      const size_t srcFrameBytes = m_mixFormat->nBlockAlign;
+      const size_t bytesPerSample = bits / 8u;
+      const bool isFloat = formatIsFloat(m_mixFormat);
+      for (size_t f = 0; f < toCopy; ++f) {
+        const BYTE *frame = data + f * srcFrameBytes;
+        const float left = sampleToFloat(frame, bits, isFloat);
+        const float right = (srcChannels >= 2) ? sampleToFloat(frame + bytesPerSample, bits, isFloat) : left;
+        out[f * kAudioChannels] = left;
+        out[f * kAudioChannels + 1] = right;
+      }
     }
     filled += toCopy;
     m_captureClient->ReleaseBuffer(numFrames);
