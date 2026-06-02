@@ -1,0 +1,5 @@
+<map id="MacAudioPlayback" name="MacAudioPlayback">
+<area shape="rect" id="Node000001" title="CoreAudio playback via the default output AudioUnit." alt="" coords="5,78,139,103"/>
+<area shape="rect" id="Node000002" href="$classIAudioPlayback.html" title="Platform&#45;agnostic interface for playing PCM audio through the default output device." alt="" coords="16,5,128,30"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,44,75,79,69,77,70,48"/>
+</map>

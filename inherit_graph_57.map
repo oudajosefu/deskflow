@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classIAudioCapture.html" title="Platform&#45;agnostic interface for capturing system audio output (loopback)." alt="" coords="5,55,109,79"/>
+<area shape="rect" id="Node000001" href="$classLinuxAudioCapture.html" title="PulseAudio loopback capture using the default monitor source." alt="" coords="157,5,287,30"/>
+<area shape="poly" id="edge50_Node000000_Node000001" title=" " alt="" coords="114,47,180,29,176,32,116,52"/>
+<area shape="rect" id="Node000002" href="$classMacAudioCapture.html" title=" " alt="" coords="160,55,284,79"/>
+<area shape="poly" id="edge51_Node000000_Node000002" title=" " alt="" coords="124,64,162,66,157,68,125,70"/>
+<area shape="rect" id="Node000003" href="$classWinAudioCapture.html" title="WASAPI loopback capture of the default render endpoint." alt="" coords="161,104,283,129"/>
+<area shape="poly" id="edge52_Node000000_Node000003" title=" " alt="" coords="116,82,181,103,176,104,115,87"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="IAudioCapture" name="IAudioCapture">
+<area shape="rect" id="Node000001" title="Platform&#45;agnostic interface for capturing system audio output (loopback)." alt="" coords="171,5,274,30"/>
+<area shape="rect" id="Node000002" href="$classLinuxAudioCapture.html" title="PulseAudio loopback capture using the default monitor source." alt="" coords="5,78,136,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,38,97,80,95,75,181,36"/>
+<area shape="rect" id="Node000003" href="$classMacAudioCapture.html" title=" " alt="" coords="160,78,285,103"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,44,225,79,220,76,221,48"/>
+<area shape="rect" id="Node000004" href="$classWinAudioCapture.html" title="WASAPI loopback capture of the default render endpoint." alt="" coords="309,78,432,103"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="261,34,349,77,343,78,260,40"/>
+</map>

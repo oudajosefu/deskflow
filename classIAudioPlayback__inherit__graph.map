@@ -1,0 +1,9 @@
+<map id="IAudioPlayback" name="IAudioPlayback">
+<area shape="rect" id="Node000001" title="Platform&#45;agnostic interface for playing PCM audio through the default output device." alt="" coords="179,5,291,30"/>
+<area shape="rect" id="Node000002" href="$classLinuxAudioPlayback.html" title="PulseAudio playback to the default output sink." alt="" coords="5,78,145,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,38,102,80,100,75,192,35"/>
+<area shape="rect" id="Node000003" href="$classMacAudioPlayback.html" title="CoreAudio playback via the default output AudioUnit." alt="" coords="168,78,302,103"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,44,237,79,233,76,233,48"/>
+<area shape="rect" id="Node000004" href="$classWinAudioPlayback.html" title="WASAPI playback to the default render endpoint." alt="" coords="325,78,457,103"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="275,34,368,77,363,78,274,39"/>
+</map>

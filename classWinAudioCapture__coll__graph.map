@@ -1,0 +1,5 @@
+<map id="WinAudioCapture" name="WinAudioCapture">
+<area shape="rect" id="Node000001" title="WASAPI loopback capture of the default render endpoint." alt="" coords="5,78,128,103"/>
+<area shape="rect" id="Node000002" href="$classIAudioCapture.html" title="Platform&#45;agnostic interface for capturing system audio output (loopback)." alt="" coords="15,5,118,30"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="68,44,69,78,64,77,65,48"/>
+</map>
