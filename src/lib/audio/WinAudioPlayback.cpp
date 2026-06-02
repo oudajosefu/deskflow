@@ -9,7 +9,33 @@
 #include "audio/AudioTypes.h"
 #include "base/Log.h"
 
+#include <ksmedia.h>
+#include <mmreg.h>
+
 #include <cstring>
+
+namespace {
+
+// Build the fixed pipeline format: 48 kHz, stereo, 32-bit IEEE float. Combined with
+// AUDCLNT_STREAMFLAGS_AUTOCONVERTPCM this lets the WASAPI shared-mode mixer resample/reformat between this format and
+// whatever the device runs at, so playback never assumes the device is already 48 kHz float32 stereo.
+WAVEFORMATEXTENSIBLE makeFloat32StereoFormat()
+{
+  WAVEFORMATEXTENSIBLE wfx = {};
+  wfx.Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+  wfx.Format.nChannels = static_cast<WORD>(kAudioChannels);
+  wfx.Format.nSamplesPerSec = static_cast<DWORD>(kAudioSampleRate);
+  wfx.Format.wBitsPerSample = 32;
+  wfx.Format.nBlockAlign = static_cast<WORD>(wfx.Format.nChannels * (wfx.Format.wBitsPerSample / 8));
+  wfx.Format.nAvgBytesPerSec = wfx.Format.nSamplesPerSec * static_cast<DWORD>(wfx.Format.nBlockAlign);
+  wfx.Format.cbSize = static_cast<WORD>(sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX));
+  wfx.Samples.wValidBitsPerSample = 32;
+  wfx.dwChannelMask = SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT;
+  wfx.SubFormat = KSDATAFORMAT_SUBTYPE_IEEE_FLOAT;
+  return wfx;
+}
+
+} // namespace
 
 WinAudioPlayback::~WinAudioPlayback()
 {
@@ -63,8 +89,35 @@ bool WinAudioPlayback::start()
     return false;
   }
 
+  // The pipeline produces 48 kHz float32 stereo, but the output device commonly runs at another rate (e.g. 44.1 kHz).
+  // Initialize with our fixed format plus AUTOCONVERTPCM so the WASAPI shared-mode mixer resamples/reformats to the
+  // device. Without this the 48 kHz samples play out at the device rate (wrong pitch) and the rate mismatch floods the
+  // render buffer (dropped samples / crackle). This mirrors how the macOS/Linux backends rely on CoreAudio/PulseAudio.
+  LOG_INFO(
+      "WASAPI playback: device mix is %lu Hz / %u ch; rendering %d Hz float32 stereo via WASAPI auto-convert",
+      static_cast<unsigned long>(m_mixFormat->nSamplesPerSec), static_cast<unsigned>(m_mixFormat->nChannels),
+      kAudioSampleRate
+  );
+
+  WAVEFORMATEXTENSIBLE wfx = makeFloat32StereoFormat();
   constexpr REFERENCE_TIME bufferDuration = 200 * 10000; // 200 ms
-  hr = m_audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED, 0, bufferDuration, 0, m_mixFormat, nullptr);
+  constexpr DWORD convertFlags = AUDCLNT_STREAMFLAGS_AUTOCONVERTPCM | AUDCLNT_STREAMFLAGS_SRC_DEFAULT_QUALITY;
+  hr = m_audioClient->Initialize(
+      AUDCLNT_SHAREMODE_SHARED, convertFlags, bufferDuration, 0, reinterpret_cast<WAVEFORMATEX *>(&wfx), nullptr
+  );
+  if (FAILED(hr)) {
+    // The device rejected AUTOCONVERTPCM for our format. A failed Initialize leaves the IAudioClient in an undefined
+    // state, so re-activate it before retrying with the device mix format. writeFrames assumes float32 stereo, so the
+    // fallback renders correctly only on natively float32-stereo devices, but it avoids a hard failure.
+    LOG_WARN("WASAPI playback: auto-convert Initialize failed 0x%08x, falling back to device mix format", hr);
+    m_audioClient.Reset();
+    hr = m_device->Activate(
+        __uuidof(IAudioClient), CLSCTX_ALL, nullptr, reinterpret_cast<void **>(m_audioClient.GetAddressOf())
+    );
+    if (SUCCEEDED(hr)) {
+      hr = m_audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED, 0, bufferDuration, 0, m_mixFormat, nullptr);
+    }
+  }
   if (FAILED(hr)) {
     LOG_ERR("WASAPI playback: Initialize failed 0x%08x", hr);
     return false;

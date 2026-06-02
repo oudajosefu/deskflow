@@ -10,6 +10,8 @@
 #include "base/Log.h"
 
 #include <functiondiscoverykeys_devpkey.h>
+#include <ksmedia.h>
+#include <mmreg.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -88,6 +90,25 @@ inline float sampleToFloat(const BYTE *p, WORD bitsPerSample, bool isFloat)
   }
 }
 
+// Build the fixed pipeline format: 48 kHz, stereo, 32-bit IEEE float. Combined with
+// AUDCLNT_STREAMFLAGS_AUTOCONVERTPCM this lets the WASAPI shared-mode mixer resample/reformat between this format and
+// whatever the device runs at, so capture never assumes the device is already 48 kHz float32 stereo.
+WAVEFORMATEXTENSIBLE makeFloat32StereoFormat()
+{
+  WAVEFORMATEXTENSIBLE wfx = {};
+  wfx.Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+  wfx.Format.nChannels = static_cast<WORD>(kAudioChannels);
+  wfx.Format.nSamplesPerSec = static_cast<DWORD>(kAudioSampleRate);
+  wfx.Format.wBitsPerSample = 32;
+  wfx.Format.nBlockAlign = static_cast<WORD>(wfx.Format.nChannels * (wfx.Format.wBitsPerSample / 8));
+  wfx.Format.nAvgBytesPerSec = wfx.Format.nSamplesPerSec * static_cast<DWORD>(wfx.Format.nBlockAlign);
+  wfx.Format.cbSize = static_cast<WORD>(sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX));
+  wfx.Samples.wValidBitsPerSample = 32;
+  wfx.dwChannelMask = SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT;
+  wfx.SubFormat = KSDATAFORMAT_SUBTYPE_IEEE_FLOAT;
+  return wfx;
+}
+
 } // namespace
 
 WinAudioCapture::~WinAudioCapture()
@@ -142,19 +163,41 @@ bool WinAudioCapture::start()
     return false;
   }
 
-  if (!formatIsCompatible(m_mixFormat)) {
-    LOG_WARN(
-        "WASAPI capture: device mix format is %u-bit, %u channel(s), %lu Hz; converting to float32 stereo "
-        "(sample-rate differences are not resampled)",
-        static_cast<unsigned>(m_mixFormat->wBitsPerSample), static_cast<unsigned>(m_mixFormat->nChannels),
-        static_cast<unsigned long>(m_mixFormat->nSamplesPerSec)
-    );
-  }
-
+  // Prefer letting the WASAPI shared-mode mixer resample/reformat the loopback stream to our fixed 48 kHz float32
+  // stereo format (AUTOCONVERTPCM). This keeps captured audio at the rate the Opus encoder expects, so a device
+  // running at e.g. 44.1 kHz no longer streams wrong-pitch audio to the server; readFrames() then copies directly.
+  WAVEFORMATEXTENSIBLE wfx = makeFloat32StereoFormat();
   constexpr REFERENCE_TIME bufferDuration = 200 * 10000; // 200 ms in 100-ns units
+  constexpr DWORD loopbackConvert =
+      AUDCLNT_STREAMFLAGS_LOOPBACK | AUDCLNT_STREAMFLAGS_AUTOCONVERTPCM | AUDCLNT_STREAMFLAGS_SRC_DEFAULT_QUALITY;
   hr = m_audioClient->Initialize(
-      AUDCLNT_SHAREMODE_SHARED, AUDCLNT_STREAMFLAGS_LOOPBACK, bufferDuration, 0, m_mixFormat, nullptr
+      AUDCLNT_SHAREMODE_SHARED, loopbackConvert, bufferDuration, 0, reinterpret_cast<WAVEFORMATEX *>(&wfx), nullptr
   );
+
+  if (FAILED(hr)) {
+    // The device rejected AUTOCONVERTPCM for our format. A failed Initialize leaves the IAudioClient in an undefined
+    // state, so re-activate it, then capture in the device mix format and convert per-frame in readFrames(). This
+    // fallback does not resample, so a non-48 kHz device streams at the wrong pitch.
+    LOG_WARN("WASAPI capture: auto-convert Initialize failed 0x%08x, falling back to device mix format", hr);
+    m_audioClient.Reset();
+    hr = m_device->Activate(
+        __uuidof(IAudioClient), CLSCTX_ALL, nullptr, reinterpret_cast<void **>(m_audioClient.GetAddressOf())
+    );
+    if (SUCCEEDED(hr)) {
+      m_convertFromDeviceFormat = true;
+      if (!formatIsCompatible(m_mixFormat)) {
+        LOG_WARN(
+            "WASAPI capture: device mix format is %u-bit, %u channel(s), %lu Hz; converting to float32 stereo "
+            "(sample-rate differences are not resampled)",
+            static_cast<unsigned>(m_mixFormat->wBitsPerSample), static_cast<unsigned>(m_mixFormat->nChannels),
+            static_cast<unsigned long>(m_mixFormat->nSamplesPerSec)
+        );
+      }
+      hr = m_audioClient->Initialize(
+          AUDCLNT_SHAREMODE_SHARED, AUDCLNT_STREAMFLAGS_LOOPBACK, bufferDuration, 0, m_mixFormat, nullptr
+      );
+    }
+  }
   if (FAILED(hr)) {
     LOG_ERR("WASAPI capture: Initialize failed 0x%08x", hr);
     return false;
@@ -212,10 +255,13 @@ size_t WinAudioCapture::readFrames(float *buf, size_t frames)
     float *out = buf + filled * kAudioChannels;
     if (flags & AUDCLNT_BUFFERFLAGS_SILENT) {
       std::fill(out, out + toCopy * kAudioChannels, 0.0f);
+    } else if (!m_convertFromDeviceFormat) {
+      // AUTOCONVERTPCM is active, so WASAPI already delivers interleaved float32 stereo at our sample rate.
+      std::memcpy(out, data, toCopy * static_cast<size_t>(kAudioChannels) * sizeof(float));
     } else {
-      // The WASAPI buffer is in the device mix format (m_mixFormat), which may not be float32 stereo. Convert each
-      // frame to interleaved float32 stereo — reading exactly nBlockAlign bytes per frame avoids the buffer overread
-      // that a blind float32-stereo memcpy causes on 16/24-bit or mono devices.
+      // Fallback: the WASAPI buffer is in the device mix format (m_mixFormat), which may not be float32 stereo. Convert
+      // each frame to interleaved float32 stereo — reading exactly nBlockAlign bytes per frame avoids the buffer
+      // overread that a blind float32-stereo memcpy causes on 16/24-bit or mono devices.
       const WORD bits = m_mixFormat->wBitsPerSample;
       const WORD srcChannels = m_mixFormat->nChannels;
       const size_t srcFrameBytes = m_mixFormat->nBlockAlign;
