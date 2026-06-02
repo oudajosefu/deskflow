@@ -9,6 +9,9 @@
 #include "audio/AudioTypes.h"
 #include "base/Log.h"
 
+#include <cstdint>
+#include <vector>
+
 #import <AVFoundation/AVFoundation.h>
 #import <ScreenCaptureKit/ScreenCaptureKit.h>
 
@@ -41,26 +44,63 @@ API_AVAILABLE(macos(13.0))
     return;
   }
 
-  CMBlockBufferRef blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer);
-  if (blockBuffer == nullptr) {
-    return;
-  }
-
   const CMFormatDescriptionRef fmt = CMSampleBufferGetFormatDescription(sampleBuffer);
-  const AudioStreamBasicDescription *asbd = CMAudioFormatDescriptionGetStreamBasicDescription(fmt);
-  if (asbd == nullptr) {
+  const AudioStreamBasicDescription *asbd = fmt ? CMAudioFormatDescriptionGetStreamBasicDescription(fmt) : nullptr;
+  if (asbd == nullptr || asbd->mChannelsPerFrame == 0) {
     return;
   }
 
-  size_t length = 0;
-  char *dataPtr = nullptr;
-  if (CMBlockBufferGetDataPointer(blockBuffer, 0, nullptr, &length, &dataPtr) != kCMBlockBufferNoErr) {
+  const CMItemCount frames = CMSampleBufferGetNumSamples(sampleBuffer);
+  if (frames <= 0) {
     return;
   }
 
-  // SCStream delivers float32 interleaved by default when we request it
-  const size_t frames = length / (sizeof(float) * static_cast<size_t>(asbd->mChannelsPerFrame));
-  _capture->appendSamples(reinterpret_cast<const float *>(dataPtr), frames);
+  // ScreenCaptureKit delivers audio as planar (non-interleaved) float32 by default, so a single CMBlockBuffer data
+  // pointer would expose only one channel. Use the AudioBufferList API and interleave to stereo, which is the layout
+  // the ring buffer and the Opus encoder expect.
+  const UInt32 channels = asbd->mChannelsPerFrame;
+  const size_t ablSize = sizeof(AudioBufferList) + (channels > 1 ? (channels - 1) * sizeof(AudioBuffer) : 0);
+  std::vector<uint8_t> ablStorage(ablSize, 0);
+  auto *abl = reinterpret_cast<AudioBufferList *>(ablStorage.data());
+
+  CMBlockBufferRef blockBuffer = nullptr;
+  const OSStatus status = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
+      sampleBuffer, nullptr, abl, ablSize, nullptr, nullptr, 0, &blockBuffer
+  );
+  if (status != noErr || blockBuffer == nullptr) {
+    return;
+  }
+
+  std::vector<float> interleaved(static_cast<size_t>(frames) * static_cast<size_t>(kAudioChannels), 0.0f);
+
+  if (abl->mNumberBuffers == 1) {
+    // Interleaved source: one buffer holding all channels.
+    const auto *src = reinterpret_cast<const float *>(abl->mBuffers[0].mData);
+    const UInt32 srcChannels = abl->mBuffers[0].mNumberChannels > 0 ? abl->mBuffers[0].mNumberChannels : channels;
+    if (src != nullptr) {
+      for (CMItemCount f = 0; f < frames; ++f) {
+        const float left = src[static_cast<size_t>(f) * srcChannels];
+        const float right = (srcChannels >= 2) ? src[static_cast<size_t>(f) * srcChannels + 1] : left;
+        interleaved[static_cast<size_t>(f) * kAudioChannels] = left;
+        interleaved[static_cast<size_t>(f) * kAudioChannels + 1] = right;
+      }
+    }
+  } else {
+    // Planar source: one buffer per channel.
+    const auto *leftPlane = reinterpret_cast<const float *>(abl->mBuffers[0].mData);
+    const auto *rightPlane =
+        (abl->mNumberBuffers >= 2) ? reinterpret_cast<const float *>(abl->mBuffers[1].mData) : leftPlane;
+    if (leftPlane != nullptr && rightPlane != nullptr) {
+      for (CMItemCount f = 0; f < frames; ++f) {
+        interleaved[static_cast<size_t>(f) * kAudioChannels] = leftPlane[f];
+        interleaved[static_cast<size_t>(f) * kAudioChannels + 1] = rightPlane[f];
+      }
+    }
+  }
+
+  _capture->appendSamples(interleaved.data(), static_cast<size_t>(frames));
+
+  CFRelease(blockBuffer);
 }
 
 @end
