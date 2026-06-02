@@ -24,6 +24,19 @@ macro(configure_libs)
       find_package(Qt6 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS DBus Xml)
   endif()
 
+  if(APPLE AND TARGET WrapOpenGL::WrapOpenGL)
+    # AGL.framework was removed from macOS 14+ SDKs. Qt's FindWrapOpenGL.cmake
+    # unconditionally adds -framework AGL as a fallback on Apple platforms,
+    # which breaks linking on any macOS where the framework is absent.
+    get_target_property(_wgl_libs WrapOpenGL::WrapOpenGL INTERFACE_LINK_LIBRARIES)
+    if(_wgl_libs)
+      list(FILTER _wgl_libs EXCLUDE REGEX ".*AGL.*")
+      set_target_properties(WrapOpenGL::WrapOpenGL PROPERTIES
+          INTERFACE_LINK_LIBRARIES "${_wgl_libs}")
+    endif()
+    unset(_wgl_libs)
+  endif()
+
   # Define the location of Qt deployment tool
   if(WIN32)
     if (CMAKE_BUILD_TYPE STREQUAL "Debug" AND VCPKG_QT)
