@@ -11,7 +11,26 @@ FetchContent_Declare(
     GIT_SHALLOW 1
     FIND_PACKAGE_ARGS NAMES GTest
 )
+
+# GoogleTest 1.15 has a CMake 3.13 policy floor. Opt its install rules into
+# CMP0177's normalized DESTINATION behavior when building with newer CMake.
+if(POLICY CMP0177)
+  if(DEFINED CMAKE_POLICY_DEFAULT_CMP0177)
+    set(_deskflow_cmake_policy_default_cmp0177 "${CMAKE_POLICY_DEFAULT_CMP0177}")
+  endif()
+  set(CMAKE_POLICY_DEFAULT_CMP0177 NEW)
+endif()
+
 FetchContent_MakeAvailable(googletest)
+
+if(POLICY CMP0177)
+  if(DEFINED _deskflow_cmake_policy_default_cmp0177)
+    set(CMAKE_POLICY_DEFAULT_CMP0177 "${_deskflow_cmake_policy_default_cmp0177}")
+    unset(_deskflow_cmake_policy_default_cmp0177)
+  else()
+    unset(CMAKE_POLICY_DEFAULT_CMP0177)
+  endif()
+endif()
 
 macro(config_all_tests)
 
