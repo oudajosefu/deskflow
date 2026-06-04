@@ -63,9 +63,14 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/.git)
   endif()
 endif()
 
+option(BUILD_AUDIO_SUPPORT "Build with audio routing support" ON)
+
 #generate vcpkg file if needed
 if(WIN32)
     option (VCPKG_QT "Use Qt from VCPKG" OFF)
+    if(BUILD_AUDIO_SUPPORT)
+        set(AUDIO_LIBS ", \"opus\"")
+    endif()
     if(VCPKG_QT)
         set(QT_LIBS ", \"qttranslations\", \"qtsvg\"")
     endif()
@@ -157,8 +162,6 @@ if(UNIX AND NOT APPLE)
 elseif (APPLE)
   option(BUILD_OSX_BUNDLE "Build mac os bundle" ON)
 endif()
-
-option(BUILD_AUDIO_SUPPORT "Build with audio routing support" ON)
 
 include(cmake/Libraries.cmake)
 configure_libs()
