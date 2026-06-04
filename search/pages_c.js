@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['lifecycle_0',['Connection Lifecycle',['../protocol_reference.html#autotoc_md32',1,'']]],
-  ['limits_1',['Message and Data Size Limits',['../protocol_reference.html#autotoc_md22',1,'']]],
-  ['list_2',['Deprecated List',['../deprecated.html',1,'']]]
+  ['handling_0',['Message Handling',['../protocol_reference.html#autotoc_md77',1,'']]],
+  ['handshake_20and_20security_20protocol_20v1_204_1',['TLS Handshake and Security (Protocol v1.4+)',['../protocol_reference.html#autotoc_md67',1,'']]],
+  ['handshake_20timeout_2',['Handshake Timeout',['../protocol_reference.html#autotoc_md72',1,'']]],
+  ['how_20the_20dev_20binary_20finds_20its_20settings_3',['How the dev binary finds its settings',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md28',1,'']]]
 ];

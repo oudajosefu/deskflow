@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['packages_0',['Making Deskflow packages',['../md_docs_2dev_2build.html#autotoc_md9',1,'']]],
-  ['platform_20specific_20implementations_1',['Platform-Specific Implementations',['../protocol_reference.html#autotoc_md38',1,'']]],
-  ['protocol_20architecture_2',['Protocol Architecture',['../protocol_reference.html#autotoc_md15',1,'']]],
-  ['protocol_20constraints_3',['Protocol Constraints',['../protocol_reference.html#autotoc_md21',1,'']]],
-  ['protocol_20overview_4',['Protocol Overview',['../protocol_reference.html#autotoc_md13',1,'Protocol Overview'],['../ProtocolTypes_8h.html#protocol_overview',1,'Protocol Overview']]],
-  ['protocol_20reference_5',['Protocol Reference',['../protocol_reference.html',1,'']]],
-  ['protocol_20state_20machine_6',['Protocol State Machine',['../protocol_reference.html#autotoc_md16',1,'']]],
-  ['protocol_20v1_203_7',['Keep-Alive Mechanism (Protocol v1.3+)',['../protocol_reference.html#autotoc_md26',1,'']]],
-  ['protocol_20v1_204_8',['TLS Handshake and Security (Protocol v1.4+)',['../protocol_reference.html#autotoc_md23',1,'']]]
+  ['level_20for_20the_20debug_20session_0',['Setting log level for the debug session',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md39',1,'']]],
+  ['lifecycle_1',['Connection Lifecycle',['../protocol_reference.html#autotoc_md76',1,'']]],
+  ['limits_2',['Message and Data Size Limits',['../protocol_reference.html#autotoc_md66',1,'']]],
+  ['list_3',['Deprecated List',['../deprecated.html',1,'']]],
+  ['locations_20for_20audio_20routing_4',['Useful breakpoint locations for audio routing',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md40',1,'']]],
+  ['log_20level_20for_20the_20debug_20session_5',['Setting log level for the debug session',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md39',1,'']]],
+  ['logging_20for_20the_20dev_20run_6',['Enable verbose logging for the dev run',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md31',1,'']]],
+  ['logging_20on_20both_20machines_7',['Step 0 — Enable verbose logging on both machines',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md2',1,'']]],
+  ['loopback_20requires_20an_20active_20render_20stream_8',['Tertiary note: WASAPI loopback requires an active render stream',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md11',1,'']]]
 ];

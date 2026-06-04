@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['basic_20client_20implementation_0',['Basic Client Implementation',['../protocol_reference.html#autotoc_md40',1,'']]],
-  ['build_1',['Build',['../md_docs_2dev_2build.html#autotoc_md7',1,'']]],
-  ['building_20deskflow_2',['Building Deskflow',['../md_docs_2dev_2build.html',1,'']]]
+  ['3_0',['Keep-Alive Mechanism (Protocol v1.3+)',['../protocol_reference.html#autotoc_md70',1,'']]],
+  ['3_20—_20wrong_20pitch_20and_20clipping_20on_20the_20server_20fixed_1',['Issue 3 — Wrong pitch and clipping on the server (fixed)',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md20',1,'']]]
 ];

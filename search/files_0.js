@@ -35,9 +35,10 @@ var searchData=
   ['archnetworkbsd_2eh_32',['ArchNetworkBSD.h',['../ArchNetworkBSD_8h.html',1,'']]],
   ['archnetworkwinsock_2ecpp_33',['ArchNetworkWinsock.cpp',['../ArchNetworkWinsock_8cpp.html',1,'']]],
   ['archnetworkwinsock_2eh_34',['ArchNetworkWinsock.h',['../ArchNetworkWinsock_8h.html',1,'']]],
-  ['audioclient_2ecpp_35',['AudioClient.cpp',['../AudioClient_8cpp.html',1,'']]],
-  ['audioclient_2eh_36',['AudioClient.h',['../AudioClient_8h.html',1,'']]],
-  ['audioserver_2ecpp_37',['AudioServer.cpp',['../AudioServer_8cpp.html',1,'']]],
-  ['audioserver_2eh_38',['AudioServer.h',['../AudioServer_8h.html',1,'']]],
-  ['audiotypes_2eh_39',['AudioTypes.h',['../AudioTypes_8h.html',1,'']]]
+  ['audio_2drouting_2ddebug_2emd_35',['audio-routing-debug.md',['../audio-routing-debug_8md.html',1,'']]],
+  ['audioclient_2ecpp_36',['AudioClient.cpp',['../AudioClient_8cpp.html',1,'']]],
+  ['audioclient_2eh_37',['AudioClient.h',['../AudioClient_8h.html',1,'']]],
+  ['audioserver_2ecpp_38',['AudioServer.cpp',['../AudioServer_8cpp.html',1,'']]],
+  ['audioserver_2eh_39',['AudioServer.h',['../AudioServer_8h.html',1,'']]],
+  ['audiotypes_2eh_40',['AudioTypes.h',['../AudioTypes_8h.html',1,'']]]
 ];

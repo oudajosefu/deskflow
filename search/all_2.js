@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['_5f_5fattribute_5f_5f_0',['__attribute__',['../OSXScreen_8mm.html#a1e7b25f05d53afeb25723c48396770ca',1,'OSXScreen.mm']]],
-  ['_5fcgsdefaultconnection_1',['_CGSDefaultConnection',['../OSXScreen_8h.html#a6d7fae9e58ad5840b00de889e937c869',1,'OSXScreen.h']]],
-  ['_5fconnectionclosed_3a_2',['_connectionClosed:',['../interfaceScreenSaverController.html#a9b99905187b8a3b44b2af6e523d41651',1,'ScreenSaverController']]]
+  ['2_20—_20macos_20client_20crash_20after_20granting_20screen_20recording_20permission_0',['Issue 2 — macOS client crash after granting Screen Recording permission',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md13',1,'']]],
+  ['2_20—_20simultaneous_20client_20server_20packet_20capture_1',['Step 2 — Simultaneous client + server packet capture',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md4',1,'']]]
 ];

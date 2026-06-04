@@ -1,14 +1,9 @@
 var searchData=
 [
-  ['screen_20entry_0',['Synchronization on Screen Entry',['../protocol_reference.html#autotoc_md27',1,'']]],
-  ['security_20protocol_20v1_204_1',['TLS Handshake and Security (Protocol v1.4+)',['../protocol_reference.html#autotoc_md23',1,'']]],
-  ['sequence_2',['Complete Message Exchange Sequence',['../protocol_reference.html#autotoc_md34',1,'']]],
-  ['size_20limits_3',['Message and Data Size Limits',['../protocol_reference.html#autotoc_md22',1,'']]],
-  ['specific_20implementations_4',['Platform-Specific Implementations',['../protocol_reference.html#autotoc_md38',1,'']]],
-  ['state_20descriptions_5',['State Descriptions',['../protocol_reference.html#autotoc_md17',1,'']]],
-  ['state_20machine_6',['Protocol State Machine',['../protocol_reference.html#autotoc_md16',1,'']]],
-  ['support_20and_20resources_7',['Support and Resources',['../protocol_reference.html#autotoc_md44',1,'']]],
-  ['synchronization_8',['Timing and Synchronization',['../protocol_reference.html#autotoc_md25',1,'']]],
-  ['synchronization_20on_20screen_20entry_9',['Synchronization on Screen Entry',['../protocol_reference.html#autotoc_md27',1,'']]],
-  ['system_20qt_10',['System Qt',['../md_docs_2dev_2build.html#autotoc_md4',1,'']]]
+  ['on_20both_20machines_0',['Step 0 — Enable verbose logging on both machines',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md2',1,'']]],
+  ['on_20screen_20entry_1',['Synchronization on Screen Entry',['../protocol_reference.html#autotoc_md71',1,'']]],
+  ['on_20the_20server_20fixed_2',['Issue 3 — Wrong pitch and clipping on the server (fixed)',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md20',1,'']]],
+  ['one_20time_20setup_3a_20write_20the_20settings_20file_20via_20the_20gui_3',['One-time setup: write the settings file via the GUI',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md29',1,'']]],
+  ['overread_20fixed_4',['Root cause: WASAPI format mismatch caused a buffer overread (fixed)',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md7',1,'']]],
+  ['overview_5',['Overview',['../index.html#autotoc_md55',1,'Architecture Overview'],['../protocol_reference.html#autotoc_md57',1,'Protocol Overview'],['../ProtocolTypes_8h.html#protocol_overview',1,'Protocol Overview']]]
 ];
