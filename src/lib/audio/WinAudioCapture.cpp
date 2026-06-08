@@ -229,6 +229,7 @@ void WinAudioCapture::stop()
   m_captureClient = nullptr;
   m_audioClient = nullptr;
   m_device = nullptr;
+  m_residual.clear();
 }
 
 size_t WinAudioCapture::readFrames(float *buf, size_t frames)
@@ -237,8 +238,10 @@ size_t WinAudioCapture::readFrames(float *buf, size_t frames)
     return 0;
   }
 
-  size_t filled = 0;
-  while (filled < frames) {
+  // Drain every WASAPI packet currently available into m_residual. Each packet is appended in full (converted to
+  // interleaved float32 stereo as needed) so no captured sample is ever dropped — WASAPI loopback delivers ~10 ms
+  // packets while callers ask for 20 ms blocks, so leftover samples must survive until the next call.
+  while (true) {
     UINT32 packetSize = 0;
     if (FAILED(m_captureClient->GetNextPacketSize(&packetSize)) || packetSize == 0) {
       break;
@@ -251,13 +254,14 @@ size_t WinAudioCapture::readFrames(float *buf, size_t frames)
       break;
     }
 
-    const size_t toCopy = std::min(static_cast<size_t>(numFrames), frames - filled);
-    float *out = buf + filled * kAudioChannels;
+    const size_t base = m_residual.size();
+    m_residual.resize(base + static_cast<size_t>(numFrames) * kAudioChannels);
+    float *out = m_residual.data() + base;
     if (flags & AUDCLNT_BUFFERFLAGS_SILENT) {
-      std::fill(out, out + toCopy * kAudioChannels, 0.0f);
+      std::fill(out, out + static_cast<size_t>(numFrames) * kAudioChannels, 0.0f);
     } else if (!m_convertFromDeviceFormat) {
       // AUTOCONVERTPCM is active, so WASAPI already delivers interleaved float32 stereo at our sample rate.
-      std::memcpy(out, data, toCopy * static_cast<size_t>(kAudioChannels) * sizeof(float));
+      std::memcpy(out, data, static_cast<size_t>(numFrames) * static_cast<size_t>(kAudioChannels) * sizeof(float));
     } else {
       // Fallback: the WASAPI buffer is in the device mix format (m_mixFormat), which may not be float32 stereo. Convert
       // each frame to interleaved float32 stereo — reading exactly nBlockAlign bytes per frame avoids the buffer
@@ -267,7 +271,7 @@ size_t WinAudioCapture::readFrames(float *buf, size_t frames)
       const size_t srcFrameBytes = m_mixFormat->nBlockAlign;
       const size_t bytesPerSample = bits / 8u;
       const bool isFloat = formatIsFloat(m_mixFormat);
-      for (size_t f = 0; f < toCopy; ++f) {
+      for (size_t f = 0; f < numFrames; ++f) {
         const BYTE *frame = data + f * srcFrameBytes;
         const float left = sampleToFloat(frame, bits, isFloat);
         const float right = (srcChannels >= 2) ? sampleToFloat(frame + bytesPerSample, bits, isFloat) : left;
@@ -275,8 +279,15 @@ size_t WinAudioCapture::readFrames(float *buf, size_t frames)
         out[f * kAudioChannels + 1] = right;
       }
     }
-    filled += toCopy;
     m_captureClient->ReleaseBuffer(numFrames);
   }
-  return filled;
+
+  // Only hand back a complete block; keep any remainder buffered for the next call.
+  const size_t wanted = frames * kAudioChannels;
+  if (m_residual.size() < wanted) {
+    return 0;
+  }
+  std::memcpy(buf, m_residual.data(), wanted * sizeof(float));
+  m_residual.erase(m_residual.begin(), m_residual.begin() + wanted);
+  return frames;
 }
