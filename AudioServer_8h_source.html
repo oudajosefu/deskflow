@@ -144,16 +144,19 @@ $(function(){initNavTree('AudioServer_8h_source.html','',''); });
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    QByteArray buffer;</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    std::unique_ptr&lt;OpusDecoderWrapper&gt; decoder;</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    std::unique_ptr&lt;IAudioPlayback&gt; playback;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  };</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  <span class="keywordtype">void</span> processHandshake(ClientSession &amp;session);</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  <span class="keywordtype">void</span> processAudioData(ClientSession &amp;session);</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordtype">void</span> startPlayback(ClientSession &amp;session);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  quint16 m_port;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  QTcpServer *m_server = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  QList&lt;ClientSession *&gt; m_sessions;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>};</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    quint64 packetsReceived = 0;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    quint64 framesPlayed = 0;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    quint64 lastLoggedPackets = 0;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  };</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="keywordtype">void</span> processHandshake(ClientSession &amp;session);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  <span class="keywordtype">void</span> processAudioData(ClientSession &amp;session);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  <span class="keywordtype">void</span> startPlayback(ClientSession &amp;session);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  quint16 m_port;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  QTcpServer *m_server = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  QList&lt;ClientSession *&gt; m_sessions;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>};</div>
 </div>
 <div class="ttc" id="aclassAudioServer_html_a1b5539be8f59bc95f02d06825066cc6f"><div class="ttname"><a href="classAudioServer.html#a1b5539be8f59bc95f02d06825066cc6f">AudioServer::~AudioServer</a></div><div class="ttdeci">~AudioServer() override</div><div class="ttdef"><b>Definition</b> AudioServer.cpp:39</div></div>
 <div class="ttc" id="aclassAudioServer_html_a2585e0fa091f20054cae6673ef6a0f36"><div class="ttname"><a href="classAudioServer.html#a2585e0fa091f20054cae6673ef6a0f36">AudioServer::AudioServer</a></div><div class="ttdeci">AudioServer(quint16 port, QObject *parent=nullptr)</div><div class="ttdef"><b>Definition</b> AudioServer.cpp:35</div></div>
