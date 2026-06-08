@@ -120,11 +120,19 @@ void AudioClient::runCapture()
 
   std::vector<float> pcmBuf(static_cast<size_t>(kAudioFrameSize * kAudioChannels));
 
+  uint64_t framesCaptured = 0;
+  uint64_t packetsSent = 0;
+  uint64_t bytesSent = 0;
+  uint64_t lastLoggedPackets = 0;
+
   while (m_running && socket.state() == QAbstractSocket::ConnectedState) {
     const size_t got = m_capture->readFrames(pcmBuf.data(), kAudioFrameSize);
     if (got < static_cast<size_t>(kAudioFrameSize)) {
-      continue; // not enough data yet
+      // No full block ready yet; yield briefly so we don't busy-spin the CPU while audio is silent or trickling in.
+      QThread::msleep(2);
+      continue;
     }
+    framesCaptured += got;
 
     auto packet = m_encoder->encode(pcmBuf.data());
     if (packet.empty()) {
@@ -136,7 +144,25 @@ void AudioClient::runCapture()
     socket.write(header, 2);
     socket.write(reinterpret_cast<const char *>(packet.data()), static_cast<qint64>(packet.size()));
     socket.flush();
+    ++packetsSent;
+    bytesSent += 2 + packet.size();
+
+    // Throttled progress log (~every 50 packets, i.e. ~1 s of audio) so the data path is observable without flooding.
+    if (packetsSent - lastLoggedPackets >= 50) {
+      lastLoggedPackets = packetsSent;
+      LOG_DEBUG(
+          "AudioClient: streaming — %llu frames captured, %llu packets / %llu bytes sent",
+          static_cast<unsigned long long>(framesCaptured), static_cast<unsigned long long>(packetsSent),
+          static_cast<unsigned long long>(bytesSent)
+      );
+    }
   }
+
+  LOG_INFO(
+      "AudioClient: stream ending — %llu frames captured, %llu packets / %llu bytes sent",
+      static_cast<unsigned long long>(framesCaptured), static_cast<unsigned long long>(packetsSent),
+      static_cast<unsigned long long>(bytesSent)
+  );
 
   m_capture->stop();
   m_capture.reset();

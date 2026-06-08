@@ -55,6 +55,9 @@ private:
     QByteArray buffer;
     std::unique_ptr<OpusDecoderWrapper> decoder;
     std::unique_ptr<IAudioPlayback> playback;
+    quint64 packetsReceived = 0;
+    quint64 framesPlayed = 0;
+    quint64 lastLoggedPackets = 0;
   };
 
   void processHandshake(ClientSession &session);

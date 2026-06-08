@@ -189,10 +189,22 @@ void AudioServer::processAudioData(ClientSession &session)
     const auto *opusData = reinterpret_cast<const uint8_t *>(session.buffer.constData() + 2);
     auto pcm = session.decoder->decode(opusData, packetLen);
     session.buffer.remove(0, 2 + packetLen);
+    ++session.packetsReceived;
 
     if (!pcm.empty() && session.playback) {
-      session.playback->writeFrames(pcm.data(), pcm.size() / static_cast<size_t>(kAudioChannels));
+      const size_t frames = pcm.size() / static_cast<size_t>(kAudioChannels);
+      session.playback->writeFrames(pcm.data(), frames);
+      session.framesPlayed += frames;
     }
+  }
+
+  // Throttled progress log (~every 50 packets, i.e. ~1 s of audio) so the receive/decode/play path is observable.
+  if (session.packetsReceived - session.lastLoggedPackets >= 50) {
+    session.lastLoggedPackets = session.packetsReceived;
+    LOG_DEBUG(
+        "AudioServer: receiving — %llu packets decoded, %llu frames played",
+        static_cast<unsigned long long>(session.packetsReceived), static_cast<unsigned long long>(session.framesPlayed)
+    );
   }
 }
 

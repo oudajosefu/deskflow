@@ -10,6 +10,7 @@
 
 #include <Audioclient.h>
 #include <mmdeviceapi.h>
+#include <vector>
 #include <wrl/client.h>
 
 /// WASAPI loopback capture of the default render endpoint.
@@ -36,4 +37,8 @@ private:
   // When true, the loopback stream uses the device mix format and readFrames() must convert each frame to float32
   // stereo. When false, WASAPI auto-converts to our 48 kHz float32 stereo format and readFrames() copies directly.
   bool m_convertFromDeviceFormat = false;
+  // Interleaved float32 stereo samples captured from WASAPI but not yet returned. WASAPI loopback delivers ~10 ms
+  // (480-frame) packets while callers ask for 20 ms (960-frame) blocks, so leftover samples must be retained across
+  // readFrames() calls instead of discarded; otherwise no full block is ever assembled and nothing is transmitted.
+  std::vector<float> m_residual;
 };
