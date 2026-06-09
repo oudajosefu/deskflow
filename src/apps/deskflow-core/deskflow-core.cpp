@@ -22,7 +22,7 @@
 #endif
 
 #if defined(HAVE_AUDIO_SUPPORT)
-#include <gst/gst.h>
+#include "audio/AudioDevices.h"
 #endif
 
 #include <QApplication>
@@ -83,12 +83,6 @@ int main(int argc, char **argv)
   Arch arch;
   arch.init();
 
-#if defined(HAVE_AUDIO_SUPPORT)
-  // Initialise GStreamer once for the whole process (audio routing pipelines).
-  // Pass null argc/argv so it does not consume Deskflow's own command-line args.
-  gst_init(nullptr, nullptr);
-#endif
-
   Log log;
   qInstallMessageHandler(qtMessageHandler);
 
@@ -130,6 +124,13 @@ int main(int argc, char **argv)
   const auto processName = QFileInfo(argv[0]).fileName();
 
   App *coreApp = createApp(parser, events, processName);
+
+#if defined(HAVE_AUDIO_SUPPORT)
+  // Initialise GStreamer for the audio routing pipelines, pointing it at the
+  // bundled plugins relative to this executable. Done after QApplication exists
+  // so the executable directory can be resolved.
+  AudioDevices::initGStreamer();
+#endif
 
   const auto ipcServer = new deskflow::core::ipc::CoreIpcServer(&app); // NOSONAR - Qt managed
   QObject::connect(

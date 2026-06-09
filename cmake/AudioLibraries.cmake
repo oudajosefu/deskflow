@@ -18,43 +18,76 @@
 # disabled (BUILD_AUDIO_SUPPORT forced OFF) rather than failing the whole build.
 #
 #
-# Make GStreamer's vcpkg-provided .pc files discoverable by pkg-config. vcpkg
-# installs them under <installed>/<triplet>/lib/pkgconfig but does not add that
-# dir to PKG_CONFIG_PATH, so pkg_check_modules cannot find GStreamer without
-# this. set(ENV{}) is process-global, so it also covers the pkg_check_modules
-# call in src/lib/audio/CMakeLists.txt. No-op when not building with vcpkg.
+# Make GStreamer's .pc files discoverable by pkg-config, wherever it came from:
+#   * the official prebuilt GStreamer MSVC SDK (Windows x64), located via the
+#     GSTREAMER_1_0_ROOT_MSVC_* env var the SDK installer sets;
+#   * vcpkg (Windows arm64), under <installed>/<triplet>/lib/pkgconfig — vcpkg
+#     does not add this to PKG_CONFIG_PATH for us, and CMake's find_program cannot
+#     locate a host pkg-config.bat, so we also point PKG_CONFIG_EXECUTABLE at the
+#     pkgconf the 'pkgconf' dependency provides;
+#   * the system (Linux/macOS/BSD) — pkg-config already works; nothing to add.
+# set(ENV{}) is process-global, so this also covers the pkg_check_modules call in
+# src/lib/audio/CMakeLists.txt. Must run before find_package(PkgConfig).
 #
-function(add_vcpkg_pkgconfig_path)
-  if(NOT DEFINED VCPKG_INSTALLED_DIR OR NOT DEFINED VCPKG_TARGET_TRIPLET)
-    return()
-  endif()
-
-  # CMake's find_program cannot locate the host pkg-config.bat, and the vcpkg
-  # toolchain does not always wire one up. Point PKG_CONFIG_EXECUTABLE at the
-  # pkgconf the 'pkgconf' vcpkg dependency installs. Must be set before
-  # find_package(PkgConfig). Cached + FORCE so it sticks across the configure.
-  set(_pkgconf "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/pkgconf/pkgconf${CMAKE_EXECUTABLE_SUFFIX}")
-  if(EXISTS "${_pkgconf}")
-    set(PKG_CONFIG_EXECUTABLE "${_pkgconf}" CACHE FILEPATH "pkg-config from vcpkg pkgconf" FORCE)
-  endif()
-
-  set(_pcdir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/pkgconfig")
-  if(NOT EXISTS "${_pcdir}")
-    return()
-  endif()
-  file(TO_NATIVE_PATH "${_pcdir}" _pcdir_native)
+function(setup_gstreamer_pkgconfig)
   if(WIN32)
     set(_sep ";")
   else()
     set(_sep ":")
   endif()
-  set(_existing "$ENV{PKG_CONFIG_PATH}")
-  if("${_existing}" STREQUAL "")
-    set(ENV{PKG_CONFIG_PATH} "${_pcdir_native}")
-  elseif(NOT "${_existing}" MATCHES "vcpkg_installed")
-    set(ENV{PKG_CONFIG_PATH} "${_pcdir_native}${_sep}${_existing}")
+
+  # Prefer the vcpkg pkgconf as the pkg-config tool when available (reliable on
+  # Windows, where the host pkg-config.bat is not found by find_program).
+  if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+    set(_pkgconf "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/pkgconf/pkgconf${CMAKE_EXECUTABLE_SUFFIX}")
+    if(EXISTS "${_pkgconf}")
+      set(PKG_CONFIG_EXECUTABLE "${_pkgconf}" CACHE FILEPATH "pkg-config from vcpkg pkgconf" FORCE)
+    endif()
   endif()
-  message(STATUS "Audio: added vcpkg pkgconfig path ${_pcdir_native}")
+
+  # Candidate pkgconfig dirs, highest priority first.
+  set(_candidates)
+  foreach(_root "$ENV{GSTREAMER_1_0_ROOT_MSVC_X86_64}" "$ENV{GSTREAMER_1_0_ROOT_MSVC_ARM64}")
+    if(NOT _root)
+      continue()
+    endif()
+    # The SDK installer sets these with native backslashes and a trailing slash
+    # (e.g. C:\gstreamer\1.0\msvc_x86_64\). Normalise to forward slashes and strip
+    # the trailing slash so EXISTS / path concatenation work.
+    file(TO_CMAKE_PATH "${_root}" _root)
+    string(REGEX REPLACE "/+$" "" _root "${_root}")
+    if(EXISTS "${_root}/lib/pkgconfig")
+      list(APPEND _candidates "${_root}/lib/pkgconfig")
+      # Fall back to the SDK's bundled pkg-config if vcpkg's was not found.
+      if(NOT PKG_CONFIG_EXECUTABLE AND EXISTS "${_root}/bin/pkg-config${CMAKE_EXECUTABLE_SUFFIX}")
+        set(PKG_CONFIG_EXECUTABLE "${_root}/bin/pkg-config${CMAKE_EXECUTABLE_SUFFIX}"
+            CACHE FILEPATH "pkg-config from GStreamer SDK" FORCE)
+      endif()
+    endif()
+  endforeach()
+  if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+    set(_vcpkg_pc "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/pkgconfig")
+    if(EXISTS "${_vcpkg_pc}")
+      list(APPEND _candidates "${_vcpkg_pc}")
+    endif()
+  endif()
+
+  # Prepend candidates so the highest-priority one (the SDK) ends up first in
+  # PKG_CONFIG_PATH. Iterate in reverse because each iteration prepends.
+  if(_candidates)
+    list(REVERSE _candidates)
+  endif()
+  foreach(_dir ${_candidates})
+    file(TO_NATIVE_PATH "${_dir}" _native)
+    set(_existing "$ENV{PKG_CONFIG_PATH}")
+    string(FIND "${_existing}" "${_native}" _already)
+    if("${_existing}" STREQUAL "")
+      set(ENV{PKG_CONFIG_PATH} "${_native}")
+    elseif(_already EQUAL -1)
+      set(ENV{PKG_CONFIG_PATH} "${_native}${_sep}${_existing}")
+    endif()
+    message(STATUS "Audio: added GStreamer pkgconfig path ${_native}")
+  endforeach()
 endfunction()
 
 function(configure_audio_libs)
@@ -63,12 +96,8 @@ function(configure_audio_libs)
     return()
   endif()
 
-  # On Windows/macOS GStreamer is installed by vcpkg, which ships .pc files but
-  # does NOT add its pkgconfig dir to PKG_CONFIG_PATH for us. Without it,
-  # pkg_check_modules cannot find GStreamer. Prepend the vcpkg pkgconfig dir so
-  # detection (here and in src/lib/audio/CMakeLists.txt) works. set(ENV{}) is
-  # process-global, so it persists to the audio subdirectory's pkg_check_modules.
-  add_vcpkg_pkgconfig_path()
+  # Make GStreamer discoverable by pkg-config (official SDK / vcpkg / system).
+  setup_gstreamer_pkgconfig()
 
   find_package(PkgConfig QUIET)
   if(NOT PKG_CONFIG_FOUND)

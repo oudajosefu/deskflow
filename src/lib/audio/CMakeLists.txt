@@ -51,11 +51,11 @@ target_include_directories(audio PUBLIC ${PROJECT_SOURCE_DIR}/src/lib)
 # GStreamer (and its glib/gobject companions, pulled transitively via the .pc
 # Requires). Re-run pkg_check_modules here so the IMPORTED_TARGET is created in
 # this directory's scope regardless of what configure_audio_libs() did.
-find_package(PkgConfig REQUIRED)
-# Ensure the vcpkg pkgconfig dir is on PKG_CONFIG_PATH (defined in AudioLibraries.cmake).
-if(COMMAND add_vcpkg_pkgconfig_path)
-  add_vcpkg_pkgconfig_path()
+# Ensure GStreamer's pkgconfig dir is on PKG_CONFIG_PATH (defined in AudioLibraries.cmake).
+if(COMMAND setup_gstreamer_pkgconfig)
+  setup_gstreamer_pkgconfig()
 endif()
+find_package(PkgConfig REQUIRED)
 pkg_check_modules(GSTREAMER REQUIRED IMPORTED_TARGET
   gstreamer-1.0>=1.20
   gstreamer-base-1.0
@@ -64,6 +64,19 @@ pkg_check_modules(GSTREAMER REQUIRED IMPORTED_TARGET
 )
 target_link_libraries(audio PUBLIC PkgConfig::GSTREAMER)
 
+# Discover the GStreamer install prefix and plugin dir so the packaging code can
+# bundle the runtime (core DLLs + the runtime-loaded plugins) on Windows/macOS.
+# GStreamer's .pc exposes both as pkg-config variables.
+execute_process(
+  COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=pluginsdir gstreamer-1.0
+  OUTPUT_VARIABLE _gst_plugindir OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(
+  COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=prefix gstreamer-1.0
+  OUTPUT_VARIABLE _gst_prefix OUTPUT_STRIP_TRAILING_WHITESPACE)
+set(GSTREAMER_PLUGIN_DIR "${_gst_plugindir}" CACHE PATH "GStreamer runtime plugin directory" FORCE)
+set(GSTREAMER_PREFIX "${_gst_prefix}" CACHE PATH "GStreamer install prefix" FORCE)
+message(STATUS "Audio: GStreamer prefix ${GSTREAMER_PREFIX}, plugins ${GSTREAMER_PLUGIN_DIR}")
+
 # Qt Network (for QTcpServer / QTcpSocket in the AudioServer / AudioClient control plane)
 target_link_libraries(audio PUBLIC Qt6::Core Qt6::Network)
 
@@ -71,15 +84,19 @@ target_link_libraries(audio PUBLIC Qt6::Core Qt6::Network)
 if(APPLE)
   find_library(LIB_AUDIO_TOOLBOX AudioToolbox REQUIRED)
   find_library(LIB_CORE_MEDIA CoreMedia REQUIRED)
-  find_library(LIB_SCREEN_CAPTURE ScreenCaptureKit)
   find_library(LIB_AV_FOUNDATION AVFoundation)
   target_link_libraries(audio PRIVATE ${LIB_AUDIO_TOOLBOX} ${LIB_CORE_MEDIA})
-  if(LIB_SCREEN_CAPTURE)
-    target_link_libraries(audio PRIVATE ${LIB_SCREEN_CAPTURE})
-  endif()
   if(LIB_AV_FOUNDATION)
     target_link_libraries(audio PRIVATE ${LIB_AV_FOUNDATION})
   endif()
+  # ScreenCaptureKit only exists on macOS 13+. Weak-link it so a build with an
+  # older deployment target (e.g. the macos-x64 CI target = 12) still links and
+  # runs on macOS 12 (capture is gated at runtime by `if (@available(macOS 13,*))`
+  # in MacAudioCapture.mm) and uses it on 13+.
+  # PUBLIC (not PRIVATE): `audio` is a STATIC library, so the option must propagate
+  # via INTERFACE_LINK_OPTIONS to the executables that consume it — otherwise the
+  # framework is never linked and the SC* symbols are undefined at exe link time.
+  target_link_options(audio PUBLIC -Wl,-weak_framework,ScreenCaptureKit)
 endif()
 
 # Also link base (for Log.h)

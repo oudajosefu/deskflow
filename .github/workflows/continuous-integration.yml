@@ -95,7 +95,7 @@ jobs:
         target:
           - name: "windows-2022-x64"
             runs-on: "windows-2022"
-            timeout: 30
+            timeout: 45
             config-args: "-G Ninja"
             vcpkg-triplet: x64-windows-release
             arch: "amd64"
@@ -103,6 +103,8 @@ jobs:
 
           - name: "windows-2022-arm64"
             runs-on: "windows-11-arm"
+            # No official GStreamer SDK for Windows arm64 and a from-source vcpkg build takes
+            # hours, so audio routing is disabled here (built without GStreamer). Normal budget.
             timeout: 30
             config-args: "-G Ninja"
             vcpkg-triplet: arm64-windows
@@ -362,7 +364,8 @@ jobs:
           run: |
             pkg install -y cmake ninja gmake gcc12 openssl glib \
             libX11 libXtst libxkbfile qt6-base qt6-tools gtk3 \
-            googletest pkgconf libei libportal doxygen
+            googletest pkgconf libei libportal doxygen \
+            gstreamer1 gstreamer1-plugins gstreamer1-plugins-good
             ${{env.CMAKE_CONFIGURE}} -G Ninja
             cmake --build build -j16
   flatpak:

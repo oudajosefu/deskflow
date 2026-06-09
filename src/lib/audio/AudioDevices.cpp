@@ -6,17 +6,46 @@
 
 #include "audio/AudioDevices.h"
 
+#include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
+
 #include <gst/gst.h>
+
+void AudioDevices::initGStreamer()
+{
+  if (gst_is_initialized()) {
+    return;
+  }
+
+  // On Windows/macOS the GStreamer plugins are bundled next to the app (in a
+  // non-default dir), so point GStreamer at them before gst_init scans the
+  // registry. On Linux the system plugins are found by default.
+#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
+  if (QCoreApplication::instance() != nullptr) {
+    const QString appDir = QCoreApplication::applicationDirPath();
+#if defined(Q_OS_WIN)
+    const QString pluginDir = appDir + QStringLiteral("/gstreamer-1.0");
+#else
+    // macOS bundle: <app>/Contents/MacOS/<exe> -> <app>/Contents/Resources/gstreamer-1.0
+    const QString pluginDir = appDir + QStringLiteral("/../Resources/gstreamer-1.0");
+#endif
+    if (QFileInfo::exists(pluginDir)) {
+      qputenv("GST_PLUGIN_PATH", QDir::toNativeSeparators(pluginDir).toUtf8());
+    }
+  }
+#endif
+
+  gst_init(nullptr, nullptr);
+}
 
 QList<AudioDeviceInfo> AudioDevices::outputDevices()
 {
   QList<AudioDeviceInfo> result;
 
-  // gst_init is idempotent; calling it here lets the GUI enumerate devices
-  // without depending on the core having initialised GStreamer first.
-  if (!gst_is_initialized()) {
-    gst_init(nullptr, nullptr);
-  }
+  // Ensure GStreamer is initialised (with the bundled plugin path) so the GUI can
+  // enumerate devices without depending on the core having initialised it first.
+  initGStreamer();
 
   GstDeviceMonitor *monitor = gst_device_monitor_new();
   GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");

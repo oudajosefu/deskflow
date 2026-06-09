@@ -70,3 +70,28 @@ set_target_properties(wix-custom PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
 target_link_libraries(wix-custom PRIVATE Msi)
+
+# Bundle the GStreamer runtime for audio routing. The core libraries are pulled in
+# by the executables' RUNTIME_DEPENDENCY_SET (the GStreamer bin dir is on its search
+# path, see src/apps/CMakeLists.txt). Here we add the runtime-LOADED plugins (not
+# linked, so not auto-discovered) into <install>/gstreamer-1.0 — where the app points
+# GST_PLUGIN_PATH at startup (AudioDevices::initGStreamer) — plus the companion
+# GStreamer libs and codec DLLs those plugins depend on.
+if(BUILD_AUDIO_SUPPORT AND GSTREAMER_PLUGIN_DIR AND EXISTS "${GSTREAMER_PLUGIN_DIR}")
+  install(DIRECTORY "${GSTREAMER_PLUGIN_DIR}/"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/gstreamer-1.0
+    FILES_MATCHING
+      REGEX "gst(coreelements|app|audioconvert|audioresample|audiomixer|audiorate|volume|level|opus|rtp|rtpmanager|udp|autodetect|typefindfunctions|audioparsers|wasapi2|wasapi)\\.dll$"
+  )
+  # Companion GStreamer libs + codec deps the plugins load at runtime (our exe does
+  # not link them, so the dependency scan misses them). Names differ between the
+  # official SDK (gst*-1.0-0.dll) and vcpkg (gst*-1.0.dll), so glob.
+  if(GSTREAMER_PREFIX AND EXISTS "${GSTREAMER_PREFIX}/bin")
+    install(DIRECTORY "${GSTREAMER_PREFIX}/bin/"
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      FILES_MATCHING
+        PATTERN "gst*.dll"
+        PATTERN "*opus*.dll"
+    )
+  endif()
+endif()

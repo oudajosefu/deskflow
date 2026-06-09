@@ -10,6 +10,9 @@ finish-args:
   - --share=network
   - --device=dri
   - --talk-name=org.kde.StatusNotifierWatcher
+  # Audio routing: capture the monitor source / play to the default sink.
+  # The org.kde.Platform runtime already provides GStreamer + base/good plugins.
+  - --socket=pulseaudio
 cleanup:
   - /include
   - "*.a"
