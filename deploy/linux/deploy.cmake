@@ -45,7 +45,8 @@ if(BUILD_AUDIO_SUPPORT)
   # and pulse/pipewire sinks/sources. SHLIBDEPS auto-adds the linked libgstreamer core,
   # but the plugin packages must be declared explicitly since they are not linked.
   set(CPACK_DEBIAN_PACKAGE_DEPENDS "gstreamer1.0-plugins-base, gstreamer1.0-plugins-good")
-  set(CPACK_RPM_PACKAGE_REQUIRES "gstreamer1-plugins-base gstreamer1-plugins-good")
+  # CPACK_RPM_PACKAGE_REQUIRES is set further down, once the distro is detected: Fedora/RHEL
+  # and openSUSE name the GStreamer plugin packages differently.
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -88,6 +89,17 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   string(REGEX MATCH fedora|suse|rhel RPMNAME "${DISTRO_NAME}")
   if((NOT ("${RPMTYPE}" STREQUAL "")) OR (NOT ("${RPMNAME}" STREQUAL "")))
       set(CPACK_GENERATOR "RPM")
+
+      # GStreamer plugin packages are named differently per RPM distro:
+      #   Fedora/RHEL: gstreamer1-plugins-{base,good}
+      #   openSUSE   : gstreamer-plugins-{base,good}
+      if(BUILD_AUDIO_SUPPORT)
+        if("${DISTRO_LIKE}" MATCHES "suse" OR "${DISTRO_NAME}" MATCHES "suse")
+          set(CPACK_RPM_PACKAGE_REQUIRES "gstreamer-plugins-base gstreamer-plugins-good")
+        else()
+          set(CPACK_RPM_PACKAGE_REQUIRES "gstreamer1-plugins-base gstreamer1-plugins-good")
+        endif()
+      endif()
   endif()
 
   # Disto specific name adjustments
