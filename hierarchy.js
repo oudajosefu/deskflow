@@ -34,6 +34,8 @@ var hierarchy =
     [ "ArchSocketImpl", "classArchSocketImpl.html", null ],
     [ "ArchThreadImpl", "classArchThreadImpl.html", null ],
     [ "Settings::Audio", "structSettings_1_1Audio.html", null ],
+    [ "AudioDeviceInfo", "structAudioDeviceInfo.html", null ],
+    [ "AudioDevices", "classAudioDevices.html", null ],
     [ "deskflow::KeyMap::Keystroke::Button", "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html", null ],
     [ "IPrimaryScreen::ButtonInfo", "classIPrimaryScreen_1_1ButtonInfo.html", null ],
     [ "deskflow::string::CaselessCmp", "classdeskflow_1_1string_1_1CaselessCmp.html", null ],
@@ -95,6 +97,9 @@ var hierarchy =
     [ "FingerprintDatabase", "classFingerprintDatabase.html", null ],
     [ "FunctionEventJob", "classFunctionEventJob.html", null ],
     [ "deskflow::KeyMap::Keystroke::Group", "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Group.html", null ],
+    [ "GstAudioPipeline", "classGstAudioPipeline.html", null ],
+    [ "GstAudioReceiver", "classGstAudioReceiver.html", null ],
+    [ "GstAudioSender", "classGstAudioSender.html", null ],
     [ "Settings::Gui", "structSettings_1_1Gui.html", null ],
     [ "Hotkey", "classHotkey.html", null ],
     [ "IPrimaryScreen::HotKeyInfo", "classIPrimaryScreen_1_1HotKeyInfo.html", null ],
@@ -118,16 +123,6 @@ var hierarchy =
     [ "IArchNetwork", "classIArchNetwork.html", [
       [ "ArchNetworkBSD", "classArchNetworkBSD.html", null ],
       [ "ArchNetworkWinsock", "classArchNetworkWinsock.html", null ]
-    ] ],
-    [ "IAudioCapture", "classIAudioCapture.html", [
-      [ "LinuxAudioCapture", "classLinuxAudioCapture.html", null ],
-      [ "MacAudioCapture", "classMacAudioCapture.html", null ],
-      [ "WinAudioCapture", "classWinAudioCapture.html", null ]
-    ] ],
-    [ "IAudioPlayback", "classIAudioPlayback.html", [
-      [ "LinuxAudioPlayback", "classLinuxAudioPlayback.html", null ],
-      [ "MacAudioPlayback", "classMacAudioPlayback.html", null ],
-      [ "WinAudioPlayback", "classWinAudioPlayback.html", null ]
     ] ],
     [ "IClipboard", "classIClipboard.html", [
       [ "Clipboard", "classClipboard.html", null ],
@@ -293,6 +288,7 @@ var hierarchy =
     [ "Log", "classLog.html", null ],
     [ "Settings::Log", "structSettings_1_1Log.html", null ],
     [ "App::LoopErrorCode", "structApp_1_1LoopErrorCode.html", null ],
+    [ "MacAudioCapture", "classMacAudioCapture.html", null ],
     [ "XWindowsClipboard::MotifClipFormat", "classXWindowsClipboard_1_1MotifClipFormat.html", null ],
     [ "XWindowsClipboard::MotifClipHeader", "classXWindowsClipboard_1_1MotifClipHeader.html", null ],
     [ "XWindowsClipboard::MotifClipItem", "classXWindowsClipboard_1_1MotifClipItem.html", null ],
@@ -310,8 +306,6 @@ var hierarchy =
       [ "DeskflowAudioStreamOutput", "interfaceDeskflowAudioStreamOutput.html", null ],
       [ "ScreenSaverController", "interfaceScreenSaverController.html", null ]
     ] ],
-    [ "OpusDecoderWrapper", "classOpusDecoderWrapper.html", null ],
-    [ "OpusEncoderWrapper", "classOpusEncoderWrapper.html", null ],
     [ "OSXPowerManager", "classOSXPowerManager.html", null ],
     [ "IArchNetwork::PollEntry", "classIArchNetwork_1_1PollEntry.html", null ],
     [ "IArchNetwork::PollEventMask", "structIArchNetwork_1_1PollEventMask.html", null ],

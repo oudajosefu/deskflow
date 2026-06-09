@@ -1,25 +1,5 @@
 var searchData=
 [
-  ['rate_20fixed_0',['Root cause: the Windows playback path never resampled to the device rate (fixed)',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md22',1,'']]],
-  ['read_20the_20full_20guidelines_1',['Read the Full Guidelines',['../contributing_guide.html#autotoc_md54',1,'']]],
-  ['recording_20permission_2',['Issue 2 — macOS client crash after granting Screen Recording permission',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md13',1,'']]],
-  ['reference_3',['Protocol Reference',['../protocol_reference.html',1,'']]],
-  ['reference_20for_20deskflow_20core_4',['CLI reference for deskflow-core',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md43',1,'']]],
-  ['reference_20implementation_5',['Reference Implementation',['../protocol_reference.html#autotoc_md86',1,'']]],
-  ['reference_20table_6',['Message Reference Table',['../protocol_reference.html#autotoc_md63',1,'']]],
-  ['regression_7',['regression',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md16',1,'Verifying the fix / diagnosing a regression'],['../md_docs_2dev_2audio-routing-debug.html#autotoc_md24',1,'Verifying the fix / diagnosing a regression']]],
-  ['release_20core_20before_20running_20the_20dev_20binary_8',['Stop the release core before running the dev binary',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md30',1,'']]],
-  ['release_20peers_9',['Debugging from a dev build (repo binary vs release peers)',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md26',1,'']]],
-  ['render_20stream_10',['Tertiary note: WASAPI loopback requires an active render stream',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md11',1,'']]],
-  ['repo_20binary_20vs_20release_20peers_11',['Debugging from a dev build (repo binary vs release peers)',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md26',1,'']]],
-  ['requires_20an_20active_20render_20stream_12',['Tertiary note: WASAPI loopback requires an active render stream',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md11',1,'']]],
-  ['resampled_20to_20the_20device_20rate_20fixed_13',['Root cause: the Windows playback path never resampled to the device rate (fixed)',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md22',1,'']]],
-  ['resources_14',['Support and Resources',['../protocol_reference.html#autotoc_md88',1,'']]],
-  ['root_20cause_3a_20the_20windows_20playback_20path_20never_20resampled_20to_20the_20device_20rate_20fixed_15',['Root cause: the Windows playback path never resampled to the device rate (fixed)',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md22',1,'']]],
-  ['root_20cause_3a_20use_20after_20free_20in_20macaudiocapture_3a_3astart_20—_20file_20compiled_20without_20arc_20fixed_16',['Root cause: use-after-free in &lt;span class=&quot;tt&quot;&gt;MacAudioCapture::start()&lt;/span&gt; — file compiled without ARC (fixed)',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md14',1,'']]],
-  ['root_20cause_3a_20wasapi_20format_20mismatch_20caused_20a_20buffer_20overread_20fixed_17',['Root cause: WASAPI format mismatch caused a buffer overread (fixed)',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md7',1,'']]],
-  ['routing_18',['Useful breakpoint locations for audio routing',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md40',1,'']]],
-  ['routing_20—_20debugging_20guide_19',['Audio Routing — Debugging Guide',['../md_docs_2dev_2audio-routing-debug.html',1,'']]],
-  ['run_20',['Enable verbose logging for the dev run',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md31',1,'']]],
-  ['running_20the_20dev_20binary_21',['Stop the release core before running the dev binary',['../md_docs_2dev_2audio-routing-debug.html#autotoc_md30',1,'']]]
+  ['windows_20and_20qt_0',['Windows and Qt',['../md_docs_2dev_2build.html#autotoc_md12',1,'']]],
+  ['windows_20configuration_1',['Windows Configuration',['../md_docs_2dev_2build.html#autotoc_md11',1,'']]]
 ];

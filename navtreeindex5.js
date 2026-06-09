@@ -1,6 +1,5 @@
 var NAVTREEINDEX5 =
 {
-"ServerConfig_8cpp.html#a6150e0515f7202e2fb518f7206ed97dc":[8,0,1,1,6,0,6,7],
 "ServerConfig_8cpp.html#a627940781f81e0b7434cd8f444373ab2":[8,0,1,1,6,0,6,3],
 "ServerConfig_8cpp.html#a8998f4fde8b4d01dde07d3eccfbea73d":[8,0,1,1,6,0,6,2],
 "ServerConfig_8cpp.html#a8f8f80d37794cde9472343e4487ba3eb":[8,0,1,1,6,0,6,4],
@@ -108,12 +107,6 @@ var NAVTREEINDEX5 =
 "VersionChecker_8cpp.html":[8,0,1,1,6,29],
 "VersionChecker_8h.html":[8,0,1,1,6,30],
 "VersionChecker_8h_source.html":[8,0,1,1,6,30],
-"WinAudioCapture_8cpp.html":[8,0,1,1,1,17],
-"WinAudioCapture_8h.html":[8,0,1,1,1,18],
-"WinAudioCapture_8h_source.html":[8,0,1,1,1,18],
-"WinAudioPlayback_8cpp.html":[8,0,1,1,1,19],
-"WinAudioPlayback_8h.html":[8,0,1,1,1,20],
-"WinAudioPlayback_8h_source.html":[8,0,1,1,1,20],
 "WlClipboardCollection_8cpp.html":[8,0,1,1,10,88],
 "WlClipboardCollection_8h.html":[8,0,1,1,10,89],
 "WlClipboardCollection_8h_source.html":[8,0,1,1,10,89],
@@ -249,5 +242,12 @@ var NAVTREEINDEX5 =
 "classAction.html#ad5c6a95c58e5840ee8a0ba03fc287954":[7,0,4,18],
 "classAction.html#adf4a31995a8837045683a376a5f758b0":[7,0,4,7],
 "classAction.html#ae56128e86ad3c35aa154954fc3e39dc0":[7,0,4,3],
-"classAction.html#aee86ab819c6de33f9dd59bd45b3d2756":[7,0,4,17]
+"classAction.html#aee86ab819c6de33f9dd59bd45b3d2756":[7,0,4,17],
+"classAction.html#aeee2415954f8158ef9aee75fa0c7426e":[7,0,4,11],
+"classActionDialog.html":[7,0,5],
+"classActionDialog.html#a262d9d0da1335c5ebee603364464e921":[7,0,5,1],
+"classActionDialog.html#aa6760e0b0e044ac9d0c4cf73c0a1e2af":[7,0,5,2],
+"classActionDialog.html#ac5baa7b5531578d891ad24163818d421":[7,0,5,3],
+"classApp.html":[7,0,6],
+"classApp.html#a24574f40d27af7cb2c24dc1624d9ff8f":[7,0,6,28]
 };

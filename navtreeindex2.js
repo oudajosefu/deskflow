@@ -1,5 +1,16 @@
 var NAVTREEINDEX2 =
 {
+"KeyTypes_8h.html#a0d9e962fd7fb60507b0bbcc8dd26d1f6":[8,0,1,1,5,39,121],
+"KeyTypes_8h.html#a0e3fa1b01a06096718d53a7a9ac49983":[8,0,1,1,5,39,148],
+"KeyTypes_8h.html#a0f2507a01b6eaed289490f4658dc353e":[8,0,1,1,5,39,82],
+"KeyTypes_8h.html#a0f84d4ab644406b42d5fa366d31ae052":[8,0,1,1,5,39,6],
+"KeyTypes_8h.html#a0feff50f9ccdfb54c13db4c39ca115b4":[8,0,1,1,5,39,118],
+"KeyTypes_8h.html#a1058d329d71272817b7570948c30ddaf":[8,0,1,1,5,39,164],
+"KeyTypes_8h.html#a106170af5cef4e36dc9fa0a4d94a612d":[8,0,1,1,5,39,165],
+"KeyTypes_8h.html#a12aaf30ec8418c56cc5a2d90bd8fd244":[8,0,1,1,5,39,21],
+"KeyTypes_8h.html#a12f0f7beb1c120795210459daae6c2b4":[8,0,1,1,5,39,34],
+"KeyTypes_8h.html#a13a2e92050a500f1ce88c480e5ab9828":[8,0,1,1,5,39,200],
+"KeyTypes_8h.html#a15e3e6186e22fc04952a51e685ede07d":[8,0,1,1,5,39,201],
 "KeyTypes_8h.html#a197d8d06f6fee7887996ca35b68c0871":[8,0,1,1,5,39,39],
 "KeyTypes_8h.html#a1b56aed99d3ea655e971c3e76291d196":[8,0,1,1,5,39,129],
 "KeyTypes_8h.html#a1f9155be8f3558cf0c9ce660c562c48b":[8,0,1,1,5,39,130],
@@ -189,12 +200,6 @@ var NAVTREEINDEX2 =
 "LineEditValidator_8cpp.html":[8,0,1,1,6,4,10],
 "LineEditValidator_8h.html":[8,0,1,1,6,4,11],
 "LineEditValidator_8h_source.html":[8,0,1,1,6,4,11],
-"LinuxAudioCapture_8cpp.html":[8,0,1,1,1,7],
-"LinuxAudioCapture_8h.html":[8,0,1,1,1,8],
-"LinuxAudioCapture_8h_source.html":[8,0,1,1,1,8],
-"LinuxAudioPlayback_8cpp.html":[8,0,1,1,1,9],
-"LinuxAudioPlayback_8h.html":[8,0,1,1,1,10],
-"LinuxAudioPlayback_8h_source.html":[8,0,1,1,1,10],
 "Lock_8cpp.html":[8,0,1,1,8,2],
 "Lock_8h.html":[8,0,1,1,8,3],
 "Lock_8h_source.html":[8,0,1,1,8,3],
@@ -244,10 +249,5 @@ var NAVTREEINDEX2 =
 "Logger_8cpp.html":[8,0,1,1,6,16],
 "Logger_8h.html":[8,0,1,1,6,17],
 "Logger_8h_source.html":[8,0,1,1,6,17],
-"MSWindowsClipboardAnyTextConverter_8cpp.html":[8,0,1,1,10,11],
-"MSWindowsClipboardAnyTextConverter_8h.html":[8,0,1,1,10,12],
-"MSWindowsClipboardAnyTextConverter_8h_source.html":[8,0,1,1,10,12],
-"MSWindowsClipboardBitmapConverter_8cpp.html":[8,0,1,1,10,13],
-"MSWindowsClipboardBitmapConverter_8h.html":[8,0,1,1,10,14],
-"MSWindowsClipboardBitmapConverter_8h_source.html":[8,0,1,1,10,14]
+"MSWindowsClipboardAnyTextConverter_8cpp.html":[8,0,1,1,10,11]
 };

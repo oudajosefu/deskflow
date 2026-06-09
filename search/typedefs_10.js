@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['value_5ftype_0',['value_type',['../classPriorityQueue.html#a92d3158db78424bcdde42f1d4f59d07e',1,'PriorityQueue::value_type'],['../structstd_1_1iterator__traits_3_01deskflow_1_1server_1_1Config_01_4.html#aa1e651042a8c7e2fc30a748afd95f496',1,'std::iterator_traits&lt; deskflow::server::Config &gt;::value_type']]]
+  ['threadfunc_0',['ThreadFunc',['../classIArchMultithread.html#a72d3a0de72be941d9959944c8515f2b0',1,'IArchMultithread']]],
+  ['threadid_1',['ThreadID',['../classIArchMultithread.html#a7a5038908a309c784bc9a39b85adf803',1,'IArchMultithread']]],
+  ['time_2',['Time',['../classIClipboard.html#a9e15948af1b97562218eb262d3790c29',1,'IClipboard']]]
 ];

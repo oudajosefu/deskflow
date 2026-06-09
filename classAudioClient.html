@@ -122,13 +122,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afc00f30c178f4bb94d0594f4f61ac048" id="r_afc00f30c178f4bb94d0594f4f61ac048"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#afc00f30c178f4bb94d0594f4f61ac048">AudioClient</a> (const QString &amp;serverHost, quint16 port, const QString &amp;clientName, QObject *parent=nullptr)</td></tr>
 <tr class="memitem:a299f7af68e81991ae7c2c5ee74b47e05" id="r_a299f7af68e81991ae7c2c5ee74b47e05"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a299f7af68e81991ae7c2c5ee74b47e05">~AudioClient</a> () override</td></tr>
 <tr class="memitem:a49ed8a9c1546841450f5e25c3a1b67c2" id="r_a49ed8a9c1546841450f5e25c3a1b67c2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a49ed8a9c1546841450f5e25c3a1b67c2">start</a> ()</td></tr>
-<tr class="memdesc:a49ed8a9c1546841450f5e25c3a1b67c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect and start streaming. Non-blocking — actual work happens on the worker thread.  <br /></td></tr>
+<tr class="memdesc:a49ed8a9c1546841450f5e25c3a1b67c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect and start streaming. Non-blocking — work happens on the worker thread.  <br /></td></tr>
 <tr class="memitem:ab5fee0d303ae13e4d9e823dc66dcc91d" id="r_ab5fee0d303ae13e4d9e823dc66dcc91d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab5fee0d303ae13e4d9e823dc66dcc91d">stop</a> ()</td></tr>
 <tr class="memdesc:ab5fee0d303ae13e4d9e823dc66dcc91d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop streaming and disconnect.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Connects to the server's audio port, performs the DSKFAUDIO handshake, and streams Opus-encoded loopback audio from the local machine.</p>
-<p>The capture + encode + send loop runs on a dedicated QThread so it does not block the Qt event loop. </p>
+<div class="textblock"><p>Client-side audio control plane.</p>
+<p>Connects to the server's audio control port, performs the DSKFAUDIO handshake and learns which UDP port to stream RTP/Opus audio to. It then starts a <a class="el" href="classGstAudioSender.html">GstAudioSender</a>, which captures system-output audio and streams it to the server entirely inside GStreamer.</p>
+<p>The control socket runs on a dedicated QThread (blocking handshake, then a liveness wait) so it never assumes a Qt event loop on the core thread. The media itself flows over UDP, serviced by GStreamer's own threads. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="afc00f30c178f4bb94d0594f4f61ac048" name="afc00f30c178f4bb94d0594f4f61ac048"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afc00f30c178f4bb94d0594f4f61ac048">&#9670;&#160;</a></span>AudioClient()</h2>
@@ -210,7 +211,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Connect and start streaming. Non-blocking — actual work happens on the worker thread. </p>
+<p>Connect and start streaming. Non-blocking — work happens on the worker thread. </p>
 
 </div>
 </div>

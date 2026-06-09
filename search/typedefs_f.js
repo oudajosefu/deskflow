@@ -1,6 +1,11 @@
 var searchData=
 [
-  ['threadfunc_0',['ThreadFunc',['../classIArchMultithread.html#a72d3a0de72be941d9959944c8515f2b0',1,'IArchMultithread']]],
-  ['threadid_1',['ThreadID',['../classIArchMultithread.html#a7a5038908a309c784bc9a39b85adf803',1,'IArchMultithread']]],
-  ['time_2',['Time',['../classIClipboard.html#a9e15948af1b97562218eb262d3790c29',1,'IClipboard']]]
+  ['screenoptions_0',['ScreenOptions',['../classdeskflow_1_1server_1_1Config.html#af1d0a9ed19208eaf3509cc59323ce0de',1,'deskflow::server::Config']]],
+  ['scrolldelta_1',['ScrollDelta',['../Coordinate_8h.html#a926a72b0999cf3a9001b66c38aa4453f',1,'Coordinate.h']]],
+  ['scstream_2',['SCStream',['../MacAudioCapture_8h.html#afaf832e82143f75a1d44a1131e4e8061',1,'MacAudioCapture.h']]],
+  ['sendsas_3',['SendSas',['../MSWindowsWatchdog_8h.html#a7bc356bdf6c2476015756a426984f00f',1,'MSWindowsWatchdog.h']]],
+  ['signalfunc_4',['SignalFunc',['../classIArchMultithread.html#a7b79358d1b562152032ea816db20b68c',1,'IArchMultithread']]],
+  ['size_5ftype_5',['size_type',['../classPriorityQueue.html#a4cfe23172d15aa3f99081387dde511a9',1,'PriorityQueue']]],
+  ['startupfunc_6',['StartupFunc',['../IApp_8h.html#a8970a5647365514a40cb9dcb51aa2d7a',1,'IApp.h']]],
+  ['statuscallback_7',['StatusCallback',['../classGstAudioPipeline.html#a2f893ee40fd73079e7d5a1fbd767b31b',1,'GstAudioPipeline']]]
 ];

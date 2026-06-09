@@ -12,5 +12,6 @@ var searchData=
   ['versionmismatch_9',['versionMismatch',['../classdeskflow_1_1gui_1_1ipc_1_1IpcClient.html#a5815a7df0dfd0ec1b33d5c6d60a002a9',1,'deskflow::gui::ipc::IpcClient']]],
   ['versiontext_10',['versionText',['../classCoreArgParser.html#abe71a56b153f1c0fb3e1ebd646cc963e',1,'CoreArgParser']]],
   ['vformat_11',['vformat',['../namespacedeskflow_1_1string.html#a38d8f9480b99abd72865fddeafc2c5cf',1,'deskflow::string']]],
-  ['virtualkeytobutton_12',['virtualKeyToButton',['../classMSWindowsKeyState.html#a7c26d769be861c5c331392887ebcca14',1,'MSWindowsKeyState']]]
+  ['virtualkeytobutton_12',['virtualKeyToButton',['../classMSWindowsKeyState.html#a7c26d769be861c5c331392887ebcca14',1,'MSWindowsKeyState']]],
+  ['volumekey_13',['volumeKey',['../structSettings_1_1Audio.html#a97d71c97b28677f41c925fd919e936ba',1,'Settings::Audio']]]
 ];

@@ -1,5 +1,0 @@
-<map id="LinuxAudioPlayback" name="LinuxAudioPlayback">
-<area shape="rect" id="Node000001" title="PulseAudio playback to the default output sink." alt="" coords="5,78,145,103"/>
-<area shape="rect" id="Node000002" href="$classIAudioPlayback.html" title="Platform&#45;agnostic interface for playing PCM audio through the default output device." alt="" coords="19,5,131,30"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,44,78,79,72,77,73,48"/>
-</map>

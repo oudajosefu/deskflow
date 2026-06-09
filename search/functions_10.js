@@ -47,5 +47,6 @@ var searchData=
   ['protocolstring_44',['protocolString',['../classServer.html#a8195b7d8e6d9030d92b66a77e99774bf',1,'Server']]],
   ['proxy_45',['proxy',['../classSettings.html#a6debf0cebe43970f836cd1969ded08e9',1,'Settings']]],
   ['push_46',['push',['../classPriorityQueue.html#a573bf5d25bdaa79dd5612cd272f96e39',1,'PriorityQueue']]],
-  ['pushreplies_47',['pushReplies',['../classXWindowsClipboard.html#aa8b2d798b957c0852744977f49ea311b',1,'XWindowsClipboard::pushReplies()'],['../classXWindowsClipboard.html#a4d85e3fd8cb8276ac4a33febfd547dea',1,'XWindowsClipboard::pushReplies(ReplyMap::iterator &amp;, ReplyList &amp;, ReplyList::iterator)']]]
+  ['pushreplies_47',['pushReplies',['../classXWindowsClipboard.html#aa8b2d798b957c0852744977f49ea311b',1,'XWindowsClipboard::pushReplies()'],['../classXWindowsClipboard.html#a4d85e3fd8cb8276ac4a33febfd547dea',1,'XWindowsClipboard::pushReplies(ReplyMap::iterator &amp;, ReplyList &amp;, ReplyList::iterator)']]],
+  ['pushsamples_48',['pushSamples',['../classMacAudioCapture.html#a3b748eaf940eb835181956c506453be0',1,'MacAudioCapture']]]
 ];

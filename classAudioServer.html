@@ -117,19 +117,29 @@ Collaboration diagram for AudioServer:</div>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-signals" class="groupheader"><a id="signals" name="signals"></a>
+Signals</h2></td></tr>
+<tr class="memitem:a201aadf7109716502765d77b3200d3cc" id="r_a201aadf7109716502765d77b3200d3cc"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a201aadf7109716502765d77b3200d3cc">clientAudioStarted</a> (const QString &amp;clientName)</td></tr>
+<tr class="memitem:ae6f5c61c2af186f059c3c4a2e1e31359" id="r_ae6f5c61c2af186f059c3c4a2e1e31359"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae6f5c61c2af186f059c3c4a2e1e31359">clientAudioStopped</a> (const QString &amp;clientName)</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2585e0fa091f20054cae6673ef6a0f36" id="r_a2585e0fa091f20054cae6673ef6a0f36"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a2585e0fa091f20054cae6673ef6a0f36">AudioServer</a> (quint16 <a class="el" href="#a5a822d5c9fed4e4285ba444ae31be1f3">port</a>, QObject *parent=nullptr)</td></tr>
 <tr class="memitem:a1b5539be8f59bc95f02d06825066cc6f" id="r_a1b5539be8f59bc95f02d06825066cc6f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1b5539be8f59bc95f02d06825066cc6f">~AudioServer</a> () override</td></tr>
 <tr class="memitem:aeb7965948e5bb8140527043100561349" id="r_aeb7965948e5bb8140527043100561349"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aeb7965948e5bb8140527043100561349">listen</a> ()</td></tr>
-<tr class="memdesc:aeb7965948e5bb8140527043100561349"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start listening. Returns false if the port cannot be bound.  <br /></td></tr>
+<tr class="memdesc:aeb7965948e5bb8140527043100561349"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start listening. Returns false if the control port cannot be bound.  <br /></td></tr>
 <tr class="memitem:afcf3045df9d48c57db5bcc7c497d1006" id="r_afcf3045df9d48c57db5bcc7c497d1006"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afcf3045df9d48c57db5bcc7c497d1006">close</a> ()</td></tr>
 <tr class="memdesc:afcf3045df9d48c57db5bcc7c497d1006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop listening and disconnect all audio clients.  <br /></td></tr>
 <tr class="memitem:a5a822d5c9fed4e4285ba444ae31be1f3" id="r_a5a822d5c9fed4e4285ba444ae31be1f3"><td class="memItemLeft">quint16&#160;</td><td class="memItemRight"><a class="el" href="#a5a822d5c9fed4e4285ba444ae31be1f3">port</a> () const</td></tr>
+<tr class="memitem:a5fa6c79d8b470d01dbddbb562af89b11" id="r_a5fa6c79d8b470d01dbddbb562af89b11"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5fa6c79d8b470d01dbddbb562af89b11">setClientVolume</a> (const QString &amp;clientName, double volume)</td></tr>
+<tr class="memdesc:a5fa6c79d8b470d01dbddbb562af89b11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-client playback controls (applied live to that client's receiver).  <br /></td></tr>
+<tr class="memitem:a7cab1e625e9667681e162ba7ddd6b99d" id="r_a7cab1e625e9667681e162ba7ddd6b99d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7cab1e625e9667681e162ba7ddd6b99d">setClientMute</a> (const QString &amp;clientName, bool mute)</td></tr>
+<tr class="memitem:a3e0a4c1e08db19f585e69dbc3db51e7f" id="r_a3e0a4c1e08db19f585e69dbc3db51e7f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3e0a4c1e08db19f585e69dbc3db51e7f">setClientOutputDevice</a> (const QString &amp;clientName, const QString &amp;deviceId)</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Listens on the audio TCP port. When a client connects and completes the DSKFAUDIO handshake, it starts receiving Opus-encoded audio packets and playing them through the local audio output.</p>
-<p>One <a class="el" href="classAudioServer.html">AudioServer</a> instance services all connected audio clients (mixing is first-writer-wins; only the first connected client is played at a time). </p>
+<div class="textblock"><p>Server-side audio control plane.</p>
+<p>Listens on the audio control port (TCP). When a client connects and completes the DSKFAUDIO handshake, the server allocates a free UDP port, starts a <a class="el" href="classGstAudioReceiver.html">GstAudioReceiver</a> on it (which plays the client's RTP/Opus stream), and tells the client which port to stream to.</p>
+<p>One <a class="el" href="classAudioServer.html">AudioServer</a> services all connected audio clients; each gets its own receiver pipeline (with independent volume/mute/output device), so multiple clients simply mix at the chosen output device. Receivers are addressed by client (screen) name so the server GUI can control each independently. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2585e0fa091f20054cae6673ef6a0f36" name="a2585e0fa091f20054cae6673ef6a0f36"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2585e0fa091f20054cae6673ef6a0f36">&#9670;&#160;</a></span>AudioServer()</h2>
@@ -186,6 +196,57 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a201aadf7109716502765d77b3200d3cc" name="a201aadf7109716502765d77b3200d3cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a201aadf7109716502765d77b3200d3cc">&#9670;&#160;</a></span>clientAudioStarted</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AudioServer::clientAudioStarted </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>clientName</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Emitted (on the <a class="el" href="classAudioServer.html">AudioServer</a> thread) when a client's playback pipeline starts or stops, so the app/GUI can apply persisted settings and update status. </p>
+
+</div>
+</div>
+<a id="ae6f5c61c2af186f059c3c4a2e1e31359" name="ae6f5c61c2af186f059c3c4a2e1e31359"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6f5c61c2af186f059c3c4a2e1e31359">&#9670;&#160;</a></span>clientAudioStopped</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AudioServer::clientAudioStopped </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>clientName</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="afcf3045df9d48c57db5bcc7c497d1006" name="afcf3045df9d48c57db5bcc7c497d1006"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afcf3045df9d48c57db5bcc7c497d1006">&#9670;&#160;</a></span>close()</h2>
 
@@ -220,7 +281,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Start listening. Returns false if the port cannot be bound. </p>
+<p>Start listening. Returns false if the control port cannot be bound. </p>
 
 </div>
 </div>
@@ -246,6 +307,71 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7cab1e625e9667681e162ba7ddd6b99d" name="a7cab1e625e9667681e162ba7ddd6b99d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cab1e625e9667681e162ba7ddd6b99d">&#9670;&#160;</a></span>setClientMute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AudioServer::setClientMute </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>clientName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>mute</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3e0a4c1e08db19f585e69dbc3db51e7f" name="a3e0a4c1e08db19f585e69dbc3db51e7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e0a4c1e08db19f585e69dbc3db51e7f">&#9670;&#160;</a></span>setClientOutputDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AudioServer::setClientOutputDevice </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>clientName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>deviceId</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5fa6c79d8b470d01dbddbb562af89b11" name="a5fa6c79d8b470d01dbddbb562af89b11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fa6c79d8b470d01dbddbb562af89b11">&#9670;&#160;</a></span>setClientVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AudioServer::setClientVolume </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>clientName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>volume</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Per-client playback controls (applied live to that client's receiver). </p>
 
 </div>
 </div>

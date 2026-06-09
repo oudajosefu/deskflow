@@ -95,14 +95,17 @@ $(function(){initNavTree('AudioTypes_8h.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for AudioTypes.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="AudioTypes_8h__incl.png" border="0" usemap="#asrc_2lib_2audio_2AudioTypes_8h" loading="lazy" alt=""/></div>
 <map name="asrc_2lib_2audio_2AudioTypes_8h" id="asrc_2lib_2audio_2AudioTypes_8h">
 <area shape="rect" title=" " alt="" coords="5,5,179,30"/>
-<area shape="rect" title=" " alt="" coords="62,78,122,103"/>
-<area shape="poly" title=" " alt="" coords="94,29,95,63,89,62,90,33"/>
+<area shape="rect" title=" " alt="" coords="22,78,82,103"/>
+<area shape="poly" title=" " alt="" coords="88,29,68,66,64,63,83,32"/>
+<area shape="rect" title=" " alt="" coords="107,78,160,103"/>
+<area shape="poly" title=" " alt="" coords="100,28,122,65,116,65,98,33"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -110,57 +113,80 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="AudioTypes_8h__dep__incl.png" border="0" usemap="#asrc_2lib_2audio_2AudioTypes_8hdep" loading="lazy" alt=""/></div>
 <map name="asrc_2lib_2audio_2AudioTypes_8hdep" id="asrc_2lib_2audio_2AudioTypes_8hdep">
-<area shape="rect" title=" " alt="" coords="729,5,902,30"/>
-<area shape="rect" href="AudioClient_8cpp.html" title=" " alt="" coords="5,165,192,189"/>
-<area shape="poly" title=" " alt="" coords="711,22,551,30,368,40,209,57,155,68,125,80,111,99,103,122,100,165,95,163,98,121,106,96,122,76,154,63,209,52,367,35,551,24,716,21"/>
-<area shape="rect" href="AudioServer_8cpp.html" title=" " alt="" coords="778,165,969,189"/>
-<area shape="poly" title=" " alt="" coords="918,18,999,23,1082,33,1152,50,1179,62,1198,76,1208,91,1213,104,1212,116,1207,127,1186,145,1152,158,1111,167,1064,173,969,179,969,173,1063,168,1110,162,1151,152,1183,140,1203,124,1207,115,1207,105,1203,93,1194,80,1177,66,1151,55,1081,38,998,28,918,23"/>
-<area shape="rect" href="LinuxAudioCapture_8cpp.html" title=" " alt="" coords="336,78,496,117"/>
-<area shape="poly" title=" " alt="" coords="738,34,508,81,497,83,496,78,507,75,743,33"/>
-<area shape="rect" href="LinuxAudioPlayback_8cpp.html" title=" " alt="" coords="520,78,680,117"/>
-<area shape="poly" title=" " alt="" coords="772,35,653,80,651,75,767,36"/>
-<area shape="rect" href="MacAudioCapture_8mm.html" title=" " alt="" coords="704,85,928,110"/>
-<area shape="poly" title=" " alt="" coords="818,44,818,86,814,83,814,48"/>
-<area shape="rect" href="MacAudioPlayback_8cpp.html" title=" " alt="" coords="952,85,1184,110"/>
-<area shape="poly" title=" " alt="" coords="868,32,1033,84,1027,84,867,38"/>
-<area shape="rect" href="OpusHelper_8h.html" title=" " alt="" coords="136,85,312,110"/>
-<area shape="poly" title=" " alt="" coords="711,30,532,53,324,81,286,87,284,82,323,75,531,48,716,29"/>
-<area shape="rect" href="WinAudioCapture_8cpp.html" title=" " alt="" coords="1258,85,1480,110"/>
-<area shape="poly" title=" " alt="" coords="915,30,1288,84,1283,85,914,35"/>
-<area shape="rect" href="WinAudioPlayback_8cpp.html" title=" " alt="" coords="1503,85,1734,110"/>
-<area shape="poly" title=" " alt="" coords="918,24,1179,44,1492,75,1544,84,1539,84,1492,81,1178,50,918,29"/>
-<area shape="poly" title=" " alt="" coords="195,118,119,166,116,162,190,118"/>
-<area shape="poly" title=" " alt="" coords="299,110,324,114,569,144,780,167,774,168,568,150,323,119,299,116"/>
-<area shape="rect" href="OpusHelper_8cpp.html" title=" " alt="" coords="216,165,405,189"/>
-<area shape="poly" title=" " alt="" coords="249,118,300,165,295,164,247,122"/>
+<area shape="rect" title=" " alt="" coords="457,5,630,30"/>
+<area shape="rect" href="AudioClient_8cpp.html" title=" " alt="" coords="5,78,192,103"/>
+<area shape="poly" title=" " alt="" coords="455,36,173,80,172,75,454,30"/>
+<area shape="rect" href="AudioServer_8cpp.html" title=" " alt="" coords="216,78,408,103"/>
+<area shape="poly" title=" " alt="" coords="494,35,351,80,350,75,488,35"/>
+<area shape="rect" href="GstAudioReceiver_8cpp.html" title=" " alt="" coords="432,78,656,103"/>
+<area shape="poly" title=" " alt="" coords="546,44,546,79,542,76,542,48"/>
+<area shape="rect" href="GstAudioSender_8cpp.html" title=" " alt="" coords="680,78,896,103"/>
+<area shape="poly" title=" " alt="" coords="599,32,750,77,745,77,598,37"/>
+<area shape="rect" href="MacAudioCapture_8mm.html" title=" " alt="" coords="920,78,1144,103"/>
+<area shape="poly" title=" " alt="" coords="640,30,953,77,948,78,639,35"/>
 </map>
 </div>
 </div>
 <p><a href="AudioTypes_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a9b9c9294f6506afe1d8788262374abae" id="r_a9b9c9294f6506afe1d8788262374abae"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a9b9c9294f6506afe1d8788262374abae">audioRtpCaps</a> ()</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a9fe76147274efa35acabbecb92073341" id="r_a9fe76147274efa35acabbecb92073341"><td class="memItemLeft">static constexpr uint16_t&#160;</td><td class="memItemRight"><a class="el" href="#a9fe76147274efa35acabbecb92073341">kDefaultAudioPort</a> = 24801</td></tr>
-<tr class="memdesc:a9fe76147274efa35acabbecb92073341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default TCP port the <a class="el" href="classAudioServer.html">AudioServer</a> listens on (separate from the control port).  <br /></td></tr>
+<tr class="memdesc:a9fe76147274efa35acabbecb92073341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default TCP port the <a class="el" href="classAudioServer.html">AudioServer</a> control plane listens on (separate from the control port).  <br /></td></tr>
+<tr class="memitem:a1342e01d069e5c3e2947e6b831c87087" id="r_a1342e01d069e5c3e2947e6b831c87087"><td class="memItemLeft">static constexpr uint16_t&#160;</td><td class="memItemRight"><a class="el" href="#a1342e01d069e5c3e2947e6b831c87087">kAudioRtpPortBase</a> = 24810</td></tr>
+<tr class="memdesc:a1342e01d069e5c3e2947e6b831c87087"><td class="mdescLeft">&#160;</td><td class="mdescRight">First UDP port the server hands out for RTP media streams; one per client, incrementing.  <br /></td></tr>
 <tr class="memitem:abadbd7dfc8681e3f320fb3cf59f2a742" id="r_abadbd7dfc8681e3f320fb3cf59f2a742"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#abadbd7dfc8681e3f320fb3cf59f2a742">kAudioSampleRate</a> = 48000</td></tr>
 <tr class="memdesc:abadbd7dfc8681e3f320fb3cf59f2a742"><td class="mdescLeft">&#160;</td><td class="mdescRight">PCM sample rate used throughout the audio pipeline.  <br /></td></tr>
 <tr class="memitem:ac338d09f72169e562b4be7b41a147d9b" id="r_ac338d09f72169e562b4be7b41a147d9b"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac338d09f72169e562b4be7b41a147d9b">kAudioChannels</a> = 2</td></tr>
 <tr class="memdesc:ac338d09f72169e562b4be7b41a147d9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of PCM channels (stereo).  <br /></td></tr>
-<tr class="memitem:abaecebf62e5775e082889b5c6118132a" id="r_abaecebf62e5775e082889b5c6118132a"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#abaecebf62e5775e082889b5c6118132a">kAudioFrameSize</a> = 960</td></tr>
-<tr class="memdesc:abaecebf62e5775e082889b5c6118132a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opus frame size in samples (20 ms at 48 kHz).  <br /></td></tr>
 <tr class="memitem:a771f91cba984be0c65a3940017777829" id="r_a771f91cba984be0c65a3940017777829"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a771f91cba984be0c65a3940017777829">kAudioBitrate</a> = 96000</td></tr>
 <tr class="memdesc:a771f91cba984be0c65a3940017777829"><td class="mdescLeft">&#160;</td><td class="mdescRight">Target Opus encode bitrate in bits per second.  <br /></td></tr>
-<tr class="memitem:aa9864f1249b7dee7c257d95790bcd69e" id="r_aa9864f1249b7dee7c257d95790bcd69e"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa9864f1249b7dee7c257d95790bcd69e">kAudioMaxPacketBytes</a> = 4000</td></tr>
-<tr class="memdesc:aa9864f1249b7dee7c257d95790bcd69e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum encoded Opus packet size in bytes (safe upper bound for one frame).  <br /></td></tr>
+<tr class="memitem:acd51a8b4e66429b58c1abd9c9d05c62a" id="r_acd51a8b4e66429b58c1abd9c9d05c62a"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#acd51a8b4e66429b58c1abd9c9d05c62a">kAudioOpusFrameMs</a> = 20</td></tr>
+<tr class="memdesc:acd51a8b4e66429b58c1abd9c9d05c62a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opus frame size in milliseconds (lower = less latency, more overhead).  <br /></td></tr>
+<tr class="memitem:ae3f26dc7bc49d30b3a7489a73c302e35" id="r_ae3f26dc7bc49d30b3a7489a73c302e35"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae3f26dc7bc49d30b3a7489a73c302e35">kAudioRtpPayloadType</a> = 96</td></tr>
+<tr class="memdesc:ae3f26dc7bc49d30b3a7489a73c302e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">RTP dynamic payload type used for the Opus stream (must match on both ends).  <br /></td></tr>
+<tr class="memitem:a60b874b01b31309dce4c5ea2dea70991" id="r_a60b874b01b31309dce4c5ea2dea70991"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a60b874b01b31309dce4c5ea2dea70991">kAudioJitterBufferMs</a> = 50</td></tr>
+<tr class="memdesc:a60b874b01b31309dce4c5ea2dea70991"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default jitter-buffer playout delay in milliseconds on the receive side.  <br /></td></tr>
 <tr class="memitem:abb6cae275cd30a4dfc2d368115fc43e4" id="r_abb6cae275cd30a4dfc2d368115fc43e4"><td class="memItemLeft">static constexpr char&#160;</td><td class="memItemRight"><a class="el" href="#abb6cae275cd30a4dfc2d368115fc43e4">kAudioHandshakeMagic</a> [] = &quot;DSKFAUDIO&quot;</td></tr>
-<tr class="memdesc:abb6cae275cd30a4dfc2d368115fc43e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magic bytes sent by the audio client at the start of the audio TCP connection.  <br /></td></tr>
+<tr class="memdesc:abb6cae275cd30a4dfc2d368115fc43e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magic bytes sent by the audio client at the start of the control connection.  <br /></td></tr>
 <tr class="memitem:a5e1c5e4858772138e6401a5eb6f60a18" id="r_a5e1c5e4858772138e6401a5eb6f60a18"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5e1c5e4858772138e6401a5eb6f60a18">kAudioHandshakeMagicLen</a> = 9</td></tr>
 <tr class="memitem:a66d9bc6bef02b2053c300dffbd8dea48" id="r_a66d9bc6bef02b2053c300dffbd8dea48"><td class="memItemLeft">static constexpr char&#160;</td><td class="memItemRight"><a class="el" href="#a66d9bc6bef02b2053c300dffbd8dea48">kAudioHandshakeOk</a> [] = &quot;OK&quot;</td></tr>
-<tr class="memdesc:a66d9bc6bef02b2053c300dffbd8dea48"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classServer.html" title="Deskflow server.">Server</a> reply on successful handshake.  <br /></td></tr>
 <tr class="memitem:a14df9f201c9076c3aa6e7df51f9e495b" id="r_a14df9f201c9076c3aa6e7df51f9e495b"><td class="memItemLeft">static constexpr char&#160;</td><td class="memItemRight"><a class="el" href="#a14df9f201c9076c3aa6e7df51f9e495b">kAudioHandshakeErr</a> [] = &quot;ER&quot;</td></tr>
-<tr class="memdesc:a14df9f201c9076c3aa6e7df51f9e495b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classServer.html" title="Deskflow server.">Server</a> reply when the handshake is rejected.  <br /></td></tr>
-<tr class="memitem:aa3ba069a589771b2db1100db808dd3f8" id="r_aa3ba069a589771b2db1100db808dd3f8"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa3ba069a589771b2db1100db808dd3f8">kAudioHandshakeReplyLen</a> = 2</td></tr>
+<tr class="memdesc:a14df9f201c9076c3aa6e7df51f9e495b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Failure reply: server could not start a receiver for this client.  <br /></td></tr>
+<tr class="memitem:ae9ca4f1629fd8c832ee3d647919524dd" id="r_ae9ca4f1629fd8c832ee3d647919524dd"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae9ca4f1629fd8c832ee3d647919524dd">kAudioHandshakeReplyTagLen</a> = 2</td></tr>
+<tr class="memitem:a1d9398feba570394bdb4a7a42d9e863d" id="r_a1d9398feba570394bdb4a7a42d9e863d"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1d9398feba570394bdb4a7a42d9e863d">kAudioHandshakeOkReplyLen</a> = <a class="el" href="#ae9ca4f1629fd8c832ee3d647919524dd">kAudioHandshakeReplyTagLen</a> + 2</td></tr>
 </table>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a9b9c9294f6506afe1d8788262374abae" name="a9b9c9294f6506afe1d8788262374abae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b9c9294f6506afe1d8788262374abae">&#9670;&#160;</a></span>audioRtpCaps()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string audioRtpCaps </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Build the RTP caps string that the receiving udpsrc must advertise so the jitter buffer / depayloader / decoder know how to interpret the stream. Must describe the exact same format the sender's rtpopuspay produces. </p>
+
+</div>
+</div>
 <a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
 <a id="a771f91cba984be0c65a3940017777829" name="a771f91cba984be0c65a3940017777829"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a771f91cba984be0c65a3940017777829">&#9670;&#160;</a></span>kAudioBitrate</h2>
@@ -210,30 +236,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="abaecebf62e5775e082889b5c6118132a" name="abaecebf62e5775e082889b5c6118132a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abaecebf62e5775e082889b5c6118132a">&#9670;&#160;</a></span>kAudioFrameSize</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioFrameSize = 960</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Opus frame size in samples (20 ms at 48 kHz). </p>
-
-</div>
-</div>
 <a id="a14df9f201c9076c3aa6e7df51f9e495b" name="a14df9f201c9076c3aa6e7df51f9e495b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a14df9f201c9076c3aa6e7df51f9e495b">&#9670;&#160;</a></span>kAudioHandshakeErr</h2>
 
@@ -254,7 +256,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classServer.html" title="Deskflow server.">Server</a> reply when the handshake is rejected. </p>
+<p>Failure reply: server could not start a receiver for this client. </p>
 
 </div>
 </div>
@@ -278,7 +280,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Magic bytes sent by the audio client at the start of the audio TCP connection. </p>
+<p>Magic bytes sent by the audio client at the start of the control connection. </p>
 
 </div>
 </div>
@@ -323,13 +325,12 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p><a class="el" href="classServer.html" title="Deskflow server.">Server</a> reply on successful handshake. </p>
+<p><a class="el" href="classServer.html" title="Deskflow server.">Server</a> reply tags on the control connection. Success reply layout: "OK" + uint16 big-endian RTP UDP port the client should stream to. </p>
 
 </div>
 </div>
-<a id="aa3ba069a589771b2db1100db808dd3f8" name="aa3ba069a589771b2db1100db808dd3f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3ba069a589771b2db1100db808dd3f8">&#9670;&#160;</a></span>kAudioHandshakeReplyLen</h2>
+<a id="a1d9398feba570394bdb4a7a42d9e863d" name="a1d9398feba570394bdb4a7a42d9e863d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d9398feba570394bdb4a7a42d9e863d">&#9670;&#160;</a></span>kAudioHandshakeOkReplyLen</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -338,7 +339,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioHandshakeReplyLen = 2</td>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioHandshakeOkReplyLen = <a class="el" href="#ae9ca4f1629fd8c832ee3d647919524dd">kAudioHandshakeReplyTagLen</a> + 2</td>
         </tr>
       </table>
   </td>
@@ -350,8 +351,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="aa9864f1249b7dee7c257d95790bcd69e" name="aa9864f1249b7dee7c257d95790bcd69e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9864f1249b7dee7c257d95790bcd69e">&#9670;&#160;</a></span>kAudioMaxPacketBytes</h2>
+<a id="ae9ca4f1629fd8c832ee3d647919524dd" name="ae9ca4f1629fd8c832ee3d647919524dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9ca4f1629fd8c832ee3d647919524dd">&#9670;&#160;</a></span>kAudioHandshakeReplyTagLen</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -360,7 +361,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioMaxPacketBytes = 4000</td>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioHandshakeReplyTagLen = 2</td>
         </tr>
       </table>
   </td>
@@ -370,7 +371,101 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Maximum encoded Opus packet size in bytes (safe upper bound for one frame). </p>
+</div>
+</div>
+<a id="a60b874b01b31309dce4c5ea2dea70991" name="a60b874b01b31309dce4c5ea2dea70991"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60b874b01b31309dce4c5ea2dea70991">&#9670;&#160;</a></span>kAudioJitterBufferMs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioJitterBufferMs = 50</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default jitter-buffer playout delay in milliseconds on the receive side. </p>
+
+</div>
+</div>
+<a id="acd51a8b4e66429b58c1abd9c9d05c62a" name="acd51a8b4e66429b58c1abd9c9d05c62a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd51a8b4e66429b58c1abd9c9d05c62a">&#9670;&#160;</a></span>kAudioOpusFrameMs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioOpusFrameMs = 20</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Opus frame size in milliseconds (lower = less latency, more overhead). </p>
+
+</div>
+</div>
+<a id="ae3f26dc7bc49d30b3a7489a73c302e35" name="ae3f26dc7bc49d30b3a7489a73c302e35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3f26dc7bc49d30b3a7489a73c302e35">&#9670;&#160;</a></span>kAudioRtpPayloadType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioRtpPayloadType = 96</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>RTP dynamic payload type used for the Opus stream (must match on both ends). </p>
+
+</div>
+</div>
+<a id="a1342e01d069e5c3e2947e6b831c87087" name="a1342e01d069e5c3e2947e6b831c87087"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1342e01d069e5c3e2947e6b831c87087">&#9670;&#160;</a></span>kAudioRtpPortBase</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t kAudioRtpPortBase = 24810</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>First UDP port the server hands out for RTP media streams; one per client, incrementing. </p>
 
 </div>
 </div>
@@ -418,7 +513,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Default TCP port the <a class="el" href="classAudioServer.html">AudioServer</a> listens on (separate from the control port). </p>
+<p>Default TCP port the <a class="el" href="classAudioServer.html">AudioServer</a> control plane listens on (separate from the control port). </p>
 
 </div>
 </div>

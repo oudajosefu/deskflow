@@ -1,0 +1,24 @@
+<map id="src/lib/audio/GstAudioPipeline.cpp" name="src/lib/audio/GstAudioPipeline.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="250,5,470,30"/>
+<area shape="rect" id="Node000002" href="$GstAudioPipeline_8h.html" title=" " alt="" coords="50,78,217,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="321,32,187,75,184,70,324,29"/>
+<area shape="rect" id="Node000005" href="$Log_8h.html" title=" " alt="" coords="317,78,403,103"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="361,28,362,64,358,61,359,33"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="427,78,498,103"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="377,28,436,69,431,69,377,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,151,83,175"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="117,105,72,143,68,139,120,101"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="107,151,160,175"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="135,101,136,136,131,134,132,106"/>
+<area shape="rect" id="Node000006" href="$LogLevel_8h.html" title=" " alt="" coords="185,151,322,175"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="345,102,285,144,282,139,340,104"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="319,223,385,248"/>
+<area shape="poly" id="edge10_Node000005_Node000008" title=" " alt="" coords="361,101,356,209,351,206,357,105"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="397,151,435,175"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="370,101,400,139,395,138,368,106"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="459,151,517,175"/>
+<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="382,101,456,143,451,143,381,106"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="219,223,288,248"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="255,174,256,209,251,206,251,178"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="270,173,326,214,321,214,269,178"/>
+</map>

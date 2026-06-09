@@ -52,5 +52,7 @@ var searchData=
   ['archthreadimpl_49',['ArchThreadImpl',['../classArchThreadImpl.html',1,'']]],
   ['audio_50',['Audio',['../structSettings_1_1Audio.html',1,'Settings']]],
   ['audioclient_51',['AudioClient',['../classAudioClient.html',1,'']]],
-  ['audioserver_52',['AudioServer',['../classAudioServer.html',1,'']]]
+  ['audiodeviceinfo_52',['AudioDeviceInfo',['../structAudioDeviceInfo.html',1,'']]],
+  ['audiodevices_53',['AudioDevices',['../classAudioDevices.html',1,'']]],
+  ['audioserver_54',['AudioServer',['../classAudioServer.html',1,'']]]
 ];

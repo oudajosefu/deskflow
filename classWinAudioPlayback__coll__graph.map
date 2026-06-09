@@ -1,5 +1,0 @@
-<map id="WinAudioPlayback" name="WinAudioPlayback">
-<area shape="rect" id="Node000001" title="WASAPI playback to the default render endpoint." alt="" coords="5,78,137,103"/>
-<area shape="rect" id="Node000002" href="$classIAudioPlayback.html" title="Platform&#45;agnostic interface for playing PCM audio through the default output device." alt="" coords="15,5,127,30"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,44,74,78,68,77,69,48"/>
-</map>

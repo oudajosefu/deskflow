@@ -94,7 +94,7 @@ $(function(){initNavTree('md_docs_2dev_2build.html','',''); });
   <div class="headertitle"><div class="title">Building Deskflow </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md44"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md9"></a></p>
 <p>To build Deskflow you will a minimum of:</p><ul>
 <li><a href="https://cmake.org/">cmake</a> 3.24+</li>
 <li><a href="https://www.qt.io">Qt</a> 6.7.0+</li>
@@ -112,7 +112,7 @@ $(function(){initNavTree('md_docs_2dev_2build.html','',''); });
 <li>Documentation if <a href="http://www.stack.nl/~dimitri/doxygen/">doxygen</a> was found on your system</li>
 <li>Tests that will be run as part of the build process</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md45"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Configuration</h1>
 <p>Deskflow supports the following CMake options:</p>
 <table class="markdownTable">
@@ -142,13 +142,13 @@ Configuration</h1>
 <td class="markdownTableBodyCenter">APPLE_CODESIGN_DEV  </td><td class="markdownTableBodyCenter">Apple codesign cert ID for development  </td><td class="markdownTableBodyCenter">Not set  </td><td class="markdownTableBodyCenter"></td></tr>
 </table>
 <p>Example cmake configuration: <span class="tt">cmake -S. -Bbuild -DCMAKE_INSTALL_PREFIX=&lt;INSTALLPREFIX&gt;</span></p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md46"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 Windows Configuration</h2>
 <p>It is recommended to use vcpkg to install the dependencies. The first time you configure Deskflow, all dependencies other than Qt will be built. If you don't want to use vcpkg, you must manually setup the dependencies. However, that will not be covered by this document.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md47"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
 Windows and Qt</h3>
 <p>There are two ways you can install <a href="https://www.qt.io">Qt</a> on Windows (vcpkg or Qt online installer). The default configuration expects you to use the Qt online installer. You should not install Qt in both ways, as having both can cause some weird things to happen, like Qt getting libs from one install and plugins from the other. When switching between them, remove the previous install first.</p>
-<h4 class="doxsection"><a class="anchor" id="autotoc_md48"></a>
+<h4 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 System Qt</h4>
 <ol type="1">
 <li>Download and install the <a href="https://www.qt.io">Qt</a> online installer from their website.</li>
@@ -161,14 +161,14 @@ System Qt</h4>
 </ul>
 </li>
 </ol>
-<h4 class="doxsection"><a class="anchor" id="autotoc_md49"></a>
+<h4 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 vcpkg managed Qt</h4>
 <ol type="1">
 <li>Add the option <span class="tt">-DVCPKG_QT=ON</span> to your cmake configuration command (i.e <span class="tt">cmake -S. -Bbuild -DVCPKG_QT=ON ...</span>) or if using an IDE, look for the option where you configure the project, have the IDE run cmake again.</li>
 <li>Once the configuration starts, you should see a lot more packages vcpkg will build. Building Qt takes a long time (potentially hours), so go find something else to do for a while.</li>
 <li>If you want to use the system Qt again, you must delete the <span class="tt">vcpkg.json</span> generated in the project root and the <span class="tt">build</span> folder and reconfigure the project from scratch.</li>
 </ol>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md50"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 macOS codesign</h2>
 <p>The code signing option <span class="tt">APPLE_CODESIGN_DEV</span> is only for local development and not intended for distributed bundles.</p>
 <p>Signing for local development and signing for the distribution bundle must be different because of development entitlements which are unlikely to be safe for use in production. It is impractical (i.e. very slow and cumbersome) to use the distribution bundle for local development. When developing locally, the app bundle is partial and does not contain dependencies and uses external libs, e.g. installed with Homebrew; the entitlements allow those external libs to be loaded which is not allowed by default.</p>
@@ -183,15 +183,15 @@ macOS codesign</h2>
 <li>Configure and build</li>
 <li>To verify, run: <span class="tt">codesign -d -r- build/bin/Deskflow.app</span></li>
 </ol>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md51"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
 Build</h1>
 <p>After configuring you should be able to run make to build all targets.</p>
 <p><span class="tt">cmake --build build</span></p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md52"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
 Install</h1>
 <p>To test installation run <span class="tt">DESTDIR=&lt;installDIR&gt; cmake --install build</span> to install into <span class="tt">&lt;installDir&gt;/&lt;CMAKE_INSTALL_PREFIX&gt;</span></p>
 <p>Running <span class="tt">cmake --install build</span> will install to the <span class="tt">CMAKE_INSTALL_PREFIX</span></p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md53"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
 Making Deskflow packages</h1>
 <p>Deskflow can generate several packages using <span class="tt">cpack</span>.</p>
 <p>To generate packages build the <span class="tt">package</span> or <span class="tt">package_source</span> target.</p>

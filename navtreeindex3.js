@@ -1,5 +1,10 @@
 var NAVTREEINDEX3 =
 {
+"MSWindowsClipboardAnyTextConverter_8h.html":[8,0,1,1,10,12],
+"MSWindowsClipboardAnyTextConverter_8h_source.html":[8,0,1,1,10,12],
+"MSWindowsClipboardBitmapConverter_8cpp.html":[8,0,1,1,10,13],
+"MSWindowsClipboardBitmapConverter_8h.html":[8,0,1,1,10,14],
+"MSWindowsClipboardBitmapConverter_8h_source.html":[8,0,1,1,10,14],
 "MSWindowsClipboardFacade_8cpp.html":[8,0,1,1,10,15],
 "MSWindowsClipboardFacade_8h.html":[8,0,1,1,10,16],
 "MSWindowsClipboardFacade_8h_source.html":[8,0,1,1,10,16],
@@ -170,14 +175,11 @@ var NAVTREEINDEX3 =
 "MTException_8cpp.html":[8,0,1,1,8,4],
 "MTException_8h.html":[8,0,1,1,8,5],
 "MTException_8h_source.html":[8,0,1,1,8,5],
-"MacAudioCapture_8h.html":[8,0,1,1,1,11],
-"MacAudioCapture_8h.html#abdaadcb8f51c9c4423ab848590111983":[8,0,1,1,1,11,1],
-"MacAudioCapture_8h.html#afaf832e82143f75a1d44a1131e4e8061":[8,0,1,1,1,11,2],
-"MacAudioCapture_8h_source.html":[8,0,1,1,1,11],
-"MacAudioCapture_8mm.html":[8,0,1,1,1,12],
-"MacAudioPlayback_8cpp.html":[8,0,1,1,1,13],
-"MacAudioPlayback_8h.html":[8,0,1,1,1,14],
-"MacAudioPlayback_8h_source.html":[8,0,1,1,1,14],
+"MacAudioCapture_8h.html":[8,0,1,1,1,13],
+"MacAudioCapture_8h.html#abdaadcb8f51c9c4423ab848590111983":[8,0,1,1,1,13,1],
+"MacAudioCapture_8h.html#afaf832e82143f75a1d44a1131e4e8061":[8,0,1,1,1,13,2],
+"MacAudioCapture_8h_source.html":[8,0,1,1,1,13],
+"MacAudioCapture_8mm.html":[8,0,1,1,1,14],
 "MainWindow_8cpp.html":[8,0,1,1,6,18],
 "MainWindow_8h.html":[8,0,1,1,6,19],
 "MainWindow_8h_source.html":[8,0,1,1,6,19],
@@ -247,7 +249,5 @@ var NAVTREEINDEX3 =
 "OSXClipboardHTMLConverter_8h_source.html":[8,0,1,1,10,54],
 "OSXClipboardTextConverter_8cpp.html":[8,0,1,1,10,55],
 "OSXClipboardTextConverter_8h.html":[8,0,1,1,10,56],
-"OSXClipboardTextConverter_8h_source.html":[8,0,1,1,10,56],
-"OSXClipboardUTF16Converter_8cpp.html":[8,0,1,1,10,57],
-"OSXClipboardUTF16Converter_8h.html":[8,0,1,1,10,58]
+"OSXClipboardTextConverter_8h_source.html":[8,0,1,1,10,56]
 };

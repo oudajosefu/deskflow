@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['hotkey_2ecpp_0',['Hotkey.cpp',['../Hotkey_8cpp.html',1,'']]],
-  ['hotkey_2eh_1',['Hotkey.h',['../Hotkey_8h.html',1,'']]],
-  ['hotkeydialog_2ecpp_2',['HotkeyDialog.cpp',['../HotkeyDialog_8cpp.html',1,'']]],
-  ['hotkeydialog_2eh_3',['HotkeyDialog.h',['../HotkeyDialog_8h.html',1,'']]]
+  ['gstaudiopipeline_2ecpp_0',['GstAudioPipeline.cpp',['../GstAudioPipeline_8cpp.html',1,'']]],
+  ['gstaudiopipeline_2eh_1',['GstAudioPipeline.h',['../GstAudioPipeline_8h.html',1,'']]],
+  ['gstaudioreceiver_2ecpp_2',['GstAudioReceiver.cpp',['../GstAudioReceiver_8cpp.html',1,'']]],
+  ['gstaudioreceiver_2eh_3',['GstAudioReceiver.h',['../GstAudioReceiver_8h.html',1,'']]],
+  ['gstaudiosender_2ecpp_4',['GstAudioSender.cpp',['../GstAudioSender_8cpp.html',1,'']]],
+  ['gstaudiosender_2eh_5',['GstAudioSender.h',['../GstAudioSender_8h.html',1,'']]]
 ];

@@ -1,0 +1,9 @@
+<map id="src/lib/audio/GstAudioPipeline.h" name="src/lib/audio/GstAudioPipeline.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="259,5,465,30"/>
+<area shape="rect" id="Node000002" href="$GstAudioPipeline_8cpp.html" title=" " alt="" coords="5,78,226,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="309,36,157,80,156,75,305,33"/>
+<area shape="rect" id="Node000003" href="$GstAudioReceiver_8cpp.html" title=" " alt="" coords="250,78,474,103"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="364,44,364,79,360,76,360,48"/>
+<area shape="rect" id="Node000004" href="$GstAudioSender_8cpp.html" title=" " alt="" coords="498,78,714,103"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="417,32,568,77,563,78,417,37"/>
+</map>

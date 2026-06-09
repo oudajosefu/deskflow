@@ -16,6 +16,7 @@ var searchData=
   ['broadcastcommand_13',['broadcastCommand',['../classdeskflow_1_1core_1_1ipc_1_1IpcServer.html#a2f8d33430f33102bfd5f68a5c9f9d061',1,'deskflow::core::ipc::IpcServer']]],
   ['broadcastcondvar_14',['broadcastCondVar',['../classIArchMultithread.html#af8b53fdd69b8c47e89492f3642f46ed3',1,'IArchMultithread::broadcastCondVar()'],['../classArchMultithreadPosix.html#a3194088ccd4748a2d310142661bed80b',1,'ArchMultithreadPosix::broadcastCondVar()'],['../classArchMultithreadWindows.html#ad9221ff3656c81cfd59514abcbf6f430',1,'ArchMultithreadWindows::broadcastCondVar()']]],
   ['browseconfigfile_15',['browseConfigFile',['../classServerConfigDialog.html#af21a737077f157f315f015baaaa476c4',1,'ServerConfigDialog']]],
-  ['buttoninfo_16',['ButtonInfo',['../classIPrimaryScreen_1_1ButtonInfo.html#ab2f57381d48597fecdf6ffe0c0e8c978',1,'IPrimaryScreen::ButtonInfo']]],
-  ['bye_17',['bye',['../classApp.html#ab4f1cdee9e6fa5c0f0fcb34b0beb9048',1,'App::bye()'],['../classIApp.html#a5c774bcc1a09378adc87ed05e1b616d7',1,'IApp::bye()']]]
+  ['build_16',['build',['../classGstAudioPipeline.html#ae4fd17ac76cbbc1927bcb7e43eb8bf74',1,'GstAudioPipeline']]],
+  ['buttoninfo_17',['ButtonInfo',['../classIPrimaryScreen_1_1ButtonInfo.html#ab2f57381d48597fecdf6ffe0c0e8c978',1,'IPrimaryScreen::ButtonInfo']]],
+  ['bye_18',['bye',['../classApp.html#ab4f1cdee9e6fa5c0f0fcb34b0beb9048',1,'App::bye()'],['../classIApp.html#a5c774bcc1a09378adc87ed05e1b616d7',1,'IApp::bye()']]]
 ];

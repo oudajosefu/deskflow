@@ -1,5 +1,7 @@
 var NAVTREEINDEX4 =
 {
+"OSXClipboardUTF16Converter_8cpp.html":[8,0,1,1,10,57],
+"OSXClipboardUTF16Converter_8h.html":[8,0,1,1,10,58],
 "OSXClipboardUTF16Converter_8h_source.html":[8,0,1,1,10,58],
 "OSXClipboardUTF8Converter_8cpp.html":[8,0,1,1,10,59],
 "OSXClipboardUTF8Converter_8h.html":[8,0,1,1,10,60],
@@ -153,9 +155,6 @@ var NAVTREEINDEX4 =
 "OptionTypes_8h.html#afd6ae3ad681e4437ba4b4a5f2d3b2ad9":[8,0,1,1,5,41,1],
 "OptionTypes_8h.html#aff595cd4e334a56660bc58368556ea71":[8,0,1,1,5,41,25],
 "OptionTypes_8h_source.html":[8,0,1,1,5,41],
-"OpusHelper_8cpp.html":[8,0,1,1,1,15],
-"OpusHelper_8h.html":[8,0,1,1,1,16],
-"OpusHelper_8h_source.html":[8,0,1,1,1,16],
 "PacketStreamFilter_8cpp.html":[8,0,1,1,5,42],
 "PacketStreamFilter_8h.html":[8,0,1,1,5,43],
 "PacketStreamFilter_8h_source.html":[8,0,1,1,5,43],
@@ -249,5 +248,6 @@ var NAVTREEINDEX4 =
 "ServerConfigDialog_8h.html":[8,0,1,1,6,2,13],
 "ServerConfigDialog_8h_source.html":[8,0,1,1,6,2,13],
 "ServerConfig_8cpp.html":[8,0,1,1,6,0,6],
-"ServerConfig_8cpp.html#a0a2f84ed7838f07779ae24c5a9086d33":[8,0,1,1,6,0,6,8]
+"ServerConfig_8cpp.html#a0a2f84ed7838f07779ae24c5a9086d33":[8,0,1,1,6,0,6,8],
+"ServerConfig_8cpp.html#a6150e0515f7202e2fb518f7206ed97dc":[8,0,1,1,6,0,6,7]
 };

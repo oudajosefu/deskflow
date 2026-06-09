@@ -38,7 +38,9 @@ var searchData=
   ['audio_2drouting_2ddebug_2emd_35',['audio-routing-debug.md',['../audio-routing-debug_8md.html',1,'']]],
   ['audioclient_2ecpp_36',['AudioClient.cpp',['../AudioClient_8cpp.html',1,'']]],
   ['audioclient_2eh_37',['AudioClient.h',['../AudioClient_8h.html',1,'']]],
-  ['audioserver_2ecpp_38',['AudioServer.cpp',['../AudioServer_8cpp.html',1,'']]],
-  ['audioserver_2eh_39',['AudioServer.h',['../AudioServer_8h.html',1,'']]],
-  ['audiotypes_2eh_40',['AudioTypes.h',['../AudioTypes_8h.html',1,'']]]
+  ['audiodevices_2ecpp_38',['AudioDevices.cpp',['../AudioDevices_8cpp.html',1,'']]],
+  ['audiodevices_2eh_39',['AudioDevices.h',['../AudioDevices_8h.html',1,'']]],
+  ['audioserver_2ecpp_40',['AudioServer.cpp',['../AudioServer_8cpp.html',1,'']]],
+  ['audioserver_2eh_41',['AudioServer.h',['../AudioServer_8h.html',1,'']]],
+  ['audiotypes_2eh_42',['AudioTypes.h',['../AudioTypes_8h.html',1,'']]]
 ];

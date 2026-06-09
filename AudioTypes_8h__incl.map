@@ -1,5 +1,7 @@
 <map id="src/lib/audio/AudioTypes.h" name="src/lib/audio/AudioTypes.h">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,30"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="62,78,122,103"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,29,95,63,89,62,90,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="22,78,82,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,29,68,66,64,63,83,32"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="107,78,160,103"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="100,28,122,65,116,65,98,33"/>
 </map>

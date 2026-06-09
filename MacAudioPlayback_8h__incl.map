@@ -1,9 +1,0 @@
-<map id="src/lib/audio/MacAudioPlayback.h" name="src/lib/audio/MacAudioPlayback.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="63,5,282,30"/>
-<area shape="rect" id="Node000002" href="$IAudioPlayback_8h.html" title=" " alt="" coords="5,78,164,103"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,32,112,70,109,66,160,29"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="187,78,336,103"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="188,28,238,68,233,69,187,33"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="52,151,117,175"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="86,101,87,136,82,134,83,105"/>
-</map>
