@@ -51,12 +51,22 @@ runs:
                 help2man doxygen
             elif [ ${{inputs.like}} == "suse" ]; then
               zypper refresh
-              zypper install -y --force-resolution \
+              # openSUSE Tumbleweed mirrors are frequently flaky (403/404/timeouts during
+              # mirror sync). The GStreamer dependency tree pulls in many optional codec
+              # packages, which amplified the exposure and started failing the download.
+              # --no-recommends keeps the install small (we don't need those codecs), and we
+              # retry to ride out transient mirror failures (zypper reuses the package cache).
+              n=0
+              until zypper install -y --no-recommends --force-resolution \
                 cmake make ninja gcc-c++ rpm-build libopenssl-devel \
                 glib2-devel libXtst-devel libxkbfile-devel qt6-base-devel qt6-tools-devel \
                 qt6-linguist-devel gtk3-devel doxygen \
                 googletest-devel googlemock-devel libei-devel libportal-devel help2man \
-                gstreamer-devel gstreamer-plugins-base-devel gstreamer-plugins-good
+                gstreamer-devel gstreamer-plugins-base-devel gstreamer-plugins-good; do
+                n=$((n + 1))
+                if [ "$n" -ge 4 ]; then echo "zypper install failed after $n attempts"; exit 1; fi
+                echo "zypper install hit a mirror hiccup, retry $n..."; sleep 20
+              done
             elif [ ${{ inputs.like }} == "arch" ]; then
               pacman -Syu --noconfirm base-devel cmake ninja \
                 gcc openssl glib2 libxtst libxkbfile gtest libei libportal \
