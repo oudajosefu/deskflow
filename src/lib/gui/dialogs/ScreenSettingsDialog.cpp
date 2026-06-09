@@ -13,6 +13,11 @@
 #include "validators/ScreenNameValidator.h"
 #include "validators/ValidationError.h"
 
+#include "common/Settings.h"
+#if defined(HAVE_AUDIO_SUPPORT)
+#include "audio/AudioDevices.h"
+#endif
+
 #include <QMessageBox>
 
 using enum ScreenConfig::Modifier;
@@ -62,6 +67,31 @@ ScreenSettingsDialog::ScreenSettingsDialog(QWidget *parent, Screen *screen, cons
   ui->chkFixXTest->setChecked(m_screen->fix(XTest));
 
   ui->chkAudioRouting->setChecked(m_screen->audioRouting());
+
+  // Server-side playback controls: output device, volume, mute. These are stored
+  // in the shared settings keyed by screen name and applied by the server core.
+  ui->comboAudioDevice->addItem(tr("System default"), QString());
+#if defined(HAVE_AUDIO_SUPPORT)
+  for (const auto &device : AudioDevices::outputDevices()) {
+    ui->comboAudioDevice->addItem(device.name, device.id);
+  }
+#endif
+  {
+    const QString screenName = m_screen->name();
+    const QString savedDevice = Settings::value(Settings::Audio::outputDeviceKey(screenName)).toString();
+    const int deviceIndex = ui->comboAudioDevice->findData(savedDevice);
+    ui->comboAudioDevice->setCurrentIndex(deviceIndex >= 0 ? deviceIndex : 0);
+
+    const QVariant savedVolume = Settings::value(Settings::Audio::volumeKey(screenName));
+    const int volume = savedVolume.isValid() ? savedVolume.toInt() : 100;
+    ui->sliderAudioVolume->setValue(volume);
+    ui->lblAudioVolumeValue->setText(QStringLiteral("%1%").arg(volume));
+
+    ui->chkAudioMute->setChecked(Settings::value(Settings::Audio::muteKey(screenName)).toBool());
+  }
+  connect(ui->sliderAudioVolume, &QSlider::valueChanged, this, [this](int value) {
+    ui->lblAudioVolumeValue->setText(QStringLiteral("%1%").arg(value));
+  });
 
   connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &ScreenSettingsDialog::accept);
   connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &ScreenSettingsDialog::reject);
@@ -119,6 +149,12 @@ void ScreenSettingsDialog::accept()
   m_screen->setFix(XTest, ui->chkFixXTest->isChecked());
 
   m_screen->setAudioRouting(ui->chkAudioRouting->isChecked());
+
+  // Persist the server-side playback controls, keyed by the (possibly renamed) screen.
+  const QString screenName = m_screen->name();
+  Settings::setValue(Settings::Audio::outputDeviceKey(screenName), ui->comboAudioDevice->currentData().toString());
+  Settings::setValue(Settings::Audio::volumeKey(screenName), ui->sliderAudioVolume->value());
+  Settings::setValue(Settings::Audio::muteKey(screenName), ui->chkAudioMute->isChecked());
 
   QDialog::accept();
 }

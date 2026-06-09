@@ -7,30 +7,13 @@
 #include "audio/AudioServer.h"
 
 #include "audio/AudioTypes.h"
-#include "audio/IAudioPlayback.h"
-#include "audio/OpusHelper.h"
+#include "audio/GstAudioReceiver.h"
 #include "base/Log.h"
-
-#if defined(Q_OS_WIN)
-#include "audio/WinAudioPlayback.h"
-#elif defined(Q_OS_MAC)
-#include "audio/MacAudioPlayback.h"
-#else
-#include "audio/LinuxAudioPlayback.h"
-#endif
 
 #include <QHostAddress>
 
-static std::unique_ptr<IAudioPlayback> makePlatformPlayback()
-{
-#if defined(Q_OS_WIN)
-  return std::make_unique<WinAudioPlayback>();
-#elif defined(Q_OS_MAC)
-  return std::make_unique<MacAudioPlayback>();
-#else
-  return std::make_unique<LinuxAudioPlayback>();
-#endif
-}
+#include <algorithm>
+#include <cstring>
 
 AudioServer::AudioServer(quint16 port, QObject *parent) : QObject(parent), m_port(port)
 {
@@ -51,7 +34,7 @@ bool AudioServer::listen()
     return false;
   }
 
-  LOG_INFO("AudioServer: listening on port %d", m_port);
+  LOG_INFO("AudioServer: control plane listening on port %d", m_port);
   return true;
 }
 
@@ -61,13 +44,35 @@ void AudioServer::close()
     m_server->close();
   }
   for (auto *session : m_sessions) {
-    if (session->playback) {
-      session->playback->stop();
+    if (session->receiver) {
+      session->receiver->stop();
     }
     session->socket->disconnectFromHost();
     delete session;
   }
   m_sessions.clear();
+}
+
+quint16 AudioServer::allocateRtpPort() const
+{
+  // Lowest unused port at/above the base; one media stream per connected client.
+  for (quint16 candidate = kAudioRtpPortBase; candidate < kAudioRtpPortBase + 100; ++candidate) {
+    const bool inUse = std::any_of(m_sessions.begin(), m_sessions.end(), [candidate](const ClientSession *s) {
+      return s->rtpPort == candidate;
+    });
+    if (!inUse) {
+      return candidate;
+    }
+  }
+  return 0; // exhausted
+}
+
+AudioServer::ClientSession *AudioServer::sessionFor(const QString &clientName) const
+{
+  auto it = std::find_if(m_sessions.begin(), m_sessions.end(), [&clientName](const ClientSession *s) {
+    return s->handshakeDone && s->clientName == clientName;
+  });
+  return it == m_sessions.end() ? nullptr : *it;
 }
 
 void AudioServer::onNewConnection()
@@ -76,12 +81,11 @@ void AudioServer::onNewConnection()
     auto *sock = m_server->nextPendingConnection();
     auto *session = new ClientSession;
     session->socket = sock;
-    session->decoder = std::make_unique<OpusDecoderWrapper>();
     m_sessions.append(session);
 
     connect(sock, &QTcpSocket::readyRead, this, &AudioServer::onClientReadyRead);
     connect(sock, &QTcpSocket::disconnected, this, &AudioServer::onClientDisconnected);
-    LOG_INFO("AudioServer: new connection from %s", qPrintable(sock->peerAddress().toString()));
+    LOG_INFO("AudioServer: new control connection from %s", qPrintable(sock->peerAddress().toString()));
   }
 }
 
@@ -101,10 +105,10 @@ void AudioServer::onClientReadyRead()
   ClientSession &session = **it;
   session.buffer.append(sock->readAll());
 
+  // After the handshake there is nothing more to read on the control channel
+  // (media flows over UDP); we just keep the connection open as a liveness link.
   if (!session.handshakeDone) {
     processHandshake(session);
-  } else {
-    processAudioData(session);
   }
 }
 
@@ -122,30 +126,35 @@ void AudioServer::onClientDisconnected()
   }
 
   ClientSession *session = *it;
-  LOG_INFO("AudioServer: client disconnected");
-  if (session->playback) {
-    session->playback->stop();
+  LOG_INFO("AudioServer: audio client \"%s\" disconnected", qPrintable(session->clientName));
+  if (session->receiver) {
+    session->receiver->stop();
   }
+  const QString name = session->clientName;
   m_sessions.erase(it);
   delete session;
   sock->deleteLater();
+
+  if (!name.isEmpty()) {
+    Q_EMIT clientAudioStopped(name);
+  }
 }
 
 void AudioServer::processHandshake(ClientSession &session)
 {
-  // Expect: kAudioHandshakeMagicLen bytes magic + 2-byte name length + name
+  // Expect: magic + 2-byte name length + name.
   if (session.buffer.size() < kAudioHandshakeMagicLen + 2) {
     return;
   }
 
   if (std::memcmp(session.buffer.constData(), kAudioHandshakeMagic, kAudioHandshakeMagicLen) != 0) {
     LOG_WARN("AudioServer: invalid handshake magic, dropping connection");
-    session.socket->write(kAudioHandshakeErr, kAudioHandshakeReplyLen);
+    session.socket->write(kAudioHandshakeErr, kAudioHandshakeReplyTagLen);
     session.socket->disconnectFromHost();
     return;
   }
 
-  const uint16_t nameLen = static_cast<uint16_t>(
+  const auto nameLen = static_cast<uint16_t>(
       static_cast<uint8_t>(session.buffer[kAudioHandshakeMagicLen]) << 8 |
       static_cast<uint8_t>(session.buffer[kAudioHandshakeMagicLen + 1])
   );
@@ -155,64 +164,55 @@ void AudioServer::processHandshake(ClientSession &session)
     return; // wait for more data
   }
 
-  const QString clientName = QString::fromUtf8(session.buffer.constData() + kAudioHandshakeMagicLen + 2, nameLen);
+  session.clientName = QString::fromUtf8(session.buffer.constData() + kAudioHandshakeMagicLen + 2, nameLen);
   session.buffer.remove(0, totalHandshake);
   session.handshakeDone = true;
 
-  session.socket->write(kAudioHandshakeOk, kAudioHandshakeReplyLen);
-  LOG_INFO("AudioServer: audio stream from client \"%s\"", qPrintable(clientName));
-  startPlayback(session);
+  const quint16 rtpPort = allocateRtpPort();
+  session.rtpPort = rtpPort;
+  if (rtpPort != 0) {
+    session.receiver = std::make_unique<GstAudioReceiver>(rtpPort);
+    if (!session.receiver->start()) {
+      session.receiver.reset();
+      session.rtpPort = 0;
+    }
+  }
 
-  // There may already be audio data in the buffer
-  if (!session.buffer.isEmpty()) {
-    processAudioData(session);
+  if (session.receiver) {
+    // Reply: "OK" + uint16 big-endian RTP port.
+    QByteArray reply;
+    reply.append(kAudioHandshakeOk, kAudioHandshakeReplyTagLen);
+    reply.append(static_cast<char>(rtpPort >> 8));
+    reply.append(static_cast<char>(rtpPort & 0xFF));
+    session.socket->write(reply);
+    session.socket->flush();
+    LOG_INFO("AudioServer: client \"%s\" -> RTP port %u", qPrintable(session.clientName), rtpPort);
+    Q_EMIT clientAudioStarted(session.clientName);
+  } else {
+    LOG_ERR("AudioServer: could not start receiver for \"%s\"", qPrintable(session.clientName));
+    session.socket->write(kAudioHandshakeErr, kAudioHandshakeReplyTagLen);
+    session.socket->flush();
+    session.socket->disconnectFromHost();
   }
 }
 
-void AudioServer::processAudioData(ClientSession &session)
+void AudioServer::setClientVolume(const QString &clientName, double volume)
 {
-  // Packet framing: uint16 length (big-endian) + Opus bytes
-  while (session.buffer.size() >= 2) {
-    const uint16_t packetLen =
-        static_cast<uint16_t>(static_cast<uint8_t>(session.buffer[0]) << 8 | static_cast<uint8_t>(session.buffer[1]));
-
-    if (packetLen == 0 || packetLen > kAudioMaxPacketBytes) {
-      LOG_WARN("AudioServer: invalid packet length %d, dropping connection", packetLen);
-      session.socket->disconnectFromHost();
-      return;
-    }
-
-    if (session.buffer.size() < 2 + packetLen) {
-      break; // incomplete packet, wait for more data
-    }
-
-    const auto *opusData = reinterpret_cast<const uint8_t *>(session.buffer.constData() + 2);
-    auto pcm = session.decoder->decode(opusData, packetLen);
-    session.buffer.remove(0, 2 + packetLen);
-    ++session.packetsReceived;
-
-    if (!pcm.empty() && session.playback) {
-      const size_t frames = pcm.size() / static_cast<size_t>(kAudioChannels);
-      session.playback->writeFrames(pcm.data(), frames);
-      session.framesPlayed += frames;
-    }
-  }
-
-  // Throttled progress log (~every 50 packets, i.e. ~1 s of audio) so the receive/decode/play path is observable.
-  if (session.packetsReceived - session.lastLoggedPackets >= 50) {
-    session.lastLoggedPackets = session.packetsReceived;
-    LOG_DEBUG(
-        "AudioServer: receiving — %llu packets decoded, %llu frames played",
-        static_cast<unsigned long long>(session.packetsReceived), static_cast<unsigned long long>(session.framesPlayed)
-    );
+  if (ClientSession *s = sessionFor(clientName); s != nullptr && s->receiver) {
+    s->receiver->setVolume(volume);
   }
 }
 
-void AudioServer::startPlayback(ClientSession &session)
+void AudioServer::setClientMute(const QString &clientName, bool mute)
 {
-  session.playback = makePlatformPlayback();
-  if (!session.playback->start()) {
-    LOG_ERR("AudioServer: failed to start platform audio playback");
-    session.playback.reset();
+  if (ClientSession *s = sessionFor(clientName); s != nullptr && s->receiver) {
+    s->receiver->setMute(mute);
+  }
+}
+
+void AudioServer::setClientOutputDevice(const QString &clientName, const QString &deviceId)
+{
+  if (ClientSession *s = sessionFor(clientName); s != nullptr && s->receiver) {
+    s->receiver->setOutputDeviceId(deviceId.toStdString());
   }
 }

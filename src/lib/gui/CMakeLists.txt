@@ -136,3 +136,8 @@ if(WIN32)
     net
   )
 endif()
+
+# Audio device enumeration (AudioDevices) for the per-screen output-device picker.
+if(BUILD_AUDIO_SUPPORT)
+  target_link_libraries(${target} audio)
+endif()

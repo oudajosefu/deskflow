@@ -8,21 +8,24 @@
 
 #include <QObject>
 #include <QString>
-#include <QTcpSocket>
 #include <QThread>
 
 #include <atomic>
 #include <memory>
 
-class IAudioCapture;
-class OpusEncoderWrapper;
+class GstAudioSender;
 
 ///
-/// Connects to the server's audio port, performs the DSKFAUDIO handshake,
-/// and streams Opus-encoded loopback audio from the local machine.
+/// Client-side audio control plane.
 ///
-/// The capture + encode + send loop runs on a dedicated QThread so it does not
-/// block the Qt event loop.
+/// Connects to the server's audio control port, performs the DSKFAUDIO
+/// handshake and learns which UDP port to stream RTP/Opus audio to. It then
+/// starts a GstAudioSender, which captures system-output audio and streams it
+/// to the server entirely inside GStreamer.
+///
+/// The control socket runs on a dedicated QThread (blocking handshake, then a
+/// liveness wait) so it never assumes a Qt event loop on the core thread. The
+/// media itself flows over UDP, serviced by GStreamer's own threads.
 ///
 class AudioClient : public QObject
 {
@@ -32,14 +35,14 @@ public:
   explicit AudioClient(const QString &serverHost, quint16 port, const QString &clientName, QObject *parent = nullptr);
   ~AudioClient() override;
 
-  /// Connect and start streaming. Non-blocking — actual work happens on the worker thread.
+  /// Connect and start streaming. Non-blocking — work happens on the worker thread.
   void start();
 
   /// Stop streaming and disconnect.
   void stop();
 
 private:
-  void runCapture(); // executed on m_thread
+  void runControl(); // executed on m_thread
 
   QString m_serverHost;
   quint16 m_port;
@@ -48,6 +51,5 @@ private:
   QThread *m_thread = nullptr;
   std::atomic<bool> m_running{false};
 
-  std::unique_ptr<IAudioCapture> m_capture;
-  std::unique_ptr<OpusEncoderWrapper> m_encoder;
+  std::unique_ptr<GstAudioSender> m_sender;
 };

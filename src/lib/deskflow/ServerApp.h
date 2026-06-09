@@ -36,6 +36,7 @@ class ILogOutputter;
 class IEventQueue;
 class ISocketFactory;
 #if defined(HAVE_AUDIO_SUPPORT)
+#include <QString>
 class AudioServer;
 #endif
 
@@ -108,6 +109,9 @@ private:
   void handleScreenSwitched() const;
   std::unique_ptr<ISocketFactory> getSocketFactory() const;
   NetworkAddress getAddress(const NetworkAddress &address) const;
+#if defined(HAVE_AUDIO_SUPPORT)
+  void applyClientAudioSettings(const QString &clientName);
+#endif
 
   bool m_suspended = false;
   Server *m_server = nullptr;

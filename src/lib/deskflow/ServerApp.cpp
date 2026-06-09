@@ -395,6 +395,12 @@ bool ServerApp::startServer()
       LOG_WARN("audio server failed to start — audio routing unavailable");
       delete m_audioServer;
       m_audioServer = nullptr;
+    } else {
+      // When a client's audio stream starts, apply that client's persisted
+      // server-side playback settings (output device / volume / mute).
+      QObject::connect(m_audioServer, &AudioServer::clientAudioStarted, m_audioServer, [this](const QString &name) {
+        applyClientAudioSettings(name);
+      });
     }
 #endif
 
@@ -413,6 +419,31 @@ bool ServerApp::startServer()
 
   return false;
 }
+
+#if defined(HAVE_AUDIO_SUPPORT)
+void ServerApp::applyClientAudioSettings(const QString &clientName)
+{
+  if (m_audioServer == nullptr) {
+    return;
+  }
+
+  const QVariant device = Settings::value(Settings::Audio::outputDeviceKey(clientName));
+  if (device.isValid()) {
+    m_audioServer->setClientOutputDevice(clientName, device.toString());
+  }
+
+  const QVariant volume = Settings::value(Settings::Audio::volumeKey(clientName));
+  if (volume.isValid()) {
+    // Stored as a 0–100 percentage; the volume element expects 0.0 = silence, 1.0 = unity.
+    m_audioServer->setClientVolume(clientName, volume.toInt() / 100.0);
+  }
+
+  const QVariant mute = Settings::value(Settings::Audio::muteKey(clientName));
+  if (mute.isValid()) {
+    m_audioServer->setClientMute(clientName, mute.toBool());
+  }
+}
+#endif
 
 deskflow::Screen *ServerApp::createScreen()
 {

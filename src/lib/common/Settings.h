@@ -111,6 +111,22 @@ public:
   struct Audio
   {
     inline static const auto Port = QStringLiteral("audio/port");
+
+    // Per-client (per-screen) server-side playback controls. These live in the
+    // shared settings so the server GUI can write them and the server core can
+    // read + apply them to that client's receiver pipeline (same machine).
+    static QString outputDeviceKey(const QString &screen)
+    {
+      return QStringLiteral("audio/screens/%1/outputDevice").arg(screen);
+    }
+    static QString volumeKey(const QString &screen)
+    {
+      return QStringLiteral("audio/screens/%1/volume").arg(screen);
+    }
+    static QString muteKey(const QString &screen)
+    {
+      return QStringLiteral("audio/screens/%1/mute").arg(screen);
+    }
   };
 
   // Enums types used in settings
