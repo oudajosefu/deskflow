@@ -888,6 +888,10 @@ Inoltre, verifica di poter %1 il file di configurazione del server: %2</translat
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>System default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Screen name is empty</source>
         <translation>Il nome dello schermo è vuoto</translation>
     </message>
@@ -909,6 +913,26 @@ Inoltre, verifica di poter %1 il file di configurazione del server: %2</translat
     </message>
     <message>
         <source>Alt &amp;Gr</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output device:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server output device this client&apos;s audio plays on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Volume:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>100%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

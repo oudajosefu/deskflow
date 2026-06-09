@@ -39,6 +39,15 @@ set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "qt6-svg-plugins")
 set(CPACK_RPM_PACKAGE_LICENSE "GPLv2")
 set(CPACK_RPM_PACKAGE_GROUP "Applications/System")
 
+if(BUILD_AUDIO_SUPPORT)
+  # Audio routing dlopen()s GStreamer plugins at runtime; the base + good plugin sets
+  # cover opus, rtp, rtpmanager, udp, level, volume, audioconvert/resample, autodetect
+  # and pulse/pipewire sinks/sources. SHLIBDEPS auto-adds the linked libgstreamer core,
+  # but the plugin packages must be declared explicitly since they are not linked.
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "gstreamer1.0-plugins-base, gstreamer1.0-plugins-good")
+  set(CPACK_RPM_PACKAGE_REQUIRES "gstreamer1-plugins-base gstreamer1-plugins-good")
+endif()
+
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   # Get Distro name information
   if(EXISTS "/etc/os-release")

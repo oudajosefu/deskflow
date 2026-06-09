@@ -69,13 +69,15 @@ option(BUILD_AUDIO_SUPPORT "Build with audio routing support" ON)
 if(WIN32)
     option (VCPKG_QT "Use Qt from VCPKG" OFF)
     if(BUILD_AUDIO_SUPPORT)
-        # Audio routing streams via GStreamer (capture -> opus -> RTP/UDP -> jitterbuffer -> playback).
-        # plugins-base: appsrc/appsink, audioconvert, audioresample, volume, opusenc/opusdec (opus-base)
-        # plugins-good: udp, rtp (rtpopuspay/depay), rtpmanager (rtpjitterbuffer), level, autodetect
-        # plugins-bad : wasapi/wasapi2 (system-output loopback capture + low-latency render on Windows)
-        # pkgconf provides a pkg-config tool that CMake's FindPkgConfig can locate
-        # (the host's pkg-config.bat is not found by find_program); needed to detect GStreamer.
-        set(AUDIO_LIBS ", \"pkgconf\", { \"name\": \"gstreamer\", \"default-features\": false, \"features\": [\"plugins-base\", \"plugins-good\", \"plugins-bad\", \"opus-base\"] }")
+        # Audio routing streams via GStreamer. On Windows x64 it comes from the official
+        # prebuilt MSVC SDK (installed in CI), NOT vcpkg — a from-source build blows the CI
+        # time budget. There is no official GStreamer SDK for Windows arm64, and building it
+        # from source via vcpkg takes hours (gettext alone ~30 min on the arm64 runner), so
+        # arm64-windows builds WITHOUT audio routing (gracefully disabled when GStreamer is
+        # not found). GStreamer is therefore never a vcpkg dependency on Windows.
+        # pkgconf gives CMake's FindPkgConfig a usable pkg-config tool to locate the SDK
+        # (the host's pkg-config.bat is not found by find_program).
+        set(AUDIO_LIBS ", \"pkgconf\"")
     endif()
     if(VCPKG_QT)
         set(QT_LIBS ", \"qttranslations\", \"qtsvg\"")

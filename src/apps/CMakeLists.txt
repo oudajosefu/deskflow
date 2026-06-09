@@ -45,6 +45,10 @@ if(WIN32)
   elseif(DEFINED OPENSSL_ROOT_DIR AND EXISTS "${OPENSSL_ROOT_DIR}/bin")
     list(APPEND WIN32_RUNTIME_DEPENDENCY_SET_ARGS DIRECTORIES "${OPENSSL_ROOT_DIR}/bin")
   endif()
+  # GStreamer core DLLs (official SDK or vcpkg) so the dependency scan can bundle them.
+  if(BUILD_AUDIO_SUPPORT AND DEFINED GSTREAMER_PREFIX AND EXISTS "${GSTREAMER_PREFIX}/bin")
+    list(APPEND WIN32_RUNTIME_DEPENDENCY_SET_ARGS DIRECTORIES "${GSTREAMER_PREFIX}/bin")
+  endif()
 endif()
 
 add_subdirectory(deskflow-core)

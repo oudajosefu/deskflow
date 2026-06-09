@@ -16,6 +16,9 @@ depends=(
   gcc-libs
   glib2
   glibc
+  gst-plugins-base
+  gst-plugins-good
+  gstreamer
   hicolor-icon-theme
   libei
   libglvnd

@@ -27,6 +27,12 @@ struct AudioDeviceInfo
 class AudioDevices
 {
 public:
+  /// Initialise GStreamer once for this process. On Windows/macOS it first points
+  /// GStreamer at the plugins bundled next to the executable (set via GST_PLUGIN_PATH
+  /// before gst_init); on Linux the system plugins are found by default. Idempotent.
+  /// A Q(Core)Application must already exist (needed to locate the executable dir).
+  static void initGStreamer();
+
   /// Output (playback) devices — used for the server-side "play audio on" picker.
   static QList<AudioDeviceInfo> outputDevices();
 };

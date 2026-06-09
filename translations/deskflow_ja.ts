@@ -890,6 +890,10 @@ Additionally, check you are able to %1 the server config file: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>System default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Screen name is empty</source>
         <translation>空のコンピューター名</translation>
     </message>
@@ -911,6 +915,26 @@ Additionally, check you are able to %1 the server config file: %2</source>
     </message>
     <message>
         <source>Alt &amp;Gr</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output device:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server output device this client&apos;s audio plays on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Volume:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>100%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
