@@ -119,7 +119,9 @@ jobs:
 
           - name: "macos-x64"
             runs-on: macos-15-intel
-            timeout: 20
+            # Audio enablement adds a heavy brew gstreamer install (~9 min, pulls ffmpeg/x264/etc.)
+            # plus a longer compile on the slow Intel runner, which exceeded the old 20-min budget.
+            timeout: 35
             qt-version: 6.9.3
             config-args: '-DCMAKE_OSX_ARCHITECTURES="x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=12 -DCMAKE_OSX_SYSROOT=/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'
 
