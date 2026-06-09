@@ -6,12 +6,10 @@
 
 #pragma once
 
-#include "audio/IAudioCapture.h"
-
 #include <atomic>
-#include <condition_variable>
-#include <mutex>
-#include <vector>
+#include <cstddef>
+
+typedef struct _GstElement GstElement;
 
 #ifdef __OBJC__
 @class SCStream;
@@ -21,34 +19,37 @@ typedef struct objc_object SCStream;
 typedef struct objc_object DeskflowAudioStreamOutput;
 #endif
 
+///
 /// ScreenCaptureKit-based system audio capture (requires macOS 13+).
-/// The user must have granted "Screen & System Audio Recording" permission.
-class MacAudioCapture : public IAudioCapture
+///
+/// GStreamer has no stock system-output loopback source on macOS, so this thin
+/// shim captures with ScreenCaptureKit and pushes the audio into a GStreamer
+/// appsrc. From there the normal sender pipeline (opus -> RTP -> udpsink) takes
+/// over. The user must have granted "Screen & System Audio Recording" permission.
+///
+class MacAudioCapture
 {
 public:
   MacAudioCapture();
-  ~MacAudioCapture() override;
+  ~MacAudioCapture();
 
   MacAudioCapture(const MacAudioCapture &) = delete;
   MacAudioCapture &operator=(const MacAudioCapture &) = delete;
 
-  bool start() override;
-  void stop() override;
-  size_t readFrames(float *buf, size_t frames) override;
+  /// Start capture, pushing interleaved F32LE stereo frames into `appsrc`.
+  /// Takes its own reference to `appsrc`; returns false on failure.
+  bool start(GstElement *appsrc);
 
-  /// Called by the Objective-C delegate when audio samples arrive.
-  void appendSamples(const float *data, size_t frames);
+  /// Stop capture and release the appsrc reference.
+  void stop();
+
+  /// Called by the Objective-C delegate when audio samples arrive
+  /// (interleaved stereo float32).
+  void pushSamples(const float *data, size_t frames);
 
 private:
+  GstElement *m_appsrc = nullptr;
   SCStream *m_stream = nullptr;
   DeskflowAudioStreamOutput *m_delegate = nullptr;
-
-  std::mutex m_mutex;
-  std::condition_variable m_cv;
-  std::vector<float> m_ringBuffer;
-  size_t m_writePos = 0;
-  size_t m_readPos = 0;
   std::atomic<bool> m_running{false};
-
-  static constexpr size_t kRingFrames = 8192;
 };

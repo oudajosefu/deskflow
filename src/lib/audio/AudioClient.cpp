@@ -7,30 +7,12 @@
 #include "audio/AudioClient.h"
 
 #include "audio/AudioTypes.h"
-#include "audio/IAudioCapture.h"
-#include "audio/OpusHelper.h"
+#include "audio/GstAudioSender.h"
 #include "base/Log.h"
-
-#if defined(Q_OS_WIN)
-#include "audio/WinAudioCapture.h"
-#elif defined(Q_OS_MAC)
-#include "audio/MacAudioCapture.h"
-#else
-#include "audio/LinuxAudioCapture.h"
-#endif
 
 #include <QTcpSocket>
 
-static std::unique_ptr<IAudioCapture> makePlatformCapture()
-{
-#if defined(Q_OS_WIN)
-  return std::make_unique<WinAudioCapture>();
-#elif defined(Q_OS_MAC)
-  return std::make_unique<MacAudioCapture>();
-#else
-  return std::make_unique<LinuxAudioCapture>();
-#endif
-}
+#include <cstring>
 
 AudioClient::AudioClient(const QString &serverHost, quint16 port, const QString &clientName, QObject *parent)
     : QObject(parent),
@@ -51,8 +33,8 @@ void AudioClient::start()
     return;
   }
   m_running = true;
-  m_thread = QThread::create([this] { runCapture(); });
-  m_thread->setObjectName(QStringLiteral("AudioCapture"));
+  m_thread = QThread::create([this] { runControl(); });
+  m_thread->setObjectName(QStringLiteral("AudioControl"));
   m_thread->start();
 }
 
@@ -66,9 +48,9 @@ void AudioClient::stop()
   }
 }
 
-void AudioClient::runCapture()
+void AudioClient::runControl()
 {
-  // All blocking I/O happens here, off the Qt event loop.
+  // Blocking control I/O happens here, off the Qt event loop.
   QTcpSocket socket;
   socket.connectToHost(m_serverHost, m_port);
   if (!socket.waitForConnected(5000)) {
@@ -77,9 +59,9 @@ void AudioClient::runCapture()
     return;
   }
 
-  // Handshake: magic + 2-byte name length + name
+  // Handshake: magic + 2-byte name length + name (UTF-8).
   const QByteArray nameBytes = m_clientName.toUtf8();
-  const uint16_t nameLen = static_cast<uint16_t>(nameBytes.size());
+  const auto nameLen = static_cast<uint16_t>(nameBytes.size());
   QByteArray handshake;
   handshake.reserve(kAudioHandshakeMagicLen + 2 + nameBytes.size());
   handshake.append(kAudioHandshakeMagic, kAudioHandshakeMagicLen);
@@ -89,84 +71,51 @@ void AudioClient::runCapture()
   socket.write(handshake);
   socket.flush();
 
-  if (!socket.waitForReadyRead(5000)) {
-    LOG_ERR("AudioClient: handshake timeout");
-    m_running = false;
-    return;
-  }
-  const QByteArray reply = socket.read(kAudioHandshakeReplyLen);
-  if (reply != QByteArray(kAudioHandshakeOk, kAudioHandshakeReplyLen)) {
-    LOG_ERR("AudioClient: server rejected audio handshake");
-    m_running = false;
-    return;
-  }
-
-  LOG_INFO("AudioClient: connected to audio server, starting capture");
-
-  m_capture = makePlatformCapture();
-  if (!m_capture->start()) {
-    LOG_ERR("AudioClient: failed to start audio capture");
-    m_running = false;
-    return;
-  }
-
-  m_encoder = std::make_unique<OpusEncoderWrapper>();
-  if (!m_encoder->isValid()) {
-    LOG_ERR("AudioClient: failed to create Opus encoder");
-    m_capture->stop();
-    m_running = false;
-    return;
-  }
-
-  std::vector<float> pcmBuf(static_cast<size_t>(kAudioFrameSize * kAudioChannels));
-
-  uint64_t framesCaptured = 0;
-  uint64_t packetsSent = 0;
-  uint64_t bytesSent = 0;
-  uint64_t lastLoggedPackets = 0;
-
-  while (m_running && socket.state() == QAbstractSocket::ConnectedState) {
-    const size_t got = m_capture->readFrames(pcmBuf.data(), kAudioFrameSize);
-    if (got < static_cast<size_t>(kAudioFrameSize)) {
-      // No full block ready yet; yield briefly so we don't busy-spin the CPU while audio is silent or trickling in.
-      QThread::msleep(2);
-      continue;
+  // Reply is either "ER" or "OK" + uint16 big-endian RTP UDP port.
+  QByteArray reply;
+  while (reply.size() < kAudioHandshakeOkReplyLen && socket.state() == QAbstractSocket::ConnectedState) {
+    if (!socket.waitForReadyRead(5000)) {
+      break;
     }
-    framesCaptured += got;
-
-    auto packet = m_encoder->encode(pcmBuf.data());
-    if (packet.empty()) {
-      continue;
-    }
-
-    const uint16_t pktLen = static_cast<uint16_t>(packet.size());
-    const char header[2] = {static_cast<char>(pktLen >> 8), static_cast<char>(pktLen & 0xFF)};
-    socket.write(header, 2);
-    socket.write(reinterpret_cast<const char *>(packet.data()), static_cast<qint64>(packet.size()));
-    socket.flush();
-    ++packetsSent;
-    bytesSent += 2 + packet.size();
-
-    // Throttled progress log (~every 50 packets, i.e. ~1 s of audio) so the data path is observable without flooding.
-    if (packetsSent - lastLoggedPackets >= 50) {
-      lastLoggedPackets = packetsSent;
-      LOG_DEBUG(
-          "AudioClient: streaming — %llu frames captured, %llu packets / %llu bytes sent",
-          static_cast<unsigned long long>(framesCaptured), static_cast<unsigned long long>(packetsSent),
-          static_cast<unsigned long long>(bytesSent)
-      );
+    reply.append(socket.readAll());
+    if (reply.size() >= kAudioHandshakeReplyTagLen &&
+        std::memcmp(reply.constData(), kAudioHandshakeErr, kAudioHandshakeReplyTagLen) == 0) {
+      LOG_ERR("AudioClient: server rejected audio handshake");
+      m_running = false;
+      return;
     }
   }
 
-  LOG_INFO(
-      "AudioClient: stream ending — %llu frames captured, %llu packets / %llu bytes sent",
-      static_cast<unsigned long long>(framesCaptured), static_cast<unsigned long long>(packetsSent),
-      static_cast<unsigned long long>(bytesSent)
+  if (reply.size() < kAudioHandshakeOkReplyLen ||
+      std::memcmp(reply.constData(), kAudioHandshakeOk, kAudioHandshakeReplyTagLen) != 0) {
+    LOG_ERR("AudioClient: incomplete or invalid handshake reply");
+    m_running = false;
+    return;
+  }
+
+  const auto rtpPort = static_cast<quint16>(
+      static_cast<uint8_t>(reply[kAudioHandshakeReplyTagLen]) << 8 |
+      static_cast<uint8_t>(reply[kAudioHandshakeReplyTagLen + 1])
   );
 
-  m_capture->stop();
-  m_capture.reset();
-  m_encoder.reset();
+  LOG_INFO("AudioClient: server assigned RTP port %u, starting capture", rtpPort);
+
+  m_sender = std::make_unique<GstAudioSender>(m_serverHost.toStdString(), rtpPort);
+  if (!m_sender->start()) {
+    LOG_ERR("AudioClient: failed to start audio capture/stream");
+    m_sender.reset();
+    m_running = false;
+    return;
+  }
+
+  // GStreamer streams the media on its own threads; this thread just keeps the
+  // control connection alive and watches for shutdown or server disconnect.
+  while (m_running && socket.state() == QAbstractSocket::ConnectedState) {
+    socket.waitForReadyRead(200); // wakes on server FIN/keepalive; 200 ms cap bounds shutdown latency
+  }
+
+  LOG_INFO("AudioClient: stopping audio stream");
+  m_sender->stop();
+  m_sender.reset();
   socket.disconnectFromHost();
-  LOG_INFO("AudioClient: capture stream stopped");
 }

@@ -21,6 +21,10 @@
 #include "arch/win32/ArchMiscWindows.h"
 #endif
 
+#if defined(HAVE_AUDIO_SUPPORT)
+#include <gst/gst.h>
+#endif
+
 #include <QApplication>
 #include <QFileInfo>
 #include <QSharedMemory>
@@ -78,6 +82,12 @@ int main(int argc, char **argv)
 
   Arch arch;
   arch.init();
+
+#if defined(HAVE_AUDIO_SUPPORT)
+  // Initialise GStreamer once for the whole process (audio routing pipelines).
+  // Pass null argc/argv so it does not consume Deskflow's own command-line args.
+  gst_init(nullptr, nullptr);
+#endif
 
   Log log;
   qInstallMessageHandler(qtMessageHandler);

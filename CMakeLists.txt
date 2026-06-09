@@ -69,7 +69,13 @@ option(BUILD_AUDIO_SUPPORT "Build with audio routing support" ON)
 if(WIN32)
     option (VCPKG_QT "Use Qt from VCPKG" OFF)
     if(BUILD_AUDIO_SUPPORT)
-        set(AUDIO_LIBS ", \"opus\"")
+        # Audio routing streams via GStreamer (capture -> opus -> RTP/UDP -> jitterbuffer -> playback).
+        # plugins-base: appsrc/appsink, audioconvert, audioresample, volume, opusenc/opusdec (opus-base)
+        # plugins-good: udp, rtp (rtpopuspay/depay), rtpmanager (rtpjitterbuffer), level, autodetect
+        # plugins-bad : wasapi/wasapi2 (system-output loopback capture + low-latency render on Windows)
+        # pkgconf provides a pkg-config tool that CMake's FindPkgConfig can locate
+        # (the host's pkg-config.bat is not found by find_program); needed to detect GStreamer.
+        set(AUDIO_LIBS ", \"pkgconf\", { \"name\": \"gstreamer\", \"default-features\": false, \"features\": [\"plugins-base\", \"plugins-good\", \"plugins-bad\", \"opus-base\"] }")
     endif()
     if(VCPKG_QT)
         set(QT_LIBS ", \"qttranslations\", \"qtsvg\"")
