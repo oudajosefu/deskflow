@@ -36,6 +36,8 @@
 // must be before screen header includes
 #include <QFileInfo>
 
+#include <optional>
+
 #if defined(Q_OS_WIN)
 #include "platform/MSWindowsScreen.h"
 #endif
@@ -427,20 +429,28 @@ void ServerApp::applyClientAudioSettings(const QString &clientName)
     return;
   }
 
-  const QVariant device = Settings::value(Settings::Audio::outputDeviceKey(clientName));
-  if (device.isValid()) {
-    m_audioServer->setClientOutputDevice(clientName, device.toString());
+  // Precedence: an explicit value in the server config file wins; otherwise fall back
+  // to the GUI/application settings (Screen Settings -> Audio). This lets users who
+  // drive the server from a config file set the output device / volume / mute there.
+  const std::string name = clientName.toStdString();
+
+  if (const auto device = m_config ? m_config->getAudioOutputDevice(name) : std::nullopt) {
+    m_audioServer->setClientOutputDevice(clientName, QString::fromStdString(*device));
+  } else if (const QVariant v = Settings::value(Settings::Audio::outputDeviceKey(clientName)); v.isValid()) {
+    m_audioServer->setClientOutputDevice(clientName, v.toString());
   }
 
-  const QVariant volume = Settings::value(Settings::Audio::volumeKey(clientName));
-  if (volume.isValid()) {
-    // Stored as a 0–100 percentage; the volume element expects 0.0 = silence, 1.0 = unity.
-    m_audioServer->setClientVolume(clientName, volume.toInt() / 100.0);
+  // Volume is a 0–100 percentage; the volume element expects 0.0 = silence, 1.0 = unity.
+  if (const auto volume = m_config ? m_config->getAudioVolume(name) : std::nullopt) {
+    m_audioServer->setClientVolume(clientName, *volume / 100.0);
+  } else if (const QVariant v = Settings::value(Settings::Audio::volumeKey(clientName)); v.isValid()) {
+    m_audioServer->setClientVolume(clientName, v.toInt() / 100.0);
   }
 
-  const QVariant mute = Settings::value(Settings::Audio::muteKey(clientName));
-  if (mute.isValid()) {
-    m_audioServer->setClientMute(clientName, mute.toBool());
+  if (const auto mute = m_config ? m_config->getAudioMute(name) : std::nullopt) {
+    m_audioServer->setClientMute(clientName, *mute);
+  } else if (const QVariant v = Settings::value(Settings::Audio::muteKey(clientName)); v.isValid()) {
+    m_audioServer->setClientMute(clientName, v.toBool());
   }
 }
 #endif

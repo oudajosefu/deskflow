@@ -165,20 +165,23 @@ built‑in configuration (in the GUI: *Settings → Use external configuration f
 the file to the server core directly). The file uses Deskflow's classic `section:` syntax,
 with one block per screen under `section: screens`.
 
-To route a client's audio to the server, add **`audioRouting = true`** to that client's
-screen block. Set it on the **client** screen — the machine that captures and sends — not
-on the server (the server is always the playback target).
+All of the per‑client audio settings the GUI exposes can be set in the config file. Put
+them in the **client's** screen block (the machine that captures and sends) — not on the
+server, which is always the playback target:
 
 ```
 section: screens
     # the computer you sit at — plays the routed audio
     server-desktop:
 
-    # a client whose audio should play on the server
+    # a client whose audio should play on the server, with explicit controls
     work-laptop:
         audioRouting = true
+        audioOutputDevice = alsa_output.pci-0000_00_1f.3.analog-stereo
+        audioVolume = 80
+        audioMute = false
 
-    # another client, also routed
+    # another client: routed with default device/volume/mute
     media-pc:
         audioRouting = true
 end
@@ -191,16 +194,26 @@ section: links
 end
 ```
 
-`audioRouting` is a per‑screen boolean (`true` / `false`); omitting it means off. It sits
-alongside the other per‑screen options such as `halfDuplexCapsLock`, `switchCorners` and
-`switchCornerSize`.
+Per‑screen audio keys (all optional; they sit alongside options like `halfDuplexCapsLock`
+and `switchCorners`):
 
-**Output device, volume and mute are *not* part of the config file.** They are server‑side
-preferences applied per client and default to **System default / 100% / unmuted**. To
-change them, use the GUI's **Screen Settings → Audio** controls — those preferences are
-stored in Deskflow's settings (keyed by screen name) and are honoured even when the rest
-of the server configuration comes from an external file. If you never open the GUI, audio
-still routes; it just uses those defaults.
+| Key | Type | Meaning |
+|---|---|---|
+| `audioRouting` | boolean | Enable streaming this client's audio to the server. Omitted = off. |
+| `audioOutputDevice` | string | The server output device to play this client on. Omitted/empty = system default. |
+| `audioVolume` | integer | Playback volume, `0`–`100` (percent). Omitted = `100`. |
+| `audioMute` | boolean | Mute this client's audio without stopping the stream. Omitted = `false`. |
+
+The **output device** value is GStreamer's device id for the desired sink. The easiest way
+to find it is the GUI's **Screen Settings → Audio → Output device** dropdown (it stores the
+id), or run `gst-device-monitor-1.0 Audio/Sink` on the server and use the device's `device`
+property string. On Linux this is typically the PulseAudio/PipeWire sink name (as above);
+on Windows it's a WASAPI device id.
+
+**Precedence:** a value given in the config file wins. Anything you leave out falls back to
+the GUI's **Screen Settings → Audio** preference (stored in Deskflow's settings, keyed by
+screen name), and if that's unset too, to the built‑in default in the table. So a pure
+config‑file setup has full control without ever opening the GUI.
 
 ---
 
@@ -254,8 +267,10 @@ from source.
   (`Settings::Audio::Port`).
 - **Media ports** — UDP, assigned per client starting at `24810`. Make sure these are open
   client → server in any firewall between the machines.
-- Per‑client output device / volume / mute are stored in the server's settings, keyed by
-  screen name.
+- Per‑client **enable / output device / volume / mute** can be set either in the GUI
+  (Screen Settings → Audio) or in the server config file (see
+  [Using a server config file](#using-a-server-config-file-instead-of-the-gui)); config‑file
+  values take precedence. GUI preferences are stored in the app settings, keyed by screen name.
 
 ---
 

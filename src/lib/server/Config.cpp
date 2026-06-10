@@ -482,6 +482,45 @@ const Config::ScreenOptions *Config::getOptions(const std::string &name) const
   return options;
 }
 
+void Config::setAudioOutputDevice(const std::string &name, const std::string &device)
+{
+  if (const CellMap::iterator index = m_map.find(name); index != m_map.end()) {
+    index->second.m_audioOutputDevice = device;
+  }
+}
+
+void Config::setAudioVolume(const std::string &name, int volume)
+{
+  if (const CellMap::iterator index = m_map.find(name); index != m_map.end()) {
+    index->second.m_audioVolume = volume;
+  }
+}
+
+void Config::setAudioMute(const std::string &name, bool mute)
+{
+  if (const CellMap::iterator index = m_map.find(name); index != m_map.end()) {
+    index->second.m_audioMute = mute;
+  }
+}
+
+std::optional<std::string> Config::getAudioOutputDevice(const std::string &name) const
+{
+  const CellMap::const_iterator index = m_map.find(name);
+  return index != m_map.end() ? index->second.m_audioOutputDevice : std::nullopt;
+}
+
+std::optional<int> Config::getAudioVolume(const std::string &name) const
+{
+  const CellMap::const_iterator index = m_map.find(name);
+  return index != m_map.end() ? index->second.m_audioVolume : std::nullopt;
+}
+
+std::optional<bool> Config::getAudioMute(const std::string &name) const
+{
+  const CellMap::const_iterator index = m_map.find(name);
+  return index != m_map.end() ? index->second.m_audioMute : std::nullopt;
+}
+
 bool Config::hasLockToScreenAction() const
 {
   return m_hasLockToScreenAction;
@@ -801,6 +840,12 @@ void Config::readSectionScreens(ConfigReadContext &s)
         addOption(screen, kOptionScreenPreserveFocus, s.parseBoolean(value));
       } else if (name == "audioRouting") {
         addOption(screen, kOptionAudioRouting, s.parseBoolean(value));
+      } else if (name == "audioOutputDevice") {
+        setAudioOutputDevice(screen, value);
+      } else if (name == "audioVolume") {
+        setAudioVolume(screen, s.parseInt(value));
+      } else if (name == "audioMute") {
+        setAudioMute(screen, s.parseBoolean(value));
       } else {
         // unknown argument
         throw ServerConfigReadException(s, "unknown argument \"%{1}\"", name);
