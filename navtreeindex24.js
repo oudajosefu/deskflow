@@ -1,5 +1,17 @@
 var NAVTREEINDEX24 =
 {
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#ae49a5705b1fff5653efb37ced30d6d58":[7,0,0,7,0,0],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html":[6,0,0,8,1,0],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html":[7,0,0,7,1,0],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a2dd0beec429d89aa7790d569364036b5":[6,0,0,8,1,0,1],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a2dd0beec429d89aa7790d569364036b5":[7,0,0,7,1,0,1],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a68b6507fead21e8e6f9b9eedc76ec56a":[6,0,0,8,1,0,3],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a68b6507fead21e8e6f9b9eedc76ec56a":[7,0,0,7,1,0,3],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a84cb178e1ee46a5c19d76d38dbe464b7":[6,0,0,8,1,0,2],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a84cb178e1ee46a5c19d76d38dbe464b7":[7,0,0,7,1,0,2],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a97cc7d159a8f3145db51eb46fda459fe":[6,0,0,8,1,0,0],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a97cc7d159a8f3145db51eb46fda459fe":[7,0,0,7,1,0,0],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Group.html":[6,0,0,8,1,1],
 "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Group.html":[7,0,0,7,1,1],
 "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Group.html#a2cc9969acbb96139ab728da9390b4b8d":[6,0,0,8,1,1,1],
 "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Group.html#a2cc9969acbb96139ab728da9390b4b8d":[7,0,0,7,1,1,1],

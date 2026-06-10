@@ -158,10 +158,10 @@ var NAVTREEINDEX =
 "classdeskflow_1_1EiScreen.html#aa4702a7945c7329d29c4868f8ef1a06d",
 "classdeskflow_1_1Screen.html#a80ac0907a9559681343603883dbcd9f8",
 "classdeskflow_1_1platform_1_1MSWindowsProcess.html#a3240131b60f8ba6e8c3df928e412195b",
-"classvalidators_1_1IStringValidator.html#a60c2a5e5d630c57ed232a119a6653b85",
-"group__protocol__constants.html#gad5b510266c8a03bcd0ee9745ae7046b6",
-"namespacemembers_type.html",
-"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Group.html"
+"classvalidators_1_1ComputerNameValidator.html#ac1da2d42616c9b2d985c66766c918197",
+"group__protocol__commands.html#gabb47e6edadb9364155073384faf00f29",
+"namespacedeskflow_1_1platform.html#ade70aeb9d77e1781c854a34008a428ed",
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#ae49a5705b1fff5653efb37ced30d6d58"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

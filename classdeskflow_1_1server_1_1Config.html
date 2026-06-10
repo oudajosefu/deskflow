@@ -150,9 +150,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a2f5a95f3d48dee8a26a8457a51ebea95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a screen options.  <br /></td></tr>
 <tr class="memitem:ab7c3a5347a74331d625735e66b5a32b1" id="r_ab7c3a5347a74331d625735e66b5a32b1"><td class="memItemLeft">virtual <a class="el" href="classInputFilter.html">InputFilter</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ab7c3a5347a74331d625735e66b5a32b1">getInputFilter</a> ()</td></tr>
 <tr class="memdesc:ab7c3a5347a74331d625735e66b5a32b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the hot key input filter.  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-member-group" class="groupheader"><a id="member-group" name="member-group"></a>
-accessors</h2></td></tr>
+<tr id="pub-methods-1" class="groupHeader"><td colspan="2"><div class="groupHeader">accessors</div></td></tr>
 <tr class="memitem:af9e192946df0b469b826fec417cb2dfe" id="r_af9e192946df0b469b826fec417cb2dfe"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af9e192946df0b469b826fec417cb2dfe">isValidScreenName</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>) const</td></tr>
 <tr class="memdesc:af9e192946df0b469b826fec417cb2dfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test screen name validity.  <br /></td></tr>
 <tr class="memitem:a905a731e397956acc805fcafe41d2ae0" id="r_a905a731e397956acc805fcafe41d2ae0"><td class="memItemLeft"><a class="el" href="classdeskflow_1_1server_1_1Config_1_1const__iterator.html">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a905a731e397956acc805fcafe41d2ae0">begin</a> () const</td></tr>
@@ -183,6 +181,16 @@ accessors</h2></td></tr>
 <tr class="memdesc:a73a1ab5a56f039d5b5b6225d27ac0947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the server address.  <br /></td></tr>
 <tr class="memitem:aac557ef9305abe67d594831c82524e8e" id="r_aac557ef9305abe67d594831c82524e8e"><td class="memItemLeft">const <a class="el" href="#af1d0a9ed19208eaf3509cc59323ce0de">ScreenOptions</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aac557ef9305abe67d594831c82524e8e">getOptions</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>) const</td></tr>
 <tr class="memdesc:aac557ef9305abe67d594831c82524e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the screen options.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-member-group" class="groupheader"><a id="member-group" name="member-group"></a>
+Audio routing playback settings (server config file)</h2></td></tr>
+<tr class="memitem:a5a1d1b69c62771e2b547192da1d922aa" id="r_a5a1d1b69c62771e2b547192da1d922aa"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5a1d1b69c62771e2b547192da1d922aa">setAudioOutputDevice</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>, const std::string &amp;device)</td></tr>
+<tr class="memdesc:a5a1d1b69c62771e2b547192da1d922aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set/get a screen's audio routing playback settings.  <br /></td></tr>
+<tr class="memitem:af00ea2ab53e26c18d947c1e768908e60" id="r_af00ea2ab53e26c18d947c1e768908e60"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af00ea2ab53e26c18d947c1e768908e60">setAudioVolume</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>, <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> volume)</td></tr>
+<tr class="memitem:af170a5d49bc131b84ce8cb42f61ff13a" id="r_af170a5d49bc131b84ce8cb42f61ff13a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af170a5d49bc131b84ce8cb42f61ff13a">setAudioMute</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>, bool mute)</td></tr>
+<tr class="memitem:a4a9b7941f667a3fe90a3feca1a26bbb3" id="r_a4a9b7941f667a3fe90a3feca1a26bbb3"><td class="memItemLeft">std::optional&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4a9b7941f667a3fe90a3feca1a26bbb3">getAudioOutputDevice</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>) const</td></tr>
+<tr class="memitem:a538fec17fd773bee911d4fcc2502528a" id="r_a538fec17fd773bee911d4fcc2502528a"><td class="memItemLeft">std::optional&lt; <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a538fec17fd773bee911d4fcc2502528a">getAudioVolume</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>) const</td></tr>
+<tr class="memitem:a93aad40c6ec836efd88db223035983f5" id="r_a93aad40c6ec836efd88db223035983f5"><td class="memItemLeft">std::optional&lt; bool &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a93aad40c6ec836efd88db223035983f5">getAudioMute</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>) const</td></tr>
 <tr class="memitem:af224d470299368ce6f10fff62bbef68d" id="r_af224d470299368ce6f10fff62bbef68d"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af224d470299368ce6f10fff62bbef68d">hasLockToScreenAction</a> () const</td></tr>
 <tr class="memdesc:af224d470299368ce6f10fff62bbef68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for lock to screen action.  <br /></td></tr>
 <tr class="memitem:adf44f2c5fb7f5b55f46e48512d866f01" id="r_adf44f2c5fb7f5b55f46e48512d866f01"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#adf44f2c5fb7f5b55f46e48512d866f01">operator==</a> (const <a class="el" href="#ad6a5177e22cb3570994b7b686bf36b33">Config</a> &amp;) const</td></tr>
@@ -670,6 +678,57 @@ accessors</h2></td></tr>
 
 </div>
 </div>
+<a id="a93aad40c6ec836efd88db223035983f5" name="a93aad40c6ec836efd88db223035983f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93aad40c6ec836efd88db223035983f5">&#9670;&#160;</a></span>getAudioMute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; bool &gt; deskflow::server::Config::getAudioMute </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a9b7941f667a3fe90a3feca1a26bbb3" name="a4a9b7941f667a3fe90a3feca1a26bbb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a9b7941f667a3fe90a3feca1a26bbb3">&#9670;&#160;</a></span>getAudioOutputDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::string &gt; deskflow::server::Config::getAudioOutputDevice </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a538fec17fd773bee911d4fcc2502528a" name="a538fec17fd773bee911d4fcc2502528a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a538fec17fd773bee911d4fcc2502528a">&#9670;&#160;</a></span>getAudioVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> &gt; deskflow::server::Config::getAudioVolume </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="af409de3b8d399c0869787e1f73093e17" name="af409de3b8d399c0869787e1f73093e17"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af409de3b8d399c0869787e1f73093e17">&#9670;&#160;</a></span>getCanonicalName()</h2>
 
@@ -1141,6 +1200,72 @@ accessors</h2></td></tr>
 
 <p>Rename screen. </p>
 <p>Renames a screen. All references to the name are updated. Returns true iff successful. </p>
+
+</div>
+</div>
+<a id="af170a5d49bc131b84ce8cb42f61ff13a" name="af170a5d49bc131b84ce8cb42f61ff13a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af170a5d49bc131b84ce8cb42f61ff13a">&#9670;&#160;</a></span>setAudioMute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void deskflow::server::Config::setAudioMute </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>mute</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5a1d1b69c62771e2b547192da1d922aa" name="a5a1d1b69c62771e2b547192da1d922aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a1d1b69c62771e2b547192da1d922aa">&#9670;&#160;</a></span>setAudioOutputDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void deskflow::server::Config::setAudioOutputDevice </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>device</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set/get a screen's audio routing playback settings. </p>
+<p>These mirror the GUI's "Screen Settings -&gt; Audio" controls for users who drive the server from a config file (audioOutputDevice / audioVolume / audioMute). They are applied server-side when that client's audio stream starts. A value left unset means it was not given in the config file; the server then falls back to the application settings. Does nothing / returns no value for an unknown screen. </p>
+
+</div>
+</div>
+<a id="af00ea2ab53e26c18d947c1e768908e60" name="af00ea2ab53e26c18d947c1e768908e60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af00ea2ab53e26c18d947c1e768908e60">&#9670;&#160;</a></span>setAudioVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void deskflow::server::Config::setAudioVolume </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a></td>          <td class="paramname"><span class="paramname"><em>volume</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
