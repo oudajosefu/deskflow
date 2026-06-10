@@ -17,7 +17,9 @@
 
 #include <iosfwd>
 #include <map>
+#include <optional>
 #include <set>
+#include <string>
 
 namespace deskflow::server {
 class Config;
@@ -133,6 +135,12 @@ private:
 
   public:
     ScreenOptions m_options;
+    // Per-screen audio routing playback settings, set from the server config file
+    // (audioOutputDevice / audioVolume / audioMute). Unset = not specified, in which
+    // case the server falls back to the GUI/application settings.
+    std::optional<std::string> m_audioOutputDevice;
+    std::optional<int> m_audioVolume;
+    std::optional<bool> m_audioMute;
   };
   using CellMap = std::map<std::string, Cell, deskflow::string::CaselessCmp>;
   using NameMap = std::map<std::string, std::string, deskflow::string::CaselessCmp>;
@@ -406,6 +414,24 @@ public:
   options.
   */
   const ScreenOptions *getOptions(const std::string &name) const;
+
+  //! @name Audio routing playback settings (server config file)
+  //@{
+  //! Set/get a screen's audio routing playback settings.
+  /*!
+  These mirror the GUI's "Screen Settings -> Audio" controls for users who drive the
+  server from a config file (audioOutputDevice / audioVolume / audioMute). They are
+  applied server-side when that client's audio stream starts. A value left unset means
+  it was not given in the config file; the server then falls back to the application
+  settings. Does nothing / returns no value for an unknown screen.
+  */
+  void setAudioOutputDevice(const std::string &name, const std::string &device);
+  void setAudioVolume(const std::string &name, int volume);
+  void setAudioMute(const std::string &name, bool mute);
+  std::optional<std::string> getAudioOutputDevice(const std::string &name) const;
+  std::optional<int> getAudioVolume(const std::string &name) const;
+  std::optional<bool> getAudioMute(const std::string &name) const;
+  //@}
 
   //! Check for lock to screen action
   /*!
