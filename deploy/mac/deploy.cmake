@@ -24,9 +24,9 @@ if (OSX_BUNDLE)
   # Bundle the GStreamer runtime for audio routing. macdeployqt (run above) handles
   # Qt and the linked GStreamer core dylibs, but the runtime-LOADED plugins are not
   # linked, so we copy the needed ones into Contents/Resources/gstreamer-1.0 (where
-  # the app points GST_PLUGIN_PATH via AudioDevices::initGStreamer) and use
-  # dylibbundler to recursively pull in + rewrite their brew dylib deps (absolute
-  # /opt/homebrew paths -> @loader_path) into Contents/Frameworks.
+  # the app points GST_PLUGIN_PATH via AudioDevices::initGStreamer) and use dylibbundler
+  # to recursively pull in + rewrite their dylib deps (absolute GStreamer.framework
+  # paths under /Library/Frameworks -> @loader_path) into Contents/Frameworks.
   if(BUILD_AUDIO_SUPPORT AND GSTREAMER_PLUGIN_DIR AND EXISTS "${GSTREAMER_PLUGIN_DIR}")
     find_program(DYLIBBUNDLER dylibbundler)
     install(CODE "

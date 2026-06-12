@@ -30,9 +30,28 @@ runs:
       if: ${{ runner.os != 'Windows' }}
       run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
-            # gstreamer: audio routing runtime/codec/RTP; dylibbundler: bundle the
-            # runtime-loaded plugin dylibs (and their deps) into the .app at package time.
-            brew install googletest openssl doxygen gstreamer dylibbundler --quiet
+            # dylibbundler: bundle the runtime-loaded GStreamer plugin dylibs (and their
+            # deps) into the .app at package time. pkg-config: locate the GStreamer framework
+            # at configure time (CMake's FindPkgConfig) — previously pulled in transitively by
+            # the brew gstreamer formula, so install it explicitly now that gstreamer is gone.
+            # GStreamer itself is NOT from Homebrew — it comes from its official Universal
+            # framework .pkg installed below.
+            brew install googletest openssl doxygen dylibbundler pkg-config --quiet
+            # Audio routing: install the official Universal GStreamer.framework (runtime +
+            # devel) from gstreamer.freedesktop.org — the documented macOS distribution
+            # method. One Universal package covers x86_64 + arm64 and installs to
+            # /Library/Frameworks/GStreamer.framework; faster/more deterministic than
+            # building the heavy brew gstreamer formula (which pulled ffmpeg/x264/etc.).
+            GST_VER=1.28.3
+            GST_BASE="https://gstreamer.freedesktop.org/data/pkg/osx/${GST_VER}"
+            for pkg in "gstreamer-1.0-${GST_VER}-universal.pkg" "gstreamer-1.0-devel-${GST_VER}-universal.pkg"; do
+              curl -fSL --retry 3 -o "/tmp/${pkg}" "${GST_BASE}/${pkg}"
+              sudo installer -pkg "/tmp/${pkg}" -target /
+            done
+            # Hard gate: fail loudly if the dev files (.pc) did not land, so a broken
+            # GStreamer install can never silently disable audio (mirrors the Windows SDK gate).
+            test -f /Library/Frameworks/GStreamer.framework/Versions/1.0/lib/pkgconfig/gstreamer-1.0.pc \
+              || { echo "::error::GStreamer.framework devel (.pc) missing after install"; exit 1; }
           elif [ "$RUNNER_OS" == "Linux" ]; then
             if [ ${{inputs.like}} == "debian" ]; then
               apt update -qqq > /dev/null
@@ -90,31 +109,48 @@ runs:
         cache: true
         cache-key-prefix: ${{matrix.target.os}}-${{inputs.qt-version}}
 
-    # Windows x64 gets GStreamer from the official prebuilt MSVC SDK (a from-source
-    # vcpkg build blows the job time budget). arm64 has no official SDK, so it builds
-    # via vcpkg below. The devel package ships the .pc files, headers and import libs.
-    - name: Install GStreamer SDK (Windows x64)
-      if: ${{ runner.os == 'Windows' && !contains(inputs.vcpkg-triplet, 'arm64') }}
+    # GStreamer (audio routing) comes from the official prebuilt MSVC SDK for BOTH Windows
+    # arches. From 1.28 the SDK is a single per-arch installer that ships runtime AND devel
+    # (.pc files, headers, import libs) and, importantly, an arm64 build — earlier releases
+    # had no arm64 and split runtime/devel into two MSIs whose back-to-back silent install
+    # was unreliable (a failed devel MSI left no lib\pkgconfig, so pkg-config found nothing
+    # and audio was silently disabled on a green build). A from-source vcpkg build blows the
+    # job budget, so GStreamer is never a vcpkg dependency on Windows.
+    - name: Install GStreamer SDK (Windows)
+      if: ${{ runner.os == 'Windows' }}
       shell: pwsh
       run: |
-        $ver = "1.24.13"
-        $base = "https://gstreamer.freedesktop.org/data/pkg/windows/$ver/msvc"
-        foreach ($pkg in @("gstreamer-1.0-msvc-x86_64-$ver.msi", "gstreamer-1.0-devel-msvc-x86_64-$ver.msi")) {
-          Invoke-WebRequest -Uri "$base/$pkg" -OutFile "$env:TEMP\$pkg"
-          # ADDLOCAL=ALL installs the complete plugin set (the default install omits most).
-          Start-Process msiexec.exe -Wait -ArgumentList "/i `"$env:TEMP\$pkg`" /qn /norestart ADDLOCAL=ALL"
-        }
-        $root = "C:\gstreamer\1.0\msvc_x86_64"
-        "GSTREAMER_1_0_ROOT_MSVC_X86_64=$root\" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+        $ver = "1.28.3"
+        if ("${{ inputs.vcpkg-triplet }}" -like "*arm64*") { $arch = "arm64"; $ARCH = "ARM64" } else { $arch = "x86_64"; $ARCH = "X86_64" }
+        $exe = "gstreamer-1.0-msvc-$arch-$ver.exe"
+        $url = "https://gstreamer.freedesktop.org/data/pkg/windows/$ver/msvc/$exe"
+        $dl  = "$env:TEMP\$exe"
+        curl.exe -sL --fail --retry 3 -o $dl $url
+        if ($LASTEXITCODE -ne 0) { throw "GStreamer SDK download failed (curl exit $LASTEXITCODE)" }
+        # /S installs silently. The installer runs elevated on the runner and lands in
+        # C:\Program Files\gstreamer\1.0\msvc_<arch>, recording that root in a machine env var.
+        $p = Start-Process -FilePath $dl -ArgumentList "/S" -Wait -PassThru
+        if ($p.ExitCode -ne 0) { throw "GStreamer SDK installer exited $($p.ExitCode)" }
+        $root = [Environment]::GetEnvironmentVariable("GSTREAMER_1_0_ROOT_MSVC_$ARCH", "Machine")
+        if (-not $root) { $root = "C:\Program Files\gstreamer\1.0\msvc_$arch" }
+        $root = $root.TrimEnd("\")
+        # Hard gate: the devel .pc must exist, else pkg-config can't find GStreamer and audio
+        # would disable silently. Fail the job loudly instead — this is the check whose absence
+        # let the broken build ship without audio. (The SDK's .pc files are relocatable via
+        # ${pcfiledir}, so the Program Files path — spaces and all — resolves fine.)
+        $pc = "$root\lib\pkgconfig\gstreamer-1.0.pc"
+        if (-not (Test-Path $pc)) { throw "GStreamer SDK incomplete: $pc not found" }
+        "GSTREAMER_1_0_ROOT_MSVC_$ARCH=$root\" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
         "$root\bin" | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+        Write-Output "GStreamer SDK $ver ($arch) ready at $root"
 
     - name: Build and cache vcpkg
       if: ${{ runner.os == 'Windows' }}
       id: vcpkg
       uses: johnwason/vcpkg-action@v8
       with:
-        # x64 gets GStreamer from the official SDK; arm64 builds without audio. Neither
-        # builds GStreamer via vcpkg. pkgconf gives FindPkgConfig a usable pkg-config tool.
+        # Both Windows arches get GStreamer from the official SDK (installed above); it is
+        # never built via vcpkg. pkgconf gives FindPkgConfig a usable pkg-config tool.
         pkgs: gtest openssl pkgconf
         extra-args: --classic --host-triplet=${{inputs.vcpkg-triplet}}
         triplet: ${{inputs.vcpkg-triplet}}

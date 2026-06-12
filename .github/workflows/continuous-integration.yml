@@ -19,7 +19,10 @@ env:
   GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
   PACKAGE_PREFIX: "deskflow"
   PACKAGE_PATH: ./dist
-  CMAKE_CONFIGURE: "cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -DSKIP_BUILD_TESTS=ON -DCMAKE_COMPILE_WARNING_AS_ERROR=ON"
+  # REQUIRE_AUDIO_SUPPORT=ON makes a missing GStreamer a hard configure error instead of
+  # silently disabling audio — so a provisioning regression fails the build loudly (red)
+  # rather than shipping a green build with audio quietly turned off.
+  CMAKE_CONFIGURE: "cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -DSKIP_BUILD_TESTS=ON -DCMAKE_COMPILE_WARNING_AS_ERROR=ON -DREQUIRE_AUDIO_SUPPORT=ON"
 
 jobs:
   # Quality gate to allow PR merge, used in the branch protection rules.
@@ -103,9 +106,10 @@ jobs:
 
           - name: "windows-2022-arm64"
             runs-on: "windows-11-arm"
-            # No official GStreamer SDK for Windows arm64 and a from-source vcpkg build takes
-            # hours, so audio routing is disabled here (built without GStreamer). Normal budget.
-            timeout: 30
+            # Audio routing enabled via the official GStreamer arm64 MSVC SDK (1.28+, the first
+            # release to ship Windows arm64). The ~300 MB SDK download + audio-lib compile need
+            # a bit more than the old no-audio budget.
+            timeout: 40
             config-args: "-G Ninja"
             vcpkg-triplet: arm64-windows
             arch: "arm64"
@@ -119,9 +123,10 @@ jobs:
 
           - name: "macos-x64"
             runs-on: macos-15-intel
-            # Audio enablement adds a heavy brew gstreamer install (~9 min, pulls ffmpeg/x264/etc.)
-            # plus a longer compile on the slow Intel runner, which exceeded the old 20-min budget.
-            timeout: 35
+            # Audio uses the official Universal GStreamer.framework .pkg (one download + install),
+            # replacing the heavy brew gstreamer build (~9 min, pulled ffmpeg/x264/etc.). Budget
+            # trimmed back accordingly, with margin for the slow Intel runner + dmg packaging retries.
+            timeout: 25
             qt-version: 6.9.3
             config-args: '-DCMAKE_OSX_ARCHITECTURES="x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=12 -DCMAKE_OSX_SYSROOT=/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'
 
