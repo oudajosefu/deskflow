@@ -69,14 +69,12 @@ option(BUILD_AUDIO_SUPPORT "Build with audio routing support" ON)
 if(WIN32)
     option (VCPKG_QT "Use Qt from VCPKG" OFF)
     if(BUILD_AUDIO_SUPPORT)
-        # Audio routing streams via GStreamer. On Windows x64 it comes from the official
-        # prebuilt MSVC SDK (installed in CI), NOT vcpkg — a from-source build blows the CI
-        # time budget. There is no official GStreamer SDK for Windows arm64, and building it
-        # from source via vcpkg takes hours (gettext alone ~30 min on the arm64 runner), so
-        # arm64-windows builds WITHOUT audio routing (gracefully disabled when GStreamer is
-        # not found). GStreamer is therefore never a vcpkg dependency on Windows.
-        # pkgconf gives CMake's FindPkgConfig a usable pkg-config tool to locate the SDK
-        # (the host's pkg-config.bat is not found by find_program).
+        # Audio routing streams via GStreamer. On Windows (x64 + arm64) it comes from the
+        # official prebuilt MSVC SDK installed in CI (see .github/actions/install-dependencies),
+        # NOT vcpkg — a from-source vcpkg build blows the CI time budget. GStreamer is therefore
+        # never a vcpkg dependency on Windows; we only pull in pkgconf, which gives CMake's
+        # FindPkgConfig a usable pkg-config tool to locate the SDK (the host's pkg-config.bat is
+        # not found by find_program).
         set(AUDIO_LIBS ", \"pkgconf\"")
     endif()
     if(VCPKG_QT)

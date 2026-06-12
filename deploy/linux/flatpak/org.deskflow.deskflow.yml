@@ -86,6 +86,9 @@ modules:
     buildsystem: cmake-ninja
     config-opts:
       - "-DCMAKE_BUILD_TYPE=Release"
+      # Fail the build if GStreamer is missing rather than silently dropping audio routing.
+      # The org.kde.Platform runtime provides GStreamer + base/good plugins (see finish-args).
+      - "-DREQUIRE_AUDIO_SUPPORT=ON"
     sources:
       - type: dir
         path: ../../../

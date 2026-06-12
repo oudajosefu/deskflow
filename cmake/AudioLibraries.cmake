@@ -10,22 +10,30 @@
 # packetisation and the jitter buffer, so the only build dependency we need to
 # locate here is GStreamer itself (plus a few of its companion libraries).
 #
-# On Windows/macOS GStreamer is provided by vcpkg (see cmake/vcpkg.json.in); on
-# Linux it comes from the system packages (gstreamer1.0-plugins-{base,good,bad}).
-# In all cases it is discovered through pkg-config.
+# GStreamer comes from its official distribution on every platform, discovered via
+# pkg-config:
+#   * Windows (x64 + arm64): the official prebuilt GStreamer MSVC SDK, installed in CI
+#     (see .github/actions/install-dependencies). The install sets the
+#     GSTREAMER_1_0_ROOT_MSVC_{X86_64,ARM64} env var we key off below.
+#   * macOS (x64 + arm64): the official Universal GStreamer.framework .pkg, under
+#     /Library/Frameworks/GStreamer.framework.
+#   * Linux/BSD: the system packages (gstreamer1.0 + plugins-{base,good}).
 #
-# Sets HAVE_AUDIO_SUPPORT-gating: if GStreamer cannot be found the feature is
-# disabled (BUILD_AUDIO_SUPPORT forced OFF) rather than failing the whole build.
+# If GStreamer cannot be found the feature is normally disabled (BUILD_AUDIO_SUPPORT
+# forced OFF) rather than failing the whole build. Set REQUIRE_AUDIO_SUPPORT=ON (CI does
+# this on every target that must ship audio) to turn "not found" into a hard error, so a
+# provisioning regression can never again pass as a green build with audio silently off.
 #
 #
 # Make GStreamer's .pc files discoverable by pkg-config, wherever it came from:
-#   * the official prebuilt GStreamer MSVC SDK (Windows x64), located via the
-#     GSTREAMER_1_0_ROOT_MSVC_* env var the SDK installer sets;
-#   * vcpkg (Windows arm64), under <installed>/<triplet>/lib/pkgconfig — vcpkg
-#     does not add this to PKG_CONFIG_PATH for us, and CMake's find_program cannot
-#     locate a host pkg-config.bat, so we also point PKG_CONFIG_EXECUTABLE at the
-#     pkgconf the 'pkgconf' dependency provides;
-#   * the system (Linux/macOS/BSD) — pkg-config already works; nothing to add.
+#   * the official prebuilt GStreamer MSVC SDK (Windows x64 + arm64), located via the
+#     GSTREAMER_1_0_ROOT_MSVC_{X86_64,ARM64} env var the SDK install sets. CMake's
+#     find_program cannot locate a host pkg-config.bat, so we also point
+#     PKG_CONFIG_EXECUTABLE at the pkgconf the vcpkg 'pkgconf' dependency provides
+#     (falling back to the SDK's own bundled pkg-config);
+#   * the official GStreamer.framework (macOS), whose lib/pkgconfig is not on
+#     pkg-config's default search path, so we add it explicitly;
+#   * the system (Linux/BSD) — pkg-config already works; nothing to add.
 # set(ENV{}) is process-global, so this also covers the pkg_check_modules call in
 # src/lib/audio/CMakeLists.txt. Must run before find_package(PkgConfig).
 #
@@ -72,6 +80,15 @@ function(setup_gstreamer_pkgconfig)
     endif()
   endif()
 
+  # macOS: the official Universal GStreamer.framework is not on pkg-config's default
+  # search path (unlike Homebrew), so add its pkgconfig dir explicitly.
+  if(APPLE)
+    set(_gst_fw_pc "/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/pkgconfig")
+    if(EXISTS "${_gst_fw_pc}")
+      list(APPEND _candidates "${_gst_fw_pc}")
+    endif()
+  endif()
+
   # Prepend candidates so the highest-priority one (the SDK) ends up first in
   # PKG_CONFIG_PATH. Iterate in reverse because each iteration prepends.
   if(_candidates)
@@ -90,6 +107,26 @@ function(setup_gstreamer_pkgconfig)
   endforeach()
 endfunction()
 
+# When ON, a missing GStreamer is a hard error instead of silently disabling audio.
+# CI sets this on every target that must ship audio; local dev keeps it OFF so a
+# checkout without GStreamer still configures.
+option(REQUIRE_AUDIO_SUPPORT "Fail the build if audio support was requested but GStreamer is missing" OFF)
+
+# Disable audio — or, under REQUIRE_AUDIO_SUPPORT, fail hard — with a consistent message.
+macro(_audio_unavailable _reason)
+  if(REQUIRE_AUDIO_SUPPORT)
+    message(FATAL_ERROR
+      "Audio routing required (REQUIRE_AUDIO_SUPPORT=ON) but ${_reason}.\n"
+      "  Windows: install/extract the official GStreamer MSVC SDK (sets GSTREAMER_1_0_ROOT_MSVC_*).\n"
+      "  macOS: install the official Universal GStreamer.framework .pkg.\n"
+      "  Linux/BSD: install gstreamer1.0 + plugins-{base,good} development packages.")
+  else()
+    message(WARNING
+      "${_reason} — audio routing disabled. Set REQUIRE_AUDIO_SUPPORT=ON to make this fatal.")
+    set(BUILD_AUDIO_SUPPORT OFF CACHE BOOL "" FORCE)
+  endif()
+endmacro()
+
 function(configure_audio_libs)
 
   if(NOT BUILD_AUDIO_SUPPORT)
@@ -101,8 +138,7 @@ function(configure_audio_libs)
 
   find_package(PkgConfig QUIET)
   if(NOT PKG_CONFIG_FOUND)
-    message(WARNING "pkg-config not found — audio routing disabled (needed to locate GStreamer)")
-    set(BUILD_AUDIO_SUPPORT OFF CACHE BOOL "" FORCE)
+    _audio_unavailable("pkg-config not found (needed to locate GStreamer)")
     return()
   endif()
 
@@ -118,11 +154,7 @@ function(configure_audio_libs)
   )
 
   if(NOT GSTREAMER_FOUND)
-    message(WARNING
-      "GStreamer (>= 1.20, with -base/-app/-audio dev files) not found — audio routing disabled.\n"
-      "  Windows/macOS: ensure the vcpkg 'gstreamer' dependency built successfully.\n"
-      "  Linux: install gstreamer1.0 + plugins-{base,good,bad} development packages.")
-    set(BUILD_AUDIO_SUPPORT OFF CACHE BOOL "" FORCE)
+    _audio_unavailable("GStreamer (>= 1.20, with -base/-app/-audio dev files) not found")
     return()
   endif()
 

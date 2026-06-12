@@ -84,8 +84,8 @@ if(BUILD_AUDIO_SUPPORT AND GSTREAMER_PLUGIN_DIR AND EXISTS "${GSTREAMER_PLUGIN_D
       REGEX "gst(coreelements|app|audioconvert|audioresample|audiomixer|audiorate|volume|level|opus|rtp|rtpmanager|udp|autodetect|typefindfunctions|audioparsers|wasapi2|wasapi)\\.dll$"
   )
   # Companion GStreamer libs + codec deps the plugins load at runtime (our exe does
-  # not link them, so the dependency scan misses them). Names differ between the
-  # official SDK (gst*-1.0-0.dll) and vcpkg (gst*-1.0.dll), so glob.
+  # not link them, so the dependency scan misses them). The official SDK names its core
+  # libs gst*-1.0-0.dll and ships codec DLLs like opus-0.dll alongside them, so glob both.
   if(GSTREAMER_PREFIX AND EXISTS "${GSTREAMER_PREFIX}/bin")
     install(DIRECTORY "${GSTREAMER_PREFIX}/bin/"
       DESTINATION ${CMAKE_INSTALL_LIBDIR}

@@ -33,7 +33,7 @@ device) live on the server side.
 | Platform | Capture (client) | Playback (server) | Notes |
 |---|---|---|---|
 | **Windows x64** | ✅ WASAPI loopback | ✅ | GStreamer ships in the installer (official MSVC SDK) |
-| **Windows arm64** | ❌ | ❌ | No GStreamer build available; audio routing is disabled on this build |
+| **Windows arm64** | ✅ WASAPI loopback | ✅ | GStreamer ships in the installer (official MSVC SDK, 1.28+) |
 | **macOS 13+** (x64 & arm64) | ✅ ScreenCaptureKit | ✅ CoreAudio | Requires the "Screen & System Audio Recording" permission |
 | **macOS 12** | ❌ capture | ✅ playback | ScreenCaptureKit needs macOS 13; a 12‑target build can still play |
 | **Linux** (Debian/Ubuntu, Fedora, openSUSE, Arch) | ✅ PulseAudio/PipeWire monitor | ✅ | Uses the distro's GStreamer packages |
@@ -42,7 +42,9 @@ device) live on the server side.
 
 Audio routing is compiled in only when the build option `BUILD_AUDIO_SUPPORT` is `ON`
 (the default) **and** GStreamer is found at configure time. If GStreamer is missing the
-feature is silently disabled and the rest of Deskflow builds normally.
+feature is silently disabled and the rest of Deskflow builds normally — unless
+`REQUIRE_AUDIO_SUPPORT` is `ON` (set on CI), which makes a missing GStreamer a hard
+configure error so release builds can never ship with audio silently turned off.
 
 ---
 
@@ -276,7 +278,6 @@ from source.
 
 ## Limitations & known issues
 
-- **Windows arm64**: no audio routing (no usable GStreamer build for that target).
 - **macOS 12**: can play but not capture (ScreenCaptureKit requires macOS 13+).
 - **Direction is fixed**: client → server only. There is no server → client streaming.
 - **Live control changes** (volume/mute/device) apply on the next stream start, not
