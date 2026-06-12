@@ -8,6 +8,18 @@
 # https://developer.apple.com/library/archive/documentation/Security/Conceptual/cryptoservices/SecureNetworkCommunicationAPIs/SecureNetworkCommunicationAPIs.html
 if(APPLE)
   set(OPENSSL_USE_STATIC_LIBS TRUE)
+  # The GStreamer.framework is on PKG_CONFIG_PATH for audio routing and ships its own
+  # openssl.pc, which FindOpenSSL would otherwise pick up as a pkg-config hint and link
+  # GStreamer's bundled libcrypto.a instead of the system/Homebrew OpenSSL. Pin
+  # OPENSSL_ROOT_DIR to the Homebrew prefix (it takes precedence over pkg-config hints).
+  if(NOT OPENSSL_ROOT_DIR)
+    find_program(BREW_EXECUTABLE brew)
+    if(BREW_EXECUTABLE)
+      execute_process(
+        COMMAND ${BREW_EXECUTABLE} --prefix openssl
+        OUTPUT_VARIABLE OPENSSL_ROOT_DIR OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+    endif()
+  endif()
 endif()
 
 find_package(Qt6 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS Network)
