@@ -45,7 +45,7 @@ runs:
             GST_VER=1.28.3
             GST_BASE="https://gstreamer.freedesktop.org/data/pkg/osx/${GST_VER}"
             for pkg in "gstreamer-1.0-${GST_VER}-universal.pkg" "gstreamer-1.0-devel-${GST_VER}-universal.pkg"; do
-              curl -fSL --retry 3 -o "/tmp/${pkg}" "${GST_BASE}/${pkg}"
+              curl -fSL --retry 5 --retry-all-errors --retry-delay 5 -o "/tmp/${pkg}" "${GST_BASE}/${pkg}"
               sudo installer -pkg "/tmp/${pkg}" -target /
             done
             # Hard gate: fail loudly if the dev files (.pc) did not land, so a broken
@@ -125,7 +125,9 @@ runs:
         $exe = "gstreamer-1.0-msvc-$arch-$ver.exe"
         $url = "https://gstreamer.freedesktop.org/data/pkg/windows/$ver/msvc/$exe"
         $dl  = "$env:TEMP\$exe"
-        curl.exe -sL --fail --retry 3 -o $dl $url
+        # --retry-all-errors so transient HTTP 4xx/5xx from the freedesktop CDN (e.g. a
+        # rate-limited 429/403) are retried — plain --retry only retries transport errors.
+        curl.exe -sSL --fail --retry 5 --retry-all-errors --retry-delay 5 -o $dl $url
         if ($LASTEXITCODE -ne 0) { throw "GStreamer SDK download failed (curl exit $LASTEXITCODE)" }
         # /S installs silently. The installer runs elevated on the runner and lands in
         # C:\Program Files\gstreamer\1.0\msvc_<arch>, recording that root in a machine env var.

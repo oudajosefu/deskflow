@@ -117,16 +117,19 @@ jobs:
 
           - name: "macos-arm64"
             runs-on: macos-15
-            timeout: 10
+            # Bundling the official Universal GStreamer.framework (fat dylibs + deep dep tree
+            # walked by dylibbundler) makes packaging slower than the old brew build, so raise
+            # the budget above the prior 10-min (no-framework) figure.
+            timeout: 25
             qt-version: 6.11.1
             config-args: '-DCMAKE_OSX_ARCHITECTURES="arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=14'
 
           - name: "macos-x64"
             runs-on: macos-15-intel
-            # Audio uses the official Universal GStreamer.framework .pkg (one download + install),
-            # replacing the heavy brew gstreamer build (~9 min, pulled ffmpeg/x264/etc.). Budget
-            # trimmed back accordingly, with margin for the slow Intel runner + dmg packaging retries.
-            timeout: 25
+            # Audio uses the official Universal GStreamer.framework .pkg — the install is quick,
+            # but bundling its fat (universal) dylibs via dylibbundler is slower than brew on the
+            # slow Intel runner, so keep a generous budget (plus the dmg packaging retries).
+            timeout: 35
             qt-version: 6.9.3
             config-args: '-DCMAKE_OSX_ARCHITECTURES="x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=12 -DCMAKE_OSX_SYSROOT=/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'
 
