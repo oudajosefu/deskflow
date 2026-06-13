@@ -1,0 +1,66 @@
+# SPDX-FileCopyrightText: 2024 Chris Rizzitello <sithlord48@gmail.com>
+# SPDX-License-Identifier: MIT
+
+# One-shot mirror of the official GStreamer MSVC SDK installers into this repo's
+# Releases, so the CI Windows jobs can fetch them from GitHub.
+#
+# Why this exists: gstreamer.freedesktop.org is served by the Fastly CDN (anycast).
+# The POP that serves GitHub's Azure-hosted *Windows* runners returns HTTP 404 for the
+# large /data/pkg/windows/*.exe objects — a runner-network-specific block that cannot be
+# bypassed client-side (the same URL serves 200 from browsers, from the macOS runners,
+# and locally; it is not the URL, the User-Agent, the query string, or IPv4/6). macOS
+# runners CAN reach freedesktop, so this job downloads the *unmodified* official
+# installers here, verifies them against the upstream SHA-256 sidecars, and re-hosts
+# them on a Release that the Windows runners reach reliably.
+#
+# Run manually (Actions tab -> "Mirror GStreamer SDK" -> Run workflow) whenever the
+# pinned GStreamer version in .github/actions/install-dependencies/action.yml changes.
+name: Mirror GStreamer SDK
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "GStreamer version to mirror (e.g. 1.28.3)"
+        required: true
+        default: "1.28.3"
+
+permissions:
+  contents: write
+
+jobs:
+  mirror:
+    # macOS runners are not subject to the freedesktop/Fastly block that the Windows
+    # runners hit, so they can pull the Windows installers for re-hosting.
+    runs-on: macos-latest
+    steps:
+      - name: Mirror official MSVC SDK installers to a Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VER: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          tag="gstreamer-sdk-${VER}"
+          base="https://gstreamer.freedesktop.org/data/pkg/windows/${VER}/msvc"
+          files=()
+          for arch in x86_64 arm64; do
+            exe="gstreamer-1.0-msvc-${arch}-${VER}.exe"
+            echo "::group::Mirror ${exe}"
+            curl -fSL --retry 5 --retry-all-errors --retry-delay 5 -o "${exe}" "${base}/${exe}"
+            curl -fSL --retry 5 --retry-all-errors --retry-delay 5 -o "${exe}.sha256sum" "${base}/${exe}.sha256sum"
+            # Prove the mirror is byte-identical to the official installer before re-hosting.
+            shasum -a 256 -c "${exe}.sha256sum"
+            files+=("${exe}" "${exe}.sha256sum")
+            echo "::endgroup::"
+          done
+          # Idempotent: create the pre-release once, then (re)upload assets on every run.
+          if ! gh release view "${tag}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+            gh release create "${tag}" --repo "${GITHUB_REPOSITORY}" --prerelease \
+              --title "GStreamer MSVC SDK ${VER} (CI mirror)" \
+              --notes "Unmodified official GStreamer ${VER} MSVC SDK installers, mirrored from gstreamer.freedesktop.org for CI. The freedesktop Fastly CDN returns 404 for these objects from GitHub's Azure Windows runners, so CI pulls them from here instead. SHA-256 verified against the upstream .sha256sum sidecars."
+          fi
+          gh release upload "${tag}" "${files[@]}" --repo "${GITHUB_REPOSITORY}" --clobber
+          echo "Mirrored to release '${tag}':"
+          for f in "${files[@]}"; do
+            echo "  https://github.com/${GITHUB_REPOSITORY}/releases/download/${tag}/${f}"
+          done
