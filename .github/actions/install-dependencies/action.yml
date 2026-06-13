@@ -45,7 +45,9 @@ runs:
             GST_VER=1.28.3
             GST_BASE="https://gstreamer.freedesktop.org/data/pkg/osx/${GST_VER}"
             for pkg in "gstreamer-1.0-${GST_VER}-universal.pkg" "gstreamer-1.0-devel-${GST_VER}-universal.pkg"; do
-              curl -fSL --retry 5 --retry-all-errors --retry-delay 5 -o "/tmp/${pkg}" "${GST_BASE}/${pkg}"
+              # ?cb=${RANDOM}: freedesktop is behind Fastly, whose edges occasionally
+              # negative-cache a 404 for these objects; a unique cache key forces an origin fetch.
+              curl -fSL --retry 5 --retry-all-errors --retry-delay 5 -o "/tmp/${pkg}" "${GST_BASE}/${pkg}?cb=${RANDOM}"
               sudo installer -pkg "/tmp/${pkg}" -target /
             done
             # Hard gate: fail loudly if the dev files (.pc) did not land, so a broken
@@ -123,12 +125,22 @@ runs:
         $ver = "1.28.3"
         if ("${{ inputs.vcpkg-triplet }}" -like "*arm64*") { $arch = "arm64"; $ARCH = "ARM64" } else { $arch = "x86_64"; $ARCH = "X86_64" }
         $exe = "gstreamer-1.0-msvc-$arch-$ver.exe"
-        $url = "https://gstreamer.freedesktop.org/data/pkg/windows/$ver/msvc/$exe"
+        $base = "https://gstreamer.freedesktop.org/data/pkg/windows/$ver/msvc/$exe"
         $dl  = "$env:TEMP\$exe"
-        # --retry-all-errors so transient HTTP 4xx/5xx from the freedesktop CDN (e.g. a
-        # rate-limited 429/403) are retried — plain --retry only retries transport errors.
-        curl.exe -sSL --fail --retry 5 --retry-all-errors --retry-delay 5 -o $dl $url
-        if ($LASTEXITCODE -ne 0) { throw "GStreamer SDK download failed (curl exit $LASTEXITCODE)" }
+        # freedesktop sits behind the Fastly CDN, and the GitHub Windows runner pool reaches an
+        # edge that intermittently negative-caches a 404 for these large objects (the same file
+        # serves 200 from other edges / the macOS runners / locally). Plain --retry can't help —
+        # every retry hits the same cached-404 URL. Append a *fresh* cache-buster query each
+        # attempt so Fastly uses a new cache key and fetches from origin, and force IPv4 to avoid
+        # flaky IPv6 routing from the runners.
+        $ok = $false
+        foreach ($i in 1..6) {
+          curl.exe -4 -fsSL -o $dl "${base}?cb=$(Get-Random)"
+          if ($LASTEXITCODE -eq 0) { $ok = $true; break }
+          Write-Host "GStreamer SDK download attempt $i/6 failed (curl exit $LASTEXITCODE); retrying in 10s..."
+          Start-Sleep -Seconds 10
+        }
+        if (-not $ok) { throw "GStreamer SDK download failed after 6 attempts (last curl exit $LASTEXITCODE)" }
         # /S installs silently. The installer runs elevated on the runner and lands in
         # C:\Program Files\gstreamer\1.0\msvc_<arch>, recording that root in a machine env var.
         $p = Start-Process -FilePath $dl -ArgumentList "/S" -Wait -PassThru
