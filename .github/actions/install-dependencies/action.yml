@@ -166,10 +166,26 @@ runs:
         } else {
           Write-Host "::warning::Could not fetch the .sha256sum sidecar; skipping hash check (the .pc gate below still applies)."
         }
-        # /S installs silently. The installer runs elevated on the runner and lands in
-        # C:\Program Files\gstreamer\1.0\msvc_<arch>, recording that root in a machine env var.
-        $p = Start-Process -FilePath $dl -ArgumentList "/S" -Wait -PassThru
-        if ($p.ExitCode -ne 0) { throw "GStreamer SDK installer exited $($p.ExitCode)" }
+        # Install silently. This installer is built with Inno Setup (it drops unins000.exe and
+        # its registry QuietUninstallString uses /SILENT), so the silent switch is /VERYSILENT —
+        # NOT the NSIS-style /S, which Inno ignores and then pops its GUI wizard, blocking
+        # Start-Process -Wait until the job times out (the 40+ min hang seen previously).
+        # /SUPPRESSMSGBOXES takes the default on any dialog; /NORESTART and /SP- keep it fully
+        # non-interactive. The runner is elevated, so the installer's admin request needs no UAC.
+        # Hard-cap the wait so any future installer hang fails fast (with the Inno log) instead of
+        # consuming the whole job budget.
+        $log = "$env:TEMP\gstreamer-install.log"
+        $p = Start-Process -FilePath $dl -ArgumentList "/VERYSILENT","/SUPPRESSMSGBOXES","/NORESTART","/SP-","/LOG=$log" -PassThru
+        if (-not $p.WaitForExit(600000)) {
+          try { $p.Kill() } catch {}
+          if (Test-Path $log) { Write-Host "--- Inno Setup log (tail) ---"; Get-Content $log -Tail 50 }
+          throw "GStreamer SDK installer did not finish within 10 minutes (hung); killed it."
+        }
+        if ($null -ne $p.ExitCode -and $p.ExitCode -ne 0) {
+          if (Test-Path $log) { Write-Host "--- Inno Setup log (tail) ---"; Get-Content $log -Tail 50 }
+          throw "GStreamer SDK installer exited $($p.ExitCode)"
+        }
+        Write-Host "GStreamer SDK installer finished (exit $($p.ExitCode))."
         $root = [Environment]::GetEnvironmentVariable("GSTREAMER_1_0_ROOT_MSVC_$ARCH", "Machine")
         if (-not $root) { $root = "C:\Program Files\gstreamer\1.0\msvc_$arch" }
         $root = $root.TrimEnd("\")
