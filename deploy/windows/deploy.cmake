@@ -71,27 +71,63 @@ set_target_properties(wix-custom PROPERTIES
 )
 target_link_libraries(wix-custom PRIVATE Msi)
 
-# Bundle the GStreamer runtime for audio routing. The core libraries are pulled in
-# by the executables' RUNTIME_DEPENDENCY_SET (the GStreamer bin dir is on its search
-# path, see src/apps/CMakeLists.txt). Here we add the runtime-LOADED plugins (not
-# linked, so not auto-discovered) into <install>/gstreamer-1.0 — where the app points
-# GST_PLUGIN_PATH at startup (AudioDevices::initGStreamer) — plus the companion
-# GStreamer libs and codec DLLs those plugins depend on.
+# Bundle the GStreamer runtime for audio routing. The runtime-LOADED plugins (not linked, so
+# not discovered by the executables' RUNTIME_DEPENDENCY_SET) go into <install>/gstreamer-1.0,
+# where the app points GST_PLUGIN_PATH at startup (AudioDevices::initGStreamer). Their own
+# dependency closure (GStreamer core libs, the GLib stack, orc, gio, zlib, opus, ...) is
+# resolved from the plugins themselves and copied next to the executables.
 if(BUILD_AUDIO_SUPPORT AND GSTREAMER_PLUGIN_DIR AND EXISTS "${GSTREAMER_PLUGIN_DIR}")
+  # The audio-routing plugins we ship (the SDK plugin dir holds ~hundreds; we want this set).
+  set(_gst_plugin_regex "gst(coreelements|app|audioconvert|audioresample|audiomixer|audiorate|volume|level|opus|rtp|rtpmanager|udp|autodetect|typefindfunctions|audioparsers|wasapi2|wasapi)\\.dll$")
   install(DIRECTORY "${GSTREAMER_PLUGIN_DIR}/"
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/gstreamer-1.0
-    FILES_MATCHING
-      REGEX "gst(coreelements|app|audioconvert|audioresample|audiomixer|audiorate|volume|level|opus|rtp|rtpmanager|udp|autodetect|typefindfunctions|audioparsers|wasapi2|wasapi)\\.dll$"
+    FILES_MATCHING REGEX "${_gst_plugin_regex}"
   )
-  # Companion GStreamer libs + codec deps the plugins load at runtime (our exe does
-  # not link them, so the dependency scan misses them). The official SDK names its core
-  # libs gst*-1.0-0.dll and ships codec DLLs like opus-0.dll alongside them, so glob both.
+
+  # Bundle the plugins' runtime dependency closure next to the executables. We resolve it from
+  # the plugins with file(GET_RUNTIME_DEPENDENCIES) rather than name-globbing the SDK bin: the
+  # plugins are not linked by our exe, so several deps (orc-0.4-0.dll, gio-2.0-0.dll, z-1.dll)
+  # match neither "gst*.dll" nor the exe's own dependency scan and were dropped — which broke
+  # plugin load with "the specified module could not be found". Scanning only our plugins also
+  # stops us shipping the dozens of unrelated SDK libs (cuda/d3d/webrtc/...) a glob pulls in.
   if(GSTREAMER_PREFIX AND EXISTS "${GSTREAMER_PREFIX}/bin")
-    install(DIRECTORY "${GSTREAMER_PREFIX}/bin/"
-      DESTINATION ${CMAKE_INSTALL_LIBDIR}
-      FILES_MATCHING
-        PATTERN "gst*.dll"
-        PATTERN "*opus*.dll"
-    )
+    install(CODE "
+      file(GLOB _all_plugins \"${GSTREAMER_PLUGIN_DIR}/*.dll\")
+      set(_plugins)
+      foreach(_p \${_all_plugins})
+        get_filename_component(_pn \"\${_p}\" NAME)
+        if(_pn MATCHES \"${_gst_plugin_regex}\")
+          list(APPEND _plugins \"\${_p}\")
+        endif()
+      endforeach()
+      message(STATUS \"Audio: resolving GStreamer plugin dependency closure from ${GSTREAMER_PREFIX}/bin\")
+      file(GET_RUNTIME_DEPENDENCIES
+        MODULES \${_plugins}
+        RESOLVED_DEPENDENCIES_VAR _res
+        UNRESOLVED_DEPENDENCIES_VAR _unres
+        DIRECTORIES \"${GSTREAMER_PREFIX}/bin\"
+        PRE_EXCLUDE_REGEXES \"^api-ms-\" \"^ext-ms-\"
+        POST_EXCLUDE_REGEXES \"[Ss]ystem32\"
+      )
+      # Fail loudly if a GStreamer/GLib/codec dependency could not be located in the SDK bin
+      # (a real packaging gap). Genuine Windows system DLLs resolve via PATH and are dropped by
+      # POST_EXCLUDE, so they never land here; we still guard by family name to be safe.
+      set(_missing)
+      foreach(_u \${_unres})
+        string(TOLOWER \"\${_u}\" _ul)
+        if(_ul MATCHES \"(gst|glib|gobject|gio-|gmodule|orc|opus|ffi|intl|pcre|graphene|nice|json-glib|^z-)\")
+          list(APPEND _missing \"\${_u}\")
+        endif()
+      endforeach()
+      if(_missing)
+        message(FATAL_ERROR \"Audio: unresolved GStreamer plugin dependencies (not found in ${GSTREAMER_PREFIX}/bin): \${_missing}\")
+      endif()
+      file(INSTALL
+        DESTINATION \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}\"
+        TYPE SHARED_LIBRARY
+        FOLLOW_SYMLINK_CHAIN
+        FILES \${_res}
+      )
+    ")
   endif()
 endif()

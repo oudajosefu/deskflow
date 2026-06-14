@@ -18,6 +18,9 @@ runs:
           dmg=$(ls build/deskflow-*.dmg | head -1)
           echo "Y" | hdiutil attach "$dmg" -nobrowse -mountpoint /tmp/deskflow-dmg
           /tmp/deskflow-dmg/Deskflow.app/Contents/MacOS/deskflow-core --version
+          # Verify every @rpath dependency (GStreamer dylibs, Qt) is bundled in the .app, so a
+          # missing lib can't ship green (the build machine's system GStreamer must not mask it).
+          bash deploy/ci/check-bundled-deps.sh /tmp/deskflow-dmg/Deskflow.app
           hdiutil detach /tmp/deskflow-dmg
 
         elif [ "$RUNNER_OS" == "Windows" ]; then
@@ -27,6 +30,9 @@ runs:
           pkg_root=$(dirname "$exe_dir")
           export PATH="$exe_dir:$pkg_root:$pkg_root/lib:$PATH"
           "$exe" --version
+          # Verify every bundled GStreamer plugin's DLL deps are present in the package (the SDK
+          # is intentionally not on PATH here, so a build-machine DLL can't mask a missing one).
+          pwsh -NoProfile -File deploy/ci/check-bundled-deps.ps1 -PackageDir tmp/deskflow-pkg
 
         elif [ "$RUNNER_OS" == "Linux" ]; then
           if [ "${{inputs.like}}" == "debian" ]; then

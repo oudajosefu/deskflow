@@ -30,13 +30,14 @@ runs:
       if: ${{ runner.os != 'Windows' }}
       run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
-            # dylibbundler: bundle the runtime-loaded GStreamer plugin dylibs (and their
-            # deps) into the .app at package time. pkg-config: locate the GStreamer framework
-            # at configure time (CMake's FindPkgConfig) — previously pulled in transitively by
-            # the brew gstreamer formula, so install it explicitly now that gstreamer is gone.
+            # pkg-config: locate the GStreamer framework at configure time (CMake's
+            # FindPkgConfig) — previously pulled in transitively by the brew gstreamer formula,
+            # so install it explicitly now that gstreamer is gone. (The GStreamer plugin dylib
+            # closure is bundled at package time via CMake's file(GET_RUNTIME_DEPENDENCIES) +
+            # install_name_tool from the Xcode command-line tools, so no dylibbundler is needed.)
             # GStreamer itself is NOT from Homebrew — it comes from its official Universal
             # framework .pkg installed below.
-            brew install googletest openssl doxygen dylibbundler pkg-config --quiet
+            brew install googletest openssl doxygen pkg-config --quiet
             # Audio routing: install the official Universal GStreamer.framework (runtime +
             # devel) from gstreamer.freedesktop.org — the documented macOS distribution
             # method. One Universal package covers x86_64 + arm64 and installs to
