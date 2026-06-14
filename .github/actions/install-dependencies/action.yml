@@ -125,22 +125,47 @@ runs:
         $ver = "1.28.3"
         if ("${{ inputs.vcpkg-triplet }}" -like "*arm64*") { $arch = "arm64"; $ARCH = "ARM64" } else { $arch = "x86_64"; $ARCH = "X86_64" }
         $exe = "gstreamer-1.0-msvc-$arch-$ver.exe"
-        $base = "https://gstreamer.freedesktop.org/data/pkg/windows/$ver/msvc/$exe"
         $dl  = "$env:TEMP\$exe"
-        # freedesktop sits behind the Fastly CDN, and the GitHub Windows runner pool reaches an
-        # edge that intermittently negative-caches a 404 for these large objects (the same file
-        # serves 200 from other edges / the macOS runners / locally). Plain --retry can't help —
-        # every retry hits the same cached-404 URL. Append a *fresh* cache-buster query each
-        # attempt so Fastly uses a new cache key and fetches from origin, and force IPv4 to avoid
-        # flaky IPv6 routing from the runners.
-        $ok = $false
-        foreach ($i in 1..6) {
-          curl.exe -4 -fsSL -o $dl "${base}?cb=$(Get-Random)"
-          if ($LASTEXITCODE -eq 0) { $ok = $true; break }
-          Write-Host "GStreamer SDK download attempt $i/6 failed (curl exit $LASTEXITCODE); retrying in 10s..."
-          Start-Sleep -Seconds 10
+        $official = "https://gstreamer.freedesktop.org/data/pkg/windows/$ver/msvc/$exe"
+        $mirror   = "https://github.com/$($env:GITHUB_REPOSITORY)/releases/download/gstreamer-sdk-$ver/$exe"
+        # Acquire the official installer. Try freedesktop first (so this self-heals if their CDN
+        # ever starts serving the runners), then fall back to our GitHub release mirror.
+        # Why the mirror is REQUIRED: gstreamer.freedesktop.org is behind Fastly (anycast), and
+        # the POP serving GitHub's Azure Windows runners returns 404 for these large
+        # /data/pkg/windows/*.exe objects. It is runner-network-specific (the identical URL serves
+        # 200 from browsers, the macOS runners, and locally) and cannot be fixed client-side:
+        # User-Agent, IPv4/6, extra retries, and per-request cache-busting were all confirmed
+        # ineffective from the runner, because anycast offers no other POP to reach. So we re-host
+        # the byte-identical official installer on this repo's Releases (populated by
+        # .github/workflows/mirror-gstreamer-sdk.yml, run on a macOS runner that CAN reach
+        # freedesktop) and pull it from GitHub, which the Windows runners reach reliably.
+        $got = $false
+        # -fsL (no -S) keeps the EXPECTED official 404 out of the log as noise; we report it below.
+        curl.exe -4 -fsL --connect-timeout 20 -o $dl $official
+        if ($LASTEXITCODE -eq 0) {
+          Write-Host "Fetched GStreamer SDK from the official freedesktop source."
+          $got = $true
+        } else {
+          Write-Host "Official freedesktop source unreachable from this runner (curl exit $LASTEXITCODE) - using the GitHub release mirror (expected; see comment above)."
+          foreach ($i in 1..5) {
+            curl.exe -4 -fsSL -o $dl $mirror
+            if ($LASTEXITCODE -eq 0) { $got = $true; break }
+            Write-Host "Mirror download attempt $i/5 failed (curl exit $LASTEXITCODE); retrying in 10s..."
+            Start-Sleep -Seconds 10
+          }
         }
-        if (-not $ok) { throw "GStreamer SDK download failed after 6 attempts (last curl exit $LASTEXITCODE)" }
+        if (-not $got) { throw "GStreamer SDK download failed from both the official source and the mirror ($mirror)" }
+        # Integrity gate: verify the installer against the upstream SHA-256 (mirrored next to the
+        # .exe on the release), so a truncated/corrupt download fails loudly before we install it.
+        curl.exe -4 -fsL -o "$dl.sha256sum" "$mirror.sha256sum"
+        if ($LASTEXITCODE -eq 0) {
+          $expected = ((Get-Content "$dl.sha256sum" -Raw).Trim() -split '\s+')[0].ToLower()
+          $actual   = (Get-FileHash -Algorithm SHA256 $dl).Hash.ToLower()
+          if ($expected -ne $actual) { throw "GStreamer SDK SHA-256 mismatch: expected $expected, got $actual" }
+          Write-Host "GStreamer SDK SHA-256 verified ($actual)."
+        } else {
+          Write-Host "::warning::Could not fetch the .sha256sum sidecar; skipping hash check (the .pc gate below still applies)."
+        }
         # /S installs silently. The installer runs elevated on the runner and lands in
         # C:\Program Files\gstreamer\1.0\msvc_<arch>, recording that root in a machine env var.
         $p = Start-Process -FilePath $dl -ArgumentList "/S" -Wait -PassThru
