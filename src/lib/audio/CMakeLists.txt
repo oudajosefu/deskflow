@@ -73,6 +73,16 @@ execute_process(
 execute_process(
   COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=prefix gstreamer-1.0
   OUTPUT_VARIABLE _gst_prefix OUTPUT_STRIP_TRAILING_WHITESPACE)
+# pkg-config shell-escapes spaces in --variable output as "\ " (the official Windows SDK
+# installs under C:/Program\ Files/...). Left raw, that backslash corrupts the path for every
+# consumer — EXISTS, install(DIRECTORY), file(GLOB) — which silently skipped plugin bundling
+# and made CPack's runtime-dependency scan fail to resolve the GStreamer core DLLs. pkgconf
+# emits forward-slash separators, so the only backslashes are these escapes — strip them.
+# (No-op on macOS/Linux, whose paths have no spaces. Do NOT pipe this through
+# file(TO_CMAKE_PATH): on captured output the plain/regex space-replaces are no-ops, and
+# TO_CMAKE_PATH would then turn the surviving "\ " into "/ " and re-break the path.)
+string(REPLACE "\\" "" _gst_plugindir "${_gst_plugindir}")
+string(REPLACE "\\" "" _gst_prefix "${_gst_prefix}")
 set(GSTREAMER_PLUGIN_DIR "${_gst_plugindir}" CACHE PATH "GStreamer runtime plugin directory" FORCE)
 set(GSTREAMER_PREFIX "${_gst_prefix}" CACHE PATH "GStreamer install prefix" FORCE)
 message(STATUS "Audio: GStreamer prefix ${GSTREAMER_PREFIX}, plugins ${GSTREAMER_PLUGIN_DIR}")
