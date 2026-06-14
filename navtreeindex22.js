@@ -1,11 +1,5 @@
 var NAVTREEINDEX22 =
 {
-"group__protocol__commands.html#gabb47e6edadb9364155073384faf00f29":[5,2,1,4],
-"group__protocol__commands.html#gad64d30f8ea795e2b64f812f87152c749":[5,2,1,0],
-"group__protocol__commands.html#gae826571a53b798c573418568f4397190":[5,2,1,2],
-"group__protocol__constants.html":[5,0],
-"group__protocol__constants.html#ga1dadac496650a32d93f69f5b5c63a6ca":[5,0,0],
-"group__protocol__constants.html#ga57d2ad7c9cfe055ca7b73d1abca9135e":[5,0,7],
 "group__protocol__constants.html#ga5c730a96bc41c32cb014dff8d28f3a28":[5,0,4],
 "group__protocol__constants.html#ga8460e7dc3aae99da87dcff40b2fad424":[5,0,3],
 "group__protocol__constants.html#ga98962d84082470b4473418edba98067c":[5,0,5],
@@ -214,13 +208,12 @@ var NAVTREEINDEX22 =
 "namespacedeskflow_1_1core_1_1ipc.html#ae8df3756ee143032db0c15044c875285":[6,0,0,0,0,3],
 "namespacedeskflow_1_1gui.html":[6,0,0,4],
 "namespacedeskflow_1_1gui.html#a302e57e11bdb1ecd18afd06b9180ee7e":[6,0,0,4,10],
-"namespacedeskflow_1_1gui.html#a5b38d733ad00fd5d2681a25a8c30e6da":[6,0,0,4,15],
+"namespacedeskflow_1_1gui.html#a5b38d733ad00fd5d2681a25a8c30e6da":[6,0,0,4,14],
 "namespacedeskflow_1_1gui.html#a6c3353d5cbfbd26b2acd734e71d61b12":[6,0,0,4,8],
-"namespacedeskflow_1_1gui.html#a78e6dcd2ccaf9f1da1f4aa50905067ee":[6,0,0,4,13],
+"namespacedeskflow_1_1gui.html#a78e6dcd2ccaf9f1da1f4aa50905067ee":[6,0,0,4,12],
 "namespacedeskflow_1_1gui.html#aaa991ba0f8b1c14f114fa29eb3fbdc4b":[6,0,0,4,11],
 "namespacedeskflow_1_1gui.html#aafd8747004a0dc462453e60e4602a918":[6,0,0,4,9],
-"namespacedeskflow_1_1gui.html#abcbdcbeeb5309fe706a35d40a3c1c719":[6,0,0,4,12],
-"namespacedeskflow_1_1gui.html#ac9ebe41f2673365ae4519947119c63c5":[6,0,0,4,14],
+"namespacedeskflow_1_1gui.html#ac9ebe41f2673365ae4519947119c63c5":[6,0,0,4,13],
 "namespacedeskflow_1_1gui_1_1TlsUtility.html":[6,0,0,4,3],
 "namespacedeskflow_1_1gui_1_1TlsUtility.html#a1768f15e74168a3e5b621f2981ba5029":[6,0,0,4,3,3],
 "namespacedeskflow_1_1gui_1_1TlsUtility.html#a63117db72e713097624c35d8458e462c":[6,0,0,4,3,1],
@@ -249,5 +242,12 @@ var NAVTREEINDEX22 =
 "namespacedeskflow_1_1platform.html#a44b5e5c25e3dd828bd40bca3b58d9fb8":[6,0,0,3,4],
 "namespacedeskflow_1_1platform.html#a64afaecdaaca4e078c86ef30093d746e":[6,0,0,3,7],
 "namespacedeskflow_1_1platform.html#a6cc5995e010e4add146caf44c544d362":[6,0,0,3,5],
-"namespacedeskflow_1_1platform.html#ac60e44b592386bef8068211fd84bb515":[6,0,0,3,6]
+"namespacedeskflow_1_1platform.html#ac60e44b592386bef8068211fd84bb515":[6,0,0,3,6],
+"namespacedeskflow_1_1platform.html#ade70aeb9d77e1781c854a34008a428ed":[6,0,0,3,2],
+"namespacedeskflow_1_1platform.html#ae8bad1da1154bae1eac87184d3e13eeb":[6,0,0,3,1],
+"namespacedeskflow_1_1server.html":[6,0,0,5],
+"namespacedeskflow_1_1server.html#a0386497f2a0ceae5d8f0895f172cd49d":[6,0,0,5,3],
+"namespacedeskflow_1_1server.html#a22056a718b59607a46ff33f10f1d6f6d":[6,0,0,5,4],
+"namespacedeskflow_1_1string.html":[6,0,0,1],
+"namespacedeskflow_1_1string.html#a38d8f9480b99abd72865fddeafc2c5cf":[6,0,0,1,3]
 };

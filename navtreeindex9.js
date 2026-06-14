@@ -1,6 +1,5 @@
 var NAVTREEINDEX9 =
 {
-"classFingerprintDatabase.html#a756a96faae41686f597f15cf1b6e91b1":[7,0,98,3],
 "classFingerprintDatabase.html#a96b14056d161c6b9edab1cfc6efded75":[7,0,98,0],
 "classFingerprintDatabase.html#ae7b013cafc9d8ab294b1f4c894515e2f":[7,0,98,1],
 "classFingerprintDialog.html":[7,0,99],
@@ -249,5 +248,6 @@ var NAVTREEINDEX9 =
 "classIEventQueueBuffer.html#a8a5c8a03b71f5742cfaed72b30648674a8f9bfe9d1345237cb3b2b205864da075":[7,0,118,0,2],
 "classIEventQueueBuffer.html#a8a5c8a03b71f5742cfaed72b30648674aa45da96d0bf6575970f2d27af22be28a":[7,0,118,0,1],
 "classIEventQueueBuffer.html#a8d1079bc10103312d26d3c41b59a5dfb":[7,0,118,1],
-"classIEventQueueBuffer.html#a96604dbcb350a2eb22b9d68dab8abefa":[7,0,118,4]
+"classIEventQueueBuffer.html#a96604dbcb350a2eb22b9d68dab8abefa":[7,0,118,4],
+"classIEventQueueBuffer.html#a98621a328db156233d47f31b5d6d4eed":[7,0,118,6]
 };

@@ -1,6 +1,5 @@
 var NAVTREEINDEX12 =
 {
-"classMSWindowsDesks.html#a3378c0c3e7cec291e6fc56690a350e96":[7,0,164,4],
 "classMSWindowsDesks.html#a34a92c3b7b3fa5a6a2fe116e7971a0b9":[7,0,164,6],
 "classMSWindowsDesks.html#a4a6bc7878c59dd81c7585e98b83ca0d7":[7,0,164,11],
 "classMSWindowsDesks.html#a50ba26901c283286adfc6bd11529c835":[7,0,164,0],
@@ -249,5 +248,6 @@ var NAVTREEINDEX12 =
 "classOSXClipboardHTMLConverter.html#ab5e2bd04a365268b298adff8261b26e0":[7,0,183,2],
 "classOSXClipboardHTMLConverter.html#ae14e65f0c12685e7682a8ef3a7cd8571":[7,0,183,5],
 "classOSXClipboardHTMLConverter.html#ae15be54853418885da99f8ee12377755":[7,0,183,6],
-"classOSXClipboardHTMLConverter.html#ae8f8a6c576858ffd551a6725c97f900e":[7,0,183,3]
+"classOSXClipboardHTMLConverter.html#ae8f8a6c576858ffd551a6725c97f900e":[7,0,183,3],
+"classOSXClipboardHTMLConverter.html#afb0f19774d7da394aad4229fa588f1ef":[7,0,183,4]
 };

@@ -9,8 +9,6 @@ var NAVTREEINDEX5 =
 "ServerConfig_8cpp.html#ad93a94bd88fe624000405f7b84c40334":[8,0,1,1,6,0,6,6],
 "ServerConfig_8h.html":[8,0,1,1,6,0,7],
 "ServerConfig_8h.html#a627940781f81e0b7434cd8f444373ab2":[8,0,1,1,6,0,7,1],
-"ServerConfig_8h.html#a906310204d4b0df7ec6894a6a631bf4f":[8,0,1,1,6,0,7,4],
-"ServerConfig_8h.html#af90325e0d999b56ac0456671321114aa":[8,0,1,1,6,0,7,2],
 "ServerConfig_8h_source.html":[8,0,1,1,6,0,7],
 "ServerProxy_8cpp.html":[8,0,1,1,3,2],
 "ServerProxy_8h.html":[8,0,1,1,3,3],
@@ -61,6 +59,7 @@ var NAVTREEINDEX5 =
 "String_8h.html":[8,0,1,1,2,27],
 "String_8h_source.html":[8,0,1,1,2,27],
 "StyleUtils_8h.html":[8,0,1,1,6,26],
+"StyleUtils_8h.html#ad99ab7efdde3fc647e822e0842c2e899":[8,0,1,1,6,26,0],
 "StyleUtils_8h_source.html":[8,0,1,1,6,26],
 "TCPListenSocket_8cpp.html":[8,0,1,1,9,25],
 "TCPListenSocket_8h.html":[8,0,1,1,9,26],
@@ -249,5 +248,6 @@ var NAVTREEINDEX5 =
 "classActionDialog.html#aa6760e0b0e044ac9d0c4cf73c0a1e2af":[7,0,5,2],
 "classActionDialog.html#ac5baa7b5531578d891ad24163818d421":[7,0,5,3],
 "classApp.html":[7,0,6],
-"classApp.html#a24574f40d27af7cb2c24dc1624d9ff8f":[7,0,6,28]
+"classApp.html#a24574f40d27af7cb2c24dc1624d9ff8f":[7,0,6,28],
+"classApp.html#a2999f6b9b1129542847a07bcf5bc7c21":[7,0,6,8]
 };

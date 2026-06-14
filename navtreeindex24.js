@@ -1,7 +1,5 @@
 var NAVTREEINDEX24 =
 {
-"structdeskflow_1_1KeyMap_1_1KeyItem.html#ae49a5705b1fff5653efb37ced30d6d58":[7,0,0,7,0,0],
-"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html":[6,0,0,8,1,0],
 "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html":[7,0,0,7,1,0],
 "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a2dd0beec429d89aa7790d569364036b5":[6,0,0,8,1,0,1],
 "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a2dd0beec429d89aa7790d569364036b5":[7,0,0,7,1,0,1],
