@@ -25,78 +25,26 @@ if (OSX_BUNDLE)
   # does not follow the GStreamer.framework dylibs (referenced by @rpath), and the runtime-LOADED
   # plugins are not linked at all. So we copy the plugins we use into Contents/Resources/gstreamer-1.0
   # (where the app points GST_PLUGIN_PATH via AudioDevices::initGStreamer) and bundle their full
-  # dylib dependency closure into Contents/Frameworks ourselves.
+  # dylib dependency closure into Contents/Frameworks ourselves — see deploy/mac/bundle-gstreamer.sh.
   #
-  # We resolve the closure with file(GET_RUNTIME_DEPENDENCIES), not dylibbundler: dylibbundler 1.0.5
-  # cannot resolve @rpath-referenced deps — it prints "can't get path for '@rpath/…' … MAY NOT
-  # CORRECTLY HANDLE THIS DEPENDENCY", copies nothing, and still exits 0, so the app shipped with an
-  # empty Frameworks dir and crashed at launch (dyld: @rpath/libgstapp-1.0.0.dylib missing).
+  # That walk is hand-rolled (otool BFS resolving @rpath by basename in the framework lib dir)
+  # rather than file(GET_RUNTIME_DEPENDENCIES) or dylibbundler: on macOS both resolve @rpath only
+  # from the scanned binary's own LC_RPATH, and once the plugins are copied out of the framework
+  # their rpath no longer points there, so everything came back unresolved (dylibbundler 1.0.5 had
+  # the same blind spot and silently shipped an empty Frameworks dir -> crash at launch).
   if(BUILD_AUDIO_SUPPORT AND GSTREAMER_PLUGIN_DIR AND EXISTS "${GSTREAMER_PLUGIN_DIR}")
-    # The GStreamer core dylibs live one level above the plugin dir (…/Versions/1.0/lib); hand that
-    # to the resolver so it can follow the framework's mutual @rpath references.
+    # The GStreamer core dylibs live one level above the plugin dir (…/Versions/1.0/lib).
     get_filename_component(_gst_libdir "${GSTREAMER_PLUGIN_DIR}/.." ABSOLUTE)
     install(CODE "
-      set(_app \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_PROPER_NAME}.app\")
-      set(_dst \"\${_app}/Contents/Resources/gstreamer-1.0\")
-      set(_fw \"\${_app}/Contents/Frameworks\")
-      file(MAKE_DIRECTORY \"\${_dst}\")
-      file(MAKE_DIRECTORY \"\${_fw}\")
-
-      # Copy the runtime-loaded plugins we use.
-      foreach(_p coreelements app audioconvert audioresample audiomixer audiorate volume level opus rtp rtpmanager udp autodetect osxaudio typefindfunctions audioparsers)
-        file(GLOB _pl \"${GSTREAMER_PLUGIN_DIR}/libgst\${_p}.dylib\")
-        if(_pl)
-          file(COPY \${_pl} DESTINATION \"\${_dst}\")
-        endif()
-      endforeach()
-
-      # Resolve the plugins' dylib closure. Scanning the plugins alone is enough: every GStreamer
-      # core dylib the executables link (libgstreamer/base/app/audio) is also a plugin dependency,
-      # so the closure is a superset of what the exes need — and skipping the exes avoids dragging
-      # in the Qt frameworks macdeployqt already bundled.
-      file(GLOB _plugins \"\${_dst}/*.dylib\")
-      file(GET_RUNTIME_DEPENDENCIES
-        MODULES \${_plugins}
-        RESOLVED_DEPENDENCIES_VAR _res
-        UNRESOLVED_DEPENDENCIES_VAR _unres
-        DIRECTORIES \"${_gst_libdir}\"
-        POST_EXCLUDE_REGEXES \"^/usr/lib\" \"^/System\"
-      )
-      # A framework dylib we could not resolve is a real packaging gap; fail loudly. (System libs
-      # under /usr/lib and /System are dropped by POST_EXCLUDE and never appear here.)
-      set(_missing)
-      foreach(_u \${_unres})
-        string(TOLOWER \"\${_u}\" _ul)
-        if(_ul MATCHES \"(gst|glib|gobject|gio|gmodule|orc|opus|ffi|intl|pcre|graphene|libsoup|nice|json-glib)\")
-          list(APPEND _missing \"\${_u}\")
-        endif()
-      endforeach()
-      if(_missing)
-        message(FATAL_ERROR \"Audio: unresolved GStreamer dylib dependencies (not found under ${_gst_libdir}): \${_missing}\")
+      execute_process(
+        COMMAND bash \"${MY_DIR}/bundle-gstreamer.sh\"
+          \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_PROPER_NAME}.app\"
+          \"${GSTREAMER_PLUGIN_DIR}\"
+          \"${_gst_libdir}\"
+        RESULT_VARIABLE _rc)
+      if(NOT _rc EQUAL 0)
+        message(FATAL_ERROR \"GStreamer dylib bundling failed (exit \${_rc})\")
       endif()
-
-      # Copy each resolved dylib into Contents/Frameworks and make its sibling @rpath/* references
-      # resolve there (add @loader_path as an rpath). Re-sign ad-hoc afterwards (install_name_tool
-      # invalidates the signature). Every consumer already references these by @rpath/<basename>.
-      foreach(_d \${_res})
-        get_filename_component(_dn \"\${_d}\" NAME)
-        file(COPY \"\${_d}\" DESTINATION \"\${_fw}\")
-        execute_process(COMMAND chmod u+w \"\${_fw}/\${_dn}\")
-        execute_process(COMMAND install_name_tool -add_rpath \"@loader_path\" \"\${_fw}/\${_dn}\" ERROR_QUIET)
-        execute_process(COMMAND codesign --force --sign - \"\${_fw}/\${_dn}\")
-      endforeach()
-
-      # The plugins reference the core dylibs by @rpath too; point that at Contents/Frameworks
-      # (Resources/gstreamer-1.0 -> ../../Frameworks) and re-sign.
-      foreach(_pl \${_plugins})
-        execute_process(COMMAND chmod u+w \"\${_pl}\")
-        execute_process(COMMAND install_name_tool -add_rpath \"@loader_path/../../Frameworks\" \"\${_pl}\" ERROR_QUIET)
-        execute_process(COMMAND codesign --force --sign - \"\${_pl}\")
-      endforeach()
-
-      # The executables already carry an @loader_path/../Frameworks rpath (set via INSTALL_RPATH),
-      # so their @rpath/libgst* references now resolve against the dylibs we just bundled.
-      message(STATUS \"Audio: bundled GStreamer dylib closure into \${_fw}\")
     ")
   endif()
 endif()

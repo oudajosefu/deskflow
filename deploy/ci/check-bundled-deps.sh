@@ -45,6 +45,7 @@ while IFS= read -r b; do
       @rpath/*) rel="${dep#@rpath/}" ;;
       *) continue ;;
     esac
+    [ "${rel##*/}" = "${b##*/}" ] && continue   # the binary's own LC_ID, not a dependency
 
     if [ ! -e "$fw/$rel" ] && [ ! -e "$libs/$rel" ]; then
       echo "::error::$(basename "$b") needs @rpath/$rel but it is missing from the bundle"
