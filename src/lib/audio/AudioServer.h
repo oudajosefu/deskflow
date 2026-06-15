@@ -10,6 +10,7 @@
 #include <QString>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QThread>
 
 #include <memory>
 
@@ -36,10 +37,14 @@ public:
   explicit AudioServer(quint16 port, QObject *parent = nullptr);
   ~AudioServer() override;
 
-  /// Start listening. Returns false if the control port cannot be bound.
-  bool listen();
+  /// Start the control plane on its own worker thread (which runs a Qt event
+  /// loop). The QTcpServer/QTcpSocket objects rely on that event loop to deliver
+  /// their newConnection/readyRead signals, so they must live on a thread that
+  /// runs QThread::exec() — the Deskflow core thread runs its own native event
+  /// loop instead and never would.
+  void start();
 
-  /// Stop listening and disconnect all audio clients.
+  /// Stop listening, disconnect all audio clients, and join the worker thread.
   void close();
 
   [[nodiscard]] quint16 port() const
@@ -48,6 +53,8 @@ public:
   }
 
   /// Per-client playback controls (applied live to that client's receiver).
+  /// Safe to call from any thread: the work is marshalled onto the audio thread,
+  /// which owns the receiver pipelines and the session list.
   void setClientVolume(const QString &clientName, double volume);
   void setClientMute(const QString &clientName, bool mute);
   void setClientOutputDevice(const QString &clientName, const QString &deviceId);
@@ -59,6 +66,11 @@ Q_SIGNALS:
   void clientAudioStopped(const QString &clientName);
 
 private Q_SLOTS:
+  /// Bind and start listening. Runs on the audio thread (constructs m_server
+  /// there) so the server's signals are delivered by that thread's event loop.
+  void listen();
+  /// Tear down sessions and the listener on the audio thread before it stops.
+  void shutdown();
   void onNewConnection();
   void onClientReadyRead();
   void onClientDisconnected();
@@ -79,6 +91,7 @@ private:
   ClientSession *sessionFor(const QString &clientName) const;
 
   quint16 m_port;
+  QThread *m_thread = nullptr; // owns the Qt event loop the listener runs on
   QTcpServer *m_server = nullptr;
   QList<ClientSession *> m_sessions;
 };

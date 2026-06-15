@@ -24,22 +24,40 @@ AudioServer::~AudioServer()
   close();
 }
 
-bool AudioServer::listen()
+void AudioServer::start()
+{
+  if (m_thread != nullptr) {
+    return;
+  }
+  // Run the control plane on its own thread with a Qt event loop (QThread's
+  // default run() calls exec()). The Deskflow core thread we are constructed on
+  // runs a native EventQueue loop, not a Qt one, so QTcpServer/QTcpSocket signals
+  // would never be delivered there. Moving to a dedicated thread fixes that;
+  // listen() then runs on the worker so m_server is created with the right
+  // thread affinity.
+  m_thread = new QThread;
+  m_thread->setObjectName(QStringLiteral("AudioControl"));
+  moveToThread(m_thread);
+  connect(m_thread, &QThread::started, this, &AudioServer::listen);
+  m_thread->start();
+}
+
+void AudioServer::listen()
 {
   m_server = new QTcpServer(this);
   connect(m_server, &QTcpServer::newConnection, this, &AudioServer::onNewConnection);
 
   if (!m_server->listen(QHostAddress::Any, m_port)) {
     LOG_ERR("AudioServer: cannot bind to port %d: %s", m_port, qPrintable(m_server->errorString()));
-    return false;
+    return;
   }
 
   LOG_INFO("AudioServer: control plane listening on port %d", m_port);
-  return true;
 }
 
-void AudioServer::close()
+void AudioServer::shutdown()
 {
+  // Runs on the audio thread: every object torn down here was created there.
   if (m_server != nullptr) {
     m_server->close();
   }
@@ -47,10 +65,27 @@ void AudioServer::close()
     if (session->receiver) {
       session->receiver->stop();
     }
-    session->socket->disconnectFromHost();
+    if (session->socket != nullptr) {
+      session->socket->disconnectFromHost();
+    }
     delete session;
   }
   m_sessions.clear();
+  delete m_server; // also deletes its child sockets
+  m_server = nullptr;
+}
+
+void AudioServer::close()
+{
+  if (m_thread == nullptr) {
+    return;
+  }
+  // Tear down on the audio thread, then stop and join it.
+  QMetaObject::invokeMethod(this, &AudioServer::shutdown, Qt::BlockingQueuedConnection);
+  m_thread->quit();
+  m_thread->wait();
+  delete m_thread;
+  m_thread = nullptr;
 }
 
 quint16 AudioServer::allocateRtpPort() const
@@ -198,21 +233,40 @@ void AudioServer::processHandshake(ClientSession &session)
 
 void AudioServer::setClientVolume(const QString &clientName, double volume)
 {
-  if (ClientSession *s = sessionFor(clientName); s != nullptr && s->receiver) {
-    s->receiver->setVolume(volume);
-  }
+  // Marshal onto the audio thread, which owns m_sessions and the receivers.
+  QMetaObject::invokeMethod(
+      this,
+      [this, clientName, volume] {
+        if (ClientSession *s = sessionFor(clientName); s != nullptr && s->receiver) {
+          s->receiver->setVolume(volume);
+        }
+      },
+      Qt::QueuedConnection
+  );
 }
 
 void AudioServer::setClientMute(const QString &clientName, bool mute)
 {
-  if (ClientSession *s = sessionFor(clientName); s != nullptr && s->receiver) {
-    s->receiver->setMute(mute);
-  }
+  QMetaObject::invokeMethod(
+      this,
+      [this, clientName, mute] {
+        if (ClientSession *s = sessionFor(clientName); s != nullptr && s->receiver) {
+          s->receiver->setMute(mute);
+        }
+      },
+      Qt::QueuedConnection
+  );
 }
 
 void AudioServer::setClientOutputDevice(const QString &clientName, const QString &deviceId)
 {
-  if (ClientSession *s = sessionFor(clientName); s != nullptr && s->receiver) {
-    s->receiver->setOutputDeviceId(deviceId.toStdString());
-  }
+  QMetaObject::invokeMethod(
+      this,
+      [this, clientName, deviceId] {
+        if (ClientSession *s = sessionFor(clientName); s != nullptr && s->receiver) {
+          s->receiver->setOutputDeviceId(deviceId.toStdString());
+        }
+      },
+      Qt::QueuedConnection
+  );
 }

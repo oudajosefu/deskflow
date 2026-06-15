@@ -393,17 +393,16 @@ bool ServerApp::startServer()
     const quint16 audioPort =
         audioPortSetting.isValid() ? static_cast<quint16>(audioPortSetting.toUInt()) : kDefaultAudioPort;
     m_audioServer = new AudioServer(audioPort);
-    if (!m_audioServer->listen()) {
-      LOG_WARN("audio server failed to start — audio routing unavailable");
-      delete m_audioServer;
-      m_audioServer = nullptr;
-    } else {
-      // When a client's audio stream starts, apply that client's persisted
-      // server-side playback settings (output device / volume / mute).
-      QObject::connect(m_audioServer, &AudioServer::clientAudioStarted, m_audioServer, [this](const QString &name) {
-        applyClientAudioSettings(name);
-      });
-    }
+    // When a client's audio stream starts, apply that client's persisted
+    // server-side playback settings (output device / volume / mute). The context
+    // object is m_audioServer, so this runs on the audio thread that owns the
+    // receivers. Connect before start() so no early signal is missed.
+    QObject::connect(m_audioServer, &AudioServer::clientAudioStarted, m_audioServer, [this](const QString &name) {
+      applyClientAudioSettings(name);
+    });
+    // Starts the control plane on its own Qt-event-loop thread; binding happens
+    // asynchronously there (a bind failure is logged by AudioServer::listen).
+    m_audioServer->start();
 #endif
 
     LOG_DEBUG("started server, waiting for clients");
