@@ -68,6 +68,16 @@ ScreenSettingsDialog::ScreenSettingsDialog(QWidget *parent, Screen *screen, cons
 
   ui->chkAudioRouting->setChecked(m_screen->audioRouting());
 
+  // Audio always flows from a client to the server, so routing can only be enabled on a
+  // client screen. Disable (and clear) it on the server's own screen.
+  if (m_screen->isServer()) {
+    ui->chkAudioRouting->setChecked(false);
+    ui->chkAudioRouting->setEnabled(false);
+    ui->chkAudioRouting->setToolTip(
+        tr("Audio always routes from a client to the server, so this can only be enabled on a client screen.")
+    );
+  }
+
   // Server-side playback controls: output device, volume, mute. These are stored
   // in the shared settings keyed by screen name and applied by the server core.
   ui->comboAudioDevice->addItem(tr("System default"), QString());

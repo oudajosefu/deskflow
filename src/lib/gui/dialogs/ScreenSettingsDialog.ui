@@ -730,7 +730,10 @@
       <item>
        <widget class="QCheckBox" name="chkAudioRouting">
         <property name="text">
-         <string>Route audio to this computer</string>
+         <string>Stream this computer's audio to the server</string>
+        </property>
+        <property name="toolTip">
+         <string>Captures this screen's system audio and plays it on the server you sit at. Audio always flows from a client to the server.</string>
         </property>
        </widget>
       </item>

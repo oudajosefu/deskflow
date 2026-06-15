@@ -55,6 +55,19 @@ Server::Server(ServerConfig &config, PrimaryClient *primaryClient, deskflow::Scr
 
   std::string primaryName = getName(primaryClient);
 
+  // audioRouting is a per-client capture flag the server sends to that client; the server
+  // never streams its own screen, so it's a no-op on the primary. Warn — it's an easy
+  // "enable it where I sit" misconfiguration.
+  if (const Config::ScreenOptions *primaryOpts = config.getOptions(primaryName); primaryOpts != nullptr) {
+    if (const auto it = primaryOpts->find(kOptionAudioRouting); it != primaryOpts->end() && it->second != 0) {
+      LOG_WARN(
+          "audio routing is enabled on the server's own screen \"%s\", which has no effect; "
+          "enable it on the client screen whose audio you want to hear",
+          primaryName.c_str()
+      );
+    }
+  }
+
   // clear clipboards
   for (auto &clipboard : m_clipboards) {
     clipboard.m_clipboardOwner = primaryName;
@@ -1051,6 +1064,15 @@ void Server::sendOptions(BaseClientProxy *client) const
     for (auto [optionId, optionValue] : *options) {
       optionsList.push_back(optionId);
       optionsList.push_back(static_cast<uint32_t>(optionValue));
+    }
+
+    // Breadcrumb: surface that the server is telling this client to start capturing, so a
+    // missing audio stream can be diagnosed from the server log. Skip the primary, which
+    // receives options too but never runs an audio client.
+    if (client != m_primaryClient) {
+      if (const auto it = options->find(kOptionAudioRouting); it != options->end() && it->second != 0) {
+        LOG_INFO("audio routing enabled for client \"%s\"", getName(client).c_str());
+      }
     }
   }
 
