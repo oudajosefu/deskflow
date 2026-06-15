@@ -8,7 +8,7 @@ var searchData=
   ['less_5',['less',['../classdeskflow_1_1string_1_1CaselessCmp.html#a3c8f4f93a6200fba1f4f7015731d0fe6',1,'deskflow::string::CaselessCmp']]],
   ['lineeditvalidator_6',['LineEditValidator',['../classvalidators_1_1LineEditValidator.html#a5451ecaf4d1c31e6ed90f742c5859048',1,'validators::LineEditValidator']]],
   ['listactionsselectionchanged_7',['listActionsSelectionChanged',['../classServerConfigDialog.html#ab5689db14c816a53f9f1d98286f643bf',1,'ServerConfigDialog']]],
-  ['listen_8',['listen',['../classAudioServer.html#aeb7965948e5bb8140527043100561349',1,'AudioServer::listen()'],['../classdeskflow_1_1core_1_1ipc_1_1IpcServer.html#a45340f66129454bf48c8f7a0c5e24766',1,'deskflow::core::ipc::IpcServer::listen()']]],
+  ['listen_8',['listen',['../classdeskflow_1_1core_1_1ipc_1_1IpcServer.html#a45340f66129454bf48c8f7a0c5e24766',1,'deskflow::core::ipc::IpcServer']]],
   ['listenonsocket_9',['listenOnSocket',['../classIArchNetwork.html#aaec6e787512c443e5966317c2b99d094',1,'IArchNetwork::listenOnSocket()'],['../classArchNetworkBSD.html#aeb52011a89531d24d7c27c98df555ca3',1,'ArchNetworkBSD::listenOnSocket()'],['../classArchNetworkWinsock.html#adced9d12e61b87e933e095ff4a61e528',1,'ArchNetworkWinsock::listenOnSocket()']]],
   ['listhotkeysselectionchanged_10',['listHotkeysSelectionChanged',['../classServerConfigDialog.html#adba05715a2b706fb673691045b4d63d0',1,'ServerConfigDialog']]],
   ['load_11',['load',['../classQSettingsProxy.html#ab8286fc839f19ce9c2b114c9cdc09726',1,'QSettingsProxy']]],

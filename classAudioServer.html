@@ -126,13 +126,11 @@ Signals</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2585e0fa091f20054cae6673ef6a0f36" id="r_a2585e0fa091f20054cae6673ef6a0f36"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a2585e0fa091f20054cae6673ef6a0f36">AudioServer</a> (quint16 <a class="el" href="#a5a822d5c9fed4e4285ba444ae31be1f3">port</a>, QObject *parent=nullptr)</td></tr>
 <tr class="memitem:a1b5539be8f59bc95f02d06825066cc6f" id="r_a1b5539be8f59bc95f02d06825066cc6f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1b5539be8f59bc95f02d06825066cc6f">~AudioServer</a> () override</td></tr>
-<tr class="memitem:aeb7965948e5bb8140527043100561349" id="r_aeb7965948e5bb8140527043100561349"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aeb7965948e5bb8140527043100561349">listen</a> ()</td></tr>
-<tr class="memdesc:aeb7965948e5bb8140527043100561349"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start listening. Returns false if the control port cannot be bound.  <br /></td></tr>
+<tr class="memitem:aadff385307cdea907795b58d31a9cf05" id="r_aadff385307cdea907795b58d31a9cf05"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aadff385307cdea907795b58d31a9cf05">start</a> ()</td></tr>
 <tr class="memitem:afcf3045df9d48c57db5bcc7c497d1006" id="r_afcf3045df9d48c57db5bcc7c497d1006"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afcf3045df9d48c57db5bcc7c497d1006">close</a> ()</td></tr>
-<tr class="memdesc:afcf3045df9d48c57db5bcc7c497d1006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop listening and disconnect all audio clients.  <br /></td></tr>
+<tr class="memdesc:afcf3045df9d48c57db5bcc7c497d1006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop listening, disconnect all audio clients, and join the worker thread.  <br /></td></tr>
 <tr class="memitem:a5a822d5c9fed4e4285ba444ae31be1f3" id="r_a5a822d5c9fed4e4285ba444ae31be1f3"><td class="memItemLeft">quint16&#160;</td><td class="memItemRight"><a class="el" href="#a5a822d5c9fed4e4285ba444ae31be1f3">port</a> () const</td></tr>
 <tr class="memitem:a5fa6c79d8b470d01dbddbb562af89b11" id="r_a5fa6c79d8b470d01dbddbb562af89b11"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5fa6c79d8b470d01dbddbb562af89b11">setClientVolume</a> (const QString &amp;clientName, double volume)</td></tr>
-<tr class="memdesc:a5fa6c79d8b470d01dbddbb562af89b11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-client playback controls (applied live to that client's receiver).  <br /></td></tr>
 <tr class="memitem:a7cab1e625e9667681e162ba7ddd6b99d" id="r_a7cab1e625e9667681e162ba7ddd6b99d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7cab1e625e9667681e162ba7ddd6b99d">setClientMute</a> (const QString &amp;clientName, bool mute)</td></tr>
 <tr class="memitem:a3e0a4c1e08db19f585e69dbc3db51e7f" id="r_a3e0a4c1e08db19f585e69dbc3db51e7f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3e0a4c1e08db19f585e69dbc3db51e7f">setClientOutputDevice</a> (const QString &amp;clientName, const QString &amp;deviceId)</td></tr>
 </table>
@@ -262,26 +260,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Stop listening and disconnect all audio clients. </p>
-
-</div>
-</div>
-<a id="aeb7965948e5bb8140527043100561349" name="aeb7965948e5bb8140527043100561349"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb7965948e5bb8140527043100561349">&#9670;&#160;</a></span>listen()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool AudioServer::listen </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Start listening. Returns false if the control port cannot be bound. </p>
+<p>Stop listening, disconnect all audio clients, and join the worker thread. </p>
 
 </div>
 </div>
@@ -370,8 +349,25 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Per-client playback controls (applied live to that client's receiver). Safe to call from any thread: the work is marshalled onto the audio thread, which owns the receiver pipelines and the session list. </p>
 
-<p>Per-client playback controls (applied live to that client's receiver). </p>
+</div>
+</div>
+<a id="aadff385307cdea907795b58d31a9cf05" name="aadff385307cdea907795b58d31a9cf05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadff385307cdea907795b58d31a9cf05">&#9670;&#160;</a></span>start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AudioServer::start </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Start the control plane on its own worker thread (which runs a Qt event loop). The QTcpServer/QTcpSocket objects rely on that event loop to deliver their newConnection/readyRead signals, so they must live on a thread that runs QThread::exec() — the Deskflow core thread runs its own native event loop instead and never would. </p>
 
 </div>
 </div>

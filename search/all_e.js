@@ -25,7 +25,7 @@ var searchData=
   ['link_5fconst_5fiterator_22',['link_const_iterator',['../classdeskflow_1_1server_1_1Config.html#ad58dc9a3f2b30ad0f0ade060722669eb',1,'deskflow::server::Config']]],
   ['list_23',['Deprecated List',['../deprecated.html',1,'']]],
   ['listactionsselectionchanged_24',['listActionsSelectionChanged',['../classServerConfigDialog.html#ab5689db14c816a53f9f1d98286f643bf',1,'ServerConfigDialog']]],
-  ['listen_25',['listen',['../classAudioServer.html#aeb7965948e5bb8140527043100561349',1,'AudioServer::listen()'],['../classdeskflow_1_1core_1_1ipc_1_1IpcServer.html#a45340f66129454bf48c8f7a0c5e24766',1,'deskflow::core::ipc::IpcServer::listen()']]],
+  ['listen_25',['listen',['../classdeskflow_1_1core_1_1ipc_1_1IpcServer.html#a45340f66129454bf48c8f7a0c5e24766',1,'deskflow::core::ipc::IpcServer']]],
   ['listening_26',['Listening',['../namespacedeskflow_1_1core.html#a040d74fafe28c4c63082a60335b81c27a962ef616821625a13a028ac14ac0fef8',1,'deskflow::core']]],
   ['listenonsocket_27',['listenOnSocket',['../classIArchNetwork.html#aaec6e787512c443e5966317c2b99d094',1,'IArchNetwork::listenOnSocket()'],['../classArchNetworkBSD.html#aeb52011a89531d24d7c27c98df555ca3',1,'ArchNetworkBSD::listenOnSocket()'],['../classArchNetworkWinsock.html#adced9d12e61b87e933e095ff4a61e528',1,'ArchNetworkWinsock::listenOnSocket()']]],
   ['listensocketconnecting_28',['ListenSocketConnecting',['../namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2acf757dbb036e70fb52ff5fdcc250e77d',1,'deskflow']]],
