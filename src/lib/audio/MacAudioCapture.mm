@@ -188,6 +188,8 @@ bool MacAudioCapture::start(GstElement *appsrc)
       return false;
     }
 
+    m_havePtsBase = false;
+    m_framesPushed = 0;
     m_running = true;
     LOG_INFO("macOS ScreenCaptureKit audio capture started (-> appsrc)");
     return true;
@@ -201,6 +203,8 @@ bool MacAudioCapture::start(GstElement *appsrc)
 void MacAudioCapture::stop()
 {
   m_running = false;
+  m_havePtsBase = false;
+  m_framesPushed = 0;
   if (m_stream != nullptr) {
     [m_stream stopCaptureWithCompletionHandler:^(NSError *) {
     }];
@@ -227,7 +231,29 @@ void MacAudioCapture::pushSamples(const float *data, size_t frames)
     gst_buffer_unmap(buffer, &map);
   }
 
-  // do-timestamp=true on the appsrc applies running-time PTS for us.
+  // Assign a continuous, sample-counted PTS rather than letting appsrc stamp the
+  // wall-clock arrival time (do-timestamp). ScreenCaptureKit delivers audio in
+  // jittery bursts, so arrival-time stamps produced RTP timestamp discontinuities
+  // that made the receiver's sink hold extra slack and inflated latency. The
+  // sample-counted timeline is gap-free; we anchor it once to the pipeline
+  // running-time so playback stays in sync.
+  if (!m_havePtsBase) {
+    GstClockTime base = 0;
+    if (GstClock *clock = gst_element_get_clock(m_appsrc)) {
+      const GstClockTime now = gst_clock_get_time(clock);
+      const GstClockTime baseTime = gst_element_get_base_time(m_appsrc);
+      base = (now > baseTime) ? (now - baseTime) : 0;
+      gst_object_unref(clock);
+    }
+    m_basePts = base;
+    m_framesPushed = 0;
+    m_havePtsBase = true;
+  }
+
+  GST_BUFFER_PTS(buffer) = m_basePts + gst_util_uint64_scale(m_framesPushed, GST_SECOND, kAudioSampleRate);
+  GST_BUFFER_DURATION(buffer) = gst_util_uint64_scale(frames, GST_SECOND, kAudioSampleRate);
+  m_framesPushed += frames;
+
   const GstFlowReturn ret = gst_app_src_push_buffer(GST_APP_SRC(m_appsrc), buffer);
   if (ret != GST_FLOW_OK && ret != GST_FLOW_FLUSHING) {
     LOG_DEBUG("appsrc push returned %d", static_cast<int>(ret));

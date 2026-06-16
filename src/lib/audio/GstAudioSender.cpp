@@ -63,7 +63,11 @@ bool GstAudioSender::start()
   // from a trimmed ScreenCaptureKit capture.
   const std::string caps = "audio/x-raw,format=F32LE,rate=" + std::to_string(kAudioSampleRate) +
                            ",channels=" + std::to_string(kAudioChannels) + ",layout=interleaved";
-  const std::string src = "appsrc name=macsrc is-live=true format=time do-timestamp=true caps=" + caps;
+  // do-timestamp=false: MacAudioCapture assigns continuous, sample-counted PTS
+  // itself. Wall-clock arrival stamping (do-timestamp=true) turned ScreenCaptureKit's
+  // bursty delegate delivery into RTP timestamp discontinuities, which made the
+  // receiver's sink hold extra slack and drove up end-to-end latency.
+  const std::string src = "appsrc name=macsrc is-live=true format=time do-timestamp=false caps=" + caps;
   if (!m_pipeline->build(buildLaunch(src.c_str()))) {
     LOG_ERR("audio sender: failed to build appsrc capture pipeline");
     m_pipeline.reset();

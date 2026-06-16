@@ -8,6 +8,7 @@
 
 #include <atomic>
 #include <cstddef>
+#include <cstdint>
 
 typedef struct _GstElement GstElement;
 
@@ -52,4 +53,10 @@ private:
   SCStream *m_stream = nullptr;
   DeskflowAudioStreamOutput *m_delegate = nullptr;
   std::atomic<bool> m_running{false};
+
+  // Continuous-timeline timestamping for the appsrc (do-timestamp is off): PTS is
+  // derived from the running sample count, anchored once to the pipeline clock.
+  uint64_t m_framesPushed = 0;
+  uint64_t m_basePts = 0; // running-time (ns) of the first captured sample
+  bool m_havePtsBase = false;
 };
