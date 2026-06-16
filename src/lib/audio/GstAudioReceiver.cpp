@@ -40,6 +40,13 @@ std::string GstAudioReceiver::sinkDescription() const
 
   std::string sink = std::string(element) + " name=sink";
 
+  // Continuously micro-resample to track the master clock instead of the default
+  // "skew" method. With two machines streaming over the network their audio
+  // crystals drift slightly; "skew" lets that drift build to ~40 ms and then
+  // realigns in one jump (an audible glitch, a latency sawtooth, and the periodic
+  // "correct clock skew" warnings). "resample" corrects it smoothly and inaudibly.
+  sink += " slave-method=resample";
+
   if (m_lowLatency) {
     // Replace the sink's ~200 ms default ring buffer with a small one — this is
     // the dominant (and media-dependent) latency knob. WASAPI sinks also expose
