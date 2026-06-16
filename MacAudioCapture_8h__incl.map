@@ -1,7 +1,9 @@
 <map id="src/lib/audio/MacAudioCapture.h" name="src/lib/audio/MacAudioCapture.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,215,30"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="37,78,98,103"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,29,84,66,80,63,101,32"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="122,78,186,103"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="119,28,141,65,136,65,116,33"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="18,5,227,30"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,78,66,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,30,63,70,60,66,105,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="90,78,154,103"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="124,29,125,64,120,61,120,33"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="179,78,239,103"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="137,28,186,68,180,68,136,33"/>
 </map>
