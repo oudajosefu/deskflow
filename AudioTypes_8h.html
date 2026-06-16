@@ -150,9 +150,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ae3f26dc7bc49d30b3a7489a73c302e35" id="r_ae3f26dc7bc49d30b3a7489a73c302e35"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae3f26dc7bc49d30b3a7489a73c302e35">kAudioRtpPayloadType</a> = 96</td></tr>
 <tr class="memdesc:ae3f26dc7bc49d30b3a7489a73c302e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">RTP dynamic payload type used for the Opus stream (must match on both ends).  <br /></td></tr>
 <tr class="memitem:a60b874b01b31309dce4c5ea2dea70991" id="r_a60b874b01b31309dce4c5ea2dea70991"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a60b874b01b31309dce4c5ea2dea70991">kAudioJitterBufferMs</a> = 50</td></tr>
-<tr class="memitem:abaff3b786565f838b3cd09f09b3669c1" id="r_abaff3b786565f838b3cd09f09b3669c1"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#abaff3b786565f838b3cd09f09b3669c1">kAudioJitterBufferLowMs</a> = 30</td></tr>
-<tr class="memitem:af7c64d76e6f99066d1d239f39ff439f3" id="r_af7c64d76e6f99066d1d239f39ff439f3"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#af7c64d76e6f99066d1d239f39ff439f3">kAudioSinkBufferTimeUs</a> = 40000</td></tr>
-<tr class="memitem:afb490b71717e7e8b0c072ecbf3853d2a" id="r_afb490b71717e7e8b0c072ecbf3853d2a"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#afb490b71717e7e8b0c072ecbf3853d2a">kAudioSinkLatencyTimeUs</a> = 10000</td></tr>
+<tr class="memitem:abaff3b786565f838b3cd09f09b3669c1" id="r_abaff3b786565f838b3cd09f09b3669c1"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#abaff3b786565f838b3cd09f09b3669c1">kAudioJitterBufferLowMs</a> = 15</td></tr>
+<tr class="memitem:af7c64d76e6f99066d1d239f39ff439f3" id="r_af7c64d76e6f99066d1d239f39ff439f3"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#af7c64d76e6f99066d1d239f39ff439f3">kAudioSinkBufferTimeUs</a> = 20000</td></tr>
+<tr class="memitem:afb490b71717e7e8b0c072ecbf3853d2a" id="r_afb490b71717e7e8b0c072ecbf3853d2a"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#afb490b71717e7e8b0c072ecbf3853d2a">kAudioSinkLatencyTimeUs</a> = 5000</td></tr>
 <tr class="memitem:a15a3c32393223f0883937c7164a18c3b" id="r_a15a3c32393223f0883937c7164a18c3b"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a15a3c32393223f0883937c7164a18c3b">kAudioCaptureQueueMs</a> = 30</td></tr>
 <tr class="memitem:abb6cae275cd30a4dfc2d368115fc43e4" id="r_abb6cae275cd30a4dfc2d368115fc43e4"><td class="memItemLeft">static constexpr char&#160;</td><td class="memItemRight"><a class="el" href="#abb6cae275cd30a4dfc2d368115fc43e4">kAudioHandshakeMagic</a> [] = &quot;DSKFAUDIO&quot;</td></tr>
 <tr class="memdesc:abb6cae275cd30a4dfc2d368115fc43e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magic bytes sent by the audio client at the start of the control connection.  <br /></td></tr>
@@ -409,7 +409,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioJitterBufferLowMs = 30</td>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioJitterBufferLowMs = 15</td>
         </tr>
       </table>
   </td>
@@ -440,7 +440,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Jitter-buffer playout delay in milliseconds on the receive side. The "robust" value tolerates more network jitter; the "low" value trims latency for the low-latency playback mode (suited to a wired LAN / solid WiFi). </p>
+<p>Jitter-buffer playout delay in milliseconds on the receive side. The "robust" value tolerates more network jitter; the "low" value is tuned for a wired LAN where packet jitter is negligible. On a flaky link (weak WiFi) the low value can drop late packets — raise it back toward the robust value if you hear gaps. </p>
 
 </div>
 </div>
@@ -550,7 +550,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioSinkBufferTimeUs = 40000</td>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioSinkBufferTimeUs = 20000</td>
         </tr>
       </table>
   </td>
@@ -573,7 +573,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioSinkLatencyTimeUs = 10000</td>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioSinkLatencyTimeUs = 5000</td>
         </tr>
       </table>
   </td>
