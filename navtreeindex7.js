@@ -1,5 +1,9 @@
 var NAVTREEINDEX7 =
 {
+"classArchNetworkBSD.html#af82016a992cdb1ce14d4d603b5223f85":[7,0,28,19],
+"classArchNetworkBSD.html#afc3900348e5d64cbc04c4177cc6bc45b":[7,0,28,9],
+"classArchNetworkConnectionRefusedException.html":[7,0,29],
+"classArchNetworkDisconnectedException.html":[7,0,30],
 "classArchNetworkException.html":[7,0,31],
 "classArchNetworkIOException.html":[7,0,33],
 "classArchNetworkInterruptedException.html":[7,0,32],
@@ -82,13 +86,14 @@ var NAVTREEINDEX7 =
 "classAudioDevices.html#affc520b3ab37ae032d952e9d47cf3f6f":[7,0,52,1],
 "classAudioServer.html":[7,0,53],
 "classAudioServer.html#a1b5539be8f59bc95f02d06825066cc6f":[7,0,53,1],
+"classAudioServer.html#a1c0f80c8ac92eacfe29e4aef2ce59cc8":[7,0,53,6],
 "classAudioServer.html#a201aadf7109716502765d77b3200d3cc":[7,0,53,2],
 "classAudioServer.html#a2585e0fa091f20054cae6673ef6a0f36":[7,0,53,0],
-"classAudioServer.html#a3e0a4c1e08db19f585e69dbc3db51e7f":[7,0,53,7],
+"classAudioServer.html#a3e0a4c1e08db19f585e69dbc3db51e7f":[7,0,53,8],
 "classAudioServer.html#a5a822d5c9fed4e4285ba444ae31be1f3":[7,0,53,5],
-"classAudioServer.html#a5fa6c79d8b470d01dbddbb562af89b11":[7,0,53,8],
-"classAudioServer.html#a7cab1e625e9667681e162ba7ddd6b99d":[7,0,53,6],
-"classAudioServer.html#aadff385307cdea907795b58d31a9cf05":[7,0,53,9],
+"classAudioServer.html#a5fa6c79d8b470d01dbddbb562af89b11":[7,0,53,9],
+"classAudioServer.html#a7cab1e625e9667681e162ba7ddd6b99d":[7,0,53,7],
+"classAudioServer.html#aadff385307cdea907795b58d31a9cf05":[7,0,53,10],
 "classAudioServer.html#ae6f5c61c2af186f059c3c4a2e1e31359":[7,0,53,3],
 "classAudioServer.html#afcf3045df9d48c57db5bcc7c497d1006":[7,0,53,4],
 "classBadClientException.html":[7,0,54],
@@ -244,10 +249,5 @@ var NAVTREEINDEX7 =
 "classClientProxy.html#a6359eba9c794ef073075a037b8ba549e":[7,0,66,6],
 "classClientProxy.html#a78f13e672750bd90ff024f6ab56e0c01":[7,0,66,5],
 "classClientProxy.html#a7968d82142b540753635e9b10054e306":[7,0,66,25],
-"classClientProxy.html#a7d2f77eeaf28ea20e76ae461b1e681ba":[7,0,66,21],
-"classClientProxy.html#a82dd690fb8c2f8d83854893feb58d5a4":[7,0,66,7],
-"classClientProxy.html#a85b209e83f2b16e76da50b6d6da28e89":[7,0,66,26],
-"classClientProxy.html#a89b1161489936496daa21e411db1d3ad":[7,0,66,15],
-"classClientProxy.html#a93227c092b832b011937f51f5b87e006":[7,0,66,3],
-"classClientProxy.html#a9a9da7706d7a32df6387394991773fe9":[7,0,66,27]
+"classClientProxy.html#a7d2f77eeaf28ea20e76ae461b1e681ba":[7,0,66,21]
 };

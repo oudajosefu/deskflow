@@ -92,5 +92,6 @@ var searchData=
   ['loop_89',['loop',['../classEventQueue.html#aba9b3dbc2561cf06948aa078066d96e9',1,'EventQueue::loop()'],['../classIEventQueue.html#ad646f5ae85940103c024b26391276754',1,'IEventQueue::loop()']]],
   ['looperrorcode_90',['LoopErrorCode',['../structApp_1_1LoopErrorCode.html',1,'App::LoopErrorCode'],['../structApp_1_1LoopErrorCode.html#ae3e7af671a4b9a6e9b6dd0278f134c1b',1,'App::LoopErrorCode::LoopErrorCode()']]],
   ['lost_91',['lost',['../classXWindowsClipboard.html#ad7d153734c6645677babf9496f77a5fd',1,'XWindowsClipboard']]],
-  ['lpwsanetworkevents_92',['LPWSANETWORKEVENTS',['../ArchNetworkWinsock_8cpp.html#aa1b63b60fb3f206fad88bf4f0f008d6b',1,'ArchNetworkWinsock.cpp']]]
+  ['lowlatencykey_92',['lowLatencyKey',['../structSettings_1_1Audio.html#a9c780a9916dcb3d3fdbde41299a06685',1,'Settings::Audio']]],
+  ['lpwsanetworkevents_93',['LPWSANETWORKEVENTS',['../ArchNetworkWinsock_8cpp.html#aa1b63b60fb3f206fad88bf4f0f008d6b',1,'ArchNetworkWinsock.cpp']]]
 ];

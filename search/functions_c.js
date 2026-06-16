@@ -42,5 +42,6 @@ var searchData=
   ['long_39',['long',['../ArchNetworkWinsock_8cpp.html#a2b70d06c0aace9c8693696cc736f3a31',1,'ArchNetworkWinsock.cpp']]],
   ['loop_40',['loop',['../classEventQueue.html#aba9b3dbc2561cf06948aa078066d96e9',1,'EventQueue::loop()'],['../classIEventQueue.html#ad646f5ae85940103c024b26391276754',1,'IEventQueue::loop()']]],
   ['looperrorcode_41',['LoopErrorCode',['../structApp_1_1LoopErrorCode.html#ae3e7af671a4b9a6e9b6dd0278f134c1b',1,'App::LoopErrorCode']]],
-  ['lost_42',['lost',['../classXWindowsClipboard.html#ad7d153734c6645677babf9496f77a5fd',1,'XWindowsClipboard']]]
+  ['lost_42',['lost',['../classXWindowsClipboard.html#ad7d153734c6645677babf9496f77a5fd',1,'XWindowsClipboard']]],
+  ['lowlatencykey_43',['lowLatencyKey',['../structSettings_1_1Audio.html#a9c780a9916dcb3d3fdbde41299a06685',1,'Settings::Audio']]]
 ];

@@ -1,5 +1,16 @@
 var NAVTREEINDEX24 =
 {
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#a5257e07b451e2c581a41b61851983e28":[6,0,0,8,0,1],
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#a5257e07b451e2c581a41b61851983e28":[7,0,0,7,0,1],
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#a5feea79e45586c40c0a8ed516f202047":[6,0,0,8,0,8],
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#a5feea79e45586c40c0a8ed516f202047":[7,0,0,7,0,8],
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#a6d8d553170f357f55d4166bd8b94e8c1":[6,0,0,8,0,3],
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#a6d8d553170f357f55d4166bd8b94e8c1":[7,0,0,7,0,3],
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#ac8f3bb5ac0738670e802e6042ed4a69b":[6,0,0,8,0,6],
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#ac8f3bb5ac0738670e802e6042ed4a69b":[7,0,0,7,0,6],
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#ae49a5705b1fff5653efb37ced30d6d58":[6,0,0,8,0,0],
+"structdeskflow_1_1KeyMap_1_1KeyItem.html#ae49a5705b1fff5653efb37ced30d6d58":[7,0,0,7,0,0],
+"structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html":[6,0,0,8,1,0],
 "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html":[7,0,0,7,1,0],
 "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a2dd0beec429d89aa7790d569364036b5":[6,0,0,8,1,0,1],
 "structdeskflow_1_1KeyMap_1_1Keystroke_1_1Button.html#a2dd0beec429d89aa7790d569364036b5":[7,0,0,7,1,0,1],

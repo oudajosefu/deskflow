@@ -113,6 +113,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a34eca3404f30d667f37d56d4c6cdd396" id="r_a34eca3404f30d667f37d56d4c6cdd396"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a34eca3404f30d667f37d56d4c6cdd396">setMute</a> (bool mute)</td></tr>
 <tr class="memdesc:a34eca3404f30d667f37d56d4c6cdd396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute/unmute playback. Applied live.  <br /></td></tr>
 <tr class="memitem:a5cab74a9faf4f9567869b9c38875e888" id="r_a5cab74a9faf4f9567869b9c38875e888"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5cab74a9faf4f9567869b9c38875e888">setOutputDeviceId</a> (const std::string &amp;deviceId)</td></tr>
+<tr class="memitem:a6e12a319988bc892a30090842e9abb27" id="r_a6e12a319988bc892a30090842e9abb27"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6e12a319988bc892a30090842e9abb27">setLowLatency</a> (bool lowLatency)</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Server-side audio receiver: one per connected audio client. Receives the client's RTP/Opus stream on a dedicated UDP port and plays it on the server's selected output device.</p>
@@ -235,6 +236,24 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6e12a319988bc892a30090842e9abb27" name="a6e12a319988bc892a30090842e9abb27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e12a319988bc892a30090842e9abb27">&#9670;&#160;</a></span>setLowLatency()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void GstAudioReceiver::setLowLatency </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>lowLatency</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Toggle low-latency playback. When on, the sink uses a small ring buffer and the jitter buffer a shorter playout delay (less latency, less jitter tolerance); when off, the original robust buffering is used. Rebuilds the pipeline if currently running, since the sink/buffer sizing is fixed at build. </p>
 
 </div>
 </div>

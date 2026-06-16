@@ -1,5 +1,11 @@
 var NAVTREEINDEX12 =
 {
+"classMSWindowsDebugOutputter.html#a36d69352d0d0bd50f3a8413f20530fd2":[7,0,163,5],
+"classMSWindowsDebugOutputter.html#a76d1fd00fa57f26d5f322020708b3c30":[7,0,163,2],
+"classMSWindowsDebugOutputter.html#ad1a90f3912ebeb4a8035485aa1481df0":[7,0,163,4],
+"classMSWindowsDebugOutputter.html#af02cb3f7a494dafeef796ac400d9439f":[7,0,163,0],
+"classMSWindowsDesks.html":[7,0,164],
+"classMSWindowsDesks.html#a3378c0c3e7cec291e6fc56690a350e96":[7,0,164,4],
 "classMSWindowsDesks.html#a34a92c3b7b3fa5a6a2fe116e7971a0b9":[7,0,164,6],
 "classMSWindowsDesks.html#a4a6bc7878c59dd81c7585e98b83ca0d7":[7,0,164,11],
 "classMSWindowsDesks.html#a50ba26901c283286adfc6bd11529c835":[7,0,164,0],
@@ -243,11 +249,5 @@ var NAVTREEINDEX12 =
 "classOSXClipboardBMPConverter.html#a84a1aee61cdde8595faa2f6893815888":[7,0,182,2],
 "classOSXClipboardBMPConverter.html#adcbaada422156479dc0238147cbd59eb":[7,0,182,6],
 "classOSXClipboardHTMLConverter.html":[7,0,183],
-"classOSXClipboardHTMLConverter.html#a57a5c5606255572e15b33ec587b2de38":[7,0,183,1],
-"classOSXClipboardHTMLConverter.html#a5ae4d0f9e84234967be11f2ebcfd41b6":[7,0,183,0],
-"classOSXClipboardHTMLConverter.html#ab5e2bd04a365268b298adff8261b26e0":[7,0,183,2],
-"classOSXClipboardHTMLConverter.html#ae14e65f0c12685e7682a8ef3a7cd8571":[7,0,183,5],
-"classOSXClipboardHTMLConverter.html#ae15be54853418885da99f8ee12377755":[7,0,183,6],
-"classOSXClipboardHTMLConverter.html#ae8f8a6c576858ffd551a6725c97f900e":[7,0,183,3],
-"classOSXClipboardHTMLConverter.html#afb0f19774d7da394aad4229fa588f1ef":[7,0,183,4]
+"classOSXClipboardHTMLConverter.html#a57a5c5606255572e15b33ec587b2de38":[7,0,183,1]
 };

@@ -135,40 +135,42 @@ $(function(){initNavTree('AudioServer_8h_source.html','',''); });
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classAudioServer.html#a5fa6c79d8b470d01dbddbb562af89b11">setClientVolume</a>(<span class="keyword">const</span> QString &amp;clientName, <span class="keywordtype">double</span> volume);</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classAudioServer.html#a7cab1e625e9667681e162ba7ddd6b99d">setClientMute</a>(<span class="keyword">const</span> QString &amp;clientName, <span class="keywordtype">bool</span> mute);</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classAudioServer.html#a3e0a4c1e08db19f585e69dbc3db51e7f">setClientOutputDevice</a>(<span class="keyword">const</span> QString &amp;clientName, <span class="keyword">const</span> QString &amp;deviceId);</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>Q_SIGNALS:</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classAudioServer.html#a201aadf7109716502765d77b3200d3cc">   65</a></span>  <span class="keywordtype">void</span> <a class="code hl_signal" href="classAudioServer.html#a201aadf7109716502765d77b3200d3cc">clientAudioStarted</a>(<span class="keyword">const</span> QString &amp;clientName);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classAudioServer.html#ae6f5c61c2af186f059c3c4a2e1e31359">   66</a></span>  <span class="keywordtype">void</span> <a class="code hl_signal" href="classAudioServer.html#ae6f5c61c2af186f059c3c4a2e1e31359">clientAudioStopped</a>(<span class="keyword">const</span> QString &amp;clientName);</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">private</span> Q_SLOTS:</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  <span class="keywordtype">void</span> listen();</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  <span class="keywordtype">void</span> shutdown();</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  <span class="keywordtype">void</span> onNewConnection();</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  <span class="keywordtype">void</span> onClientReadyRead();</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  <span class="keywordtype">void</span> onClientDisconnected();</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  <span class="keyword">struct </span>ClientSession</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  {</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    QTcpSocket *socket = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordtype">bool</span> handshakeDone = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    QByteArray buffer;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    QString clientName;</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    quint16 rtpPort = 0;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    std::unique_ptr&lt;GstAudioReceiver&gt; receiver;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  };</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>  <span class="keywordtype">void</span> processHandshake(ClientSession &amp;session);</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>  quint16 allocateRtpPort() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  ClientSession *sessionFor(<span class="keyword">const</span> QString &amp;clientName) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  quint16 m_port;</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  QThread *m_thread = <span class="keyword">nullptr</span>; <span class="comment">// owns the Qt event loop the listener runs on</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>  QTcpServer *m_server = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  QList&lt;ClientSession *&gt; m_sessions;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>};</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classAudioServer.html#a1c0f80c8ac92eacfe29e4aef2ce59cc8">setClientLowLatency</a>(<span class="keyword">const</span> QString &amp;clientName, <span class="keywordtype">bool</span> lowLatency);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>Q_SIGNALS:</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classAudioServer.html#a201aadf7109716502765d77b3200d3cc">   66</a></span>  <span class="keywordtype">void</span> <a class="code hl_signal" href="classAudioServer.html#a201aadf7109716502765d77b3200d3cc">clientAudioStarted</a>(<span class="keyword">const</span> QString &amp;clientName);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classAudioServer.html#ae6f5c61c2af186f059c3c4a2e1e31359">   67</a></span>  <span class="keywordtype">void</span> <a class="code hl_signal" href="classAudioServer.html#ae6f5c61c2af186f059c3c4a2e1e31359">clientAudioStopped</a>(<span class="keyword">const</span> QString &amp;clientName);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keyword">private</span> Q_SLOTS:</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  <span class="keywordtype">void</span> listen();</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  <span class="keywordtype">void</span> shutdown();</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  <span class="keywordtype">void</span> onNewConnection();</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  <span class="keywordtype">void</span> onClientReadyRead();</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  <span class="keywordtype">void</span> onClientDisconnected();</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  <span class="keyword">struct </span>ClientSession</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    QTcpSocket *socket = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordtype">bool</span> handshakeDone = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    QByteArray buffer;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    QString clientName;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    quint16 rtpPort = 0;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    std::unique_ptr&lt;GstAudioReceiver&gt; receiver;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  };</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>  <span class="keywordtype">void</span> processHandshake(ClientSession &amp;session);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  quint16 allocateRtpPort() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  ClientSession *sessionFor(<span class="keyword">const</span> QString &amp;clientName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  quint16 m_port;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>  QThread *m_thread = <span class="keyword">nullptr</span>; <span class="comment">// owns the Qt event loop the listener runs on</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  QTcpServer *m_server = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  QList&lt;ClientSession *&gt; m_sessions;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>};</div>
 </div>
 <div class="ttc" id="aclassAudioServer_html_a1b5539be8f59bc95f02d06825066cc6f"><div class="ttname"><a href="classAudioServer.html#a1b5539be8f59bc95f02d06825066cc6f">AudioServer::~AudioServer</a></div><div class="ttdeci">~AudioServer() override</div><div class="ttdef"><b>Definition</b> AudioServer.cpp:22</div></div>
+<div class="ttc" id="aclassAudioServer_html_a1c0f80c8ac92eacfe29e4aef2ce59cc8"><div class="ttname"><a href="classAudioServer.html#a1c0f80c8ac92eacfe29e4aef2ce59cc8">AudioServer::setClientLowLatency</a></div><div class="ttdeci">void setClientLowLatency(const QString &amp;clientName, bool lowLatency)</div><div class="ttdef"><b>Definition</b> AudioServer.cpp:274</div></div>
 <div class="ttc" id="aclassAudioServer_html_a201aadf7109716502765d77b3200d3cc"><div class="ttname"><a href="classAudioServer.html#a201aadf7109716502765d77b3200d3cc">AudioServer::clientAudioStarted</a></div><div class="ttdeci">void clientAudioStarted(const QString &amp;clientName)</div></div>
 <div class="ttc" id="aclassAudioServer_html_a2585e0fa091f20054cae6673ef6a0f36"><div class="ttname"><a href="classAudioServer.html#a2585e0fa091f20054cae6673ef6a0f36">AudioServer::AudioServer</a></div><div class="ttdeci">AudioServer(quint16 port, QObject *parent=nullptr)</div><div class="ttdef"><b>Definition</b> AudioServer.cpp:18</div></div>
 <div class="ttc" id="aclassAudioServer_html_a3e0a4c1e08db19f585e69dbc3db51e7f"><div class="ttname"><a href="classAudioServer.html#a3e0a4c1e08db19f585e69dbc3db51e7f">AudioServer::setClientOutputDevice</a></div><div class="ttdeci">void setClientOutputDevice(const QString &amp;clientName, const QString &amp;deviceId)</div><div class="ttdef"><b>Definition</b> AudioServer.cpp:261</div></div>

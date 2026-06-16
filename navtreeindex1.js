@@ -1,5 +1,9 @@
 var NAVTREEINDEX1 =
 {
+"CoreArgParser_8h_source.html":[8,0,1,0,0,1],
+"CoreArgs_8h.html":[8,0,1,0,0,2],
+"CoreArgs_8h_source.html":[8,0,1,0,0,2],
+"CoreIpcClient_8cpp.html":[8,0,1,1,6,3,0],
 "CoreIpcClient_8h.html":[8,0,1,1,6,3,1],
 "CoreIpcClient_8h_source.html":[8,0,1,1,6,3,1],
 "CoreIpcServer_8cpp.html":[8,0,1,1,5,0,2],
@@ -245,9 +249,5 @@ var NAVTREEINDEX1 =
 "KeyTypes_8h.html#a0265d30e186ef7fef458c3793bd0f798":[8,0,1,1,5,39,61],
 "KeyTypes_8h.html#a049e29fef53418c633259320f92b2ba9":[8,0,1,1,5,39,189],
 "KeyTypes_8h.html#a05063eae84ba2351a8b3a2447eb2d0bb":[8,0,1,1,5,39,3],
-"KeyTypes_8h.html#a05118e3bb4894d1f07854fdf66ec4bb1":[8,0,1,1,5,39,193],
-"KeyTypes_8h.html#a053cc9b40e263ab90466ece4f251e0c3":[8,0,1,1,5,39,114],
-"KeyTypes_8h.html#a05869ab9ff452dcd89a92658b6e75f26":[8,0,1,1,5,39,7],
-"KeyTypes_8h.html#a0c7d5cbe60e3727c4270e8b3e9155a57":[8,0,1,1,5,39,136],
-"KeyTypes_8h.html#a0ccda52055f6a888814917175f445c46":[8,0,1,1,5,39,8]
+"KeyTypes_8h.html#a05118e3bb4894d1f07854fdf66ec4bb1":[8,0,1,1,5,39,193]
 };

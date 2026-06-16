@@ -188,9 +188,11 @@ Audio routing playback settings (server config file)</h2></td></tr>
 <tr class="memdesc:a5a1d1b69c62771e2b547192da1d922aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set/get a screen's audio routing playback settings.  <br /></td></tr>
 <tr class="memitem:af00ea2ab53e26c18d947c1e768908e60" id="r_af00ea2ab53e26c18d947c1e768908e60"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af00ea2ab53e26c18d947c1e768908e60">setAudioVolume</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>, <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> volume)</td></tr>
 <tr class="memitem:af170a5d49bc131b84ce8cb42f61ff13a" id="r_af170a5d49bc131b84ce8cb42f61ff13a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af170a5d49bc131b84ce8cb42f61ff13a">setAudioMute</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>, bool mute)</td></tr>
+<tr class="memitem:acfe1460b0a80b37bcf234399a91be757" id="r_acfe1460b0a80b37bcf234399a91be757"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#acfe1460b0a80b37bcf234399a91be757">setAudioLowLatency</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>, bool lowLatency)</td></tr>
 <tr class="memitem:a4a9b7941f667a3fe90a3feca1a26bbb3" id="r_a4a9b7941f667a3fe90a3feca1a26bbb3"><td class="memItemLeft">std::optional&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4a9b7941f667a3fe90a3feca1a26bbb3">getAudioOutputDevice</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>) const</td></tr>
 <tr class="memitem:a538fec17fd773bee911d4fcc2502528a" id="r_a538fec17fd773bee911d4fcc2502528a"><td class="memItemLeft">std::optional&lt; <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a538fec17fd773bee911d4fcc2502528a">getAudioVolume</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>) const</td></tr>
 <tr class="memitem:a93aad40c6ec836efd88db223035983f5" id="r_a93aad40c6ec836efd88db223035983f5"><td class="memItemLeft">std::optional&lt; bool &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a93aad40c6ec836efd88db223035983f5">getAudioMute</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>) const</td></tr>
+<tr class="memitem:a3be8c97f8f9ab6ebf18a24df9fb7c410" id="r_a3be8c97f8f9ab6ebf18a24df9fb7c410"><td class="memItemLeft">std::optional&lt; bool &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a3be8c97f8f9ab6ebf18a24df9fb7c410">getAudioLowLatency</a> (const std::string &amp;<a class="el" href="ArchNetworkWinsock_8cpp.html#a129068cd4154b9a162b20d566a10d8b6">name</a>) const</td></tr>
 <tr class="memitem:af224d470299368ce6f10fff62bbef68d" id="r_af224d470299368ce6f10fff62bbef68d"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af224d470299368ce6f10fff62bbef68d">hasLockToScreenAction</a> () const</td></tr>
 <tr class="memdesc:af224d470299368ce6f10fff62bbef68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for lock to screen action.  <br /></td></tr>
 <tr class="memitem:adf44f2c5fb7f5b55f46e48512d866f01" id="r_adf44f2c5fb7f5b55f46e48512d866f01"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#adf44f2c5fb7f5b55f46e48512d866f01">operator==</a> (const <a class="el" href="#ad6a5177e22cb3570994b7b686bf36b33">Config</a> &amp;) const</td></tr>
@@ -675,6 +677,23 @@ Audio routing playback settings (server config file)</h2></td></tr>
 
 <p>Get interval as string. </p>
 <p>Returns an interval as a parseable string. </p>
+
+</div>
+</div>
+<a id="a3be8c97f8f9ab6ebf18a24df9fb7c410" name="a3be8c97f8f9ab6ebf18a24df9fb7c410"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3be8c97f8f9ab6ebf18a24df9fb7c410">&#9670;&#160;</a></span>getAudioLowLatency()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; bool &gt; deskflow::server::Config::getAudioLowLatency </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1200,6 +1219,27 @@ Audio routing playback settings (server config file)</h2></td></tr>
 
 <p>Rename screen. </p>
 <p>Renames a screen. All references to the name are updated. Returns true iff successful. </p>
+
+</div>
+</div>
+<a id="acfe1460b0a80b37bcf234399a91be757" name="acfe1460b0a80b37bcf234399a91be757"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfe1460b0a80b37bcf234399a91be757">&#9670;&#160;</a></span>setAudioLowLatency()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void deskflow::server::Config::setAudioLowLatency </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>lowLatency</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

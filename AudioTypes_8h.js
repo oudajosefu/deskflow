@@ -2,6 +2,7 @@ var AudioTypes_8h =
 [
     [ "audioRtpCaps", "AudioTypes_8h.html#a9b9c9294f6506afe1d8788262374abae", null ],
     [ "kAudioBitrate", "AudioTypes_8h.html#a771f91cba984be0c65a3940017777829", null ],
+    [ "kAudioCaptureQueueMs", "AudioTypes_8h.html#a15a3c32393223f0883937c7164a18c3b", null ],
     [ "kAudioChannels", "AudioTypes_8h.html#ac338d09f72169e562b4be7b41a147d9b", null ],
     [ "kAudioHandshakeErr", "AudioTypes_8h.html#a14df9f201c9076c3aa6e7df51f9e495b", null ],
     [ "kAudioHandshakeMagic", "AudioTypes_8h.html#abb6cae275cd30a4dfc2d368115fc43e4", null ],
@@ -9,10 +10,13 @@ var AudioTypes_8h =
     [ "kAudioHandshakeOk", "AudioTypes_8h.html#a66d9bc6bef02b2053c300dffbd8dea48", null ],
     [ "kAudioHandshakeOkReplyLen", "AudioTypes_8h.html#a1d9398feba570394bdb4a7a42d9e863d", null ],
     [ "kAudioHandshakeReplyTagLen", "AudioTypes_8h.html#ae9ca4f1629fd8c832ee3d647919524dd", null ],
+    [ "kAudioJitterBufferLowMs", "AudioTypes_8h.html#abaff3b786565f838b3cd09f09b3669c1", null ],
     [ "kAudioJitterBufferMs", "AudioTypes_8h.html#a60b874b01b31309dce4c5ea2dea70991", null ],
     [ "kAudioOpusFrameMs", "AudioTypes_8h.html#acd51a8b4e66429b58c1abd9c9d05c62a", null ],
     [ "kAudioRtpPayloadType", "AudioTypes_8h.html#ae3f26dc7bc49d30b3a7489a73c302e35", null ],
     [ "kAudioRtpPortBase", "AudioTypes_8h.html#a1342e01d069e5c3e2947e6b831c87087", null ],
     [ "kAudioSampleRate", "AudioTypes_8h.html#abadbd7dfc8681e3f320fb3cf59f2a742", null ],
+    [ "kAudioSinkBufferTimeUs", "AudioTypes_8h.html#af7c64d76e6f99066d1d239f39ff439f3", null ],
+    [ "kAudioSinkLatencyTimeUs", "AudioTypes_8h.html#afb490b71717e7e8b0c072ecbf3853d2a", null ],
     [ "kDefaultAudioPort", "AudioTypes_8h.html#a9fe76147274efa35acabbecb92073341", null ]
 ];

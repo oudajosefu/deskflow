@@ -1,5 +1,9 @@
 var NAVTREEINDEX4 =
 {
+"OSXClipboardHTMLConverter_8h_source.html":[8,0,1,1,10,54],
+"OSXClipboardTextConverter_8cpp.html":[8,0,1,1,10,55],
+"OSXClipboardTextConverter_8h.html":[8,0,1,1,10,56],
+"OSXClipboardTextConverter_8h_source.html":[8,0,1,1,10,56],
 "OSXClipboardUTF16Converter_8cpp.html":[8,0,1,1,10,57],
 "OSXClipboardUTF16Converter_8h.html":[8,0,1,1,10,58],
 "OSXClipboardUTF16Converter_8h_source.html":[8,0,1,1,10,58],
@@ -245,9 +249,5 @@ var NAVTREEINDEX4 =
 "ServerApp_8h_source.html":[8,0,1,1,5,55],
 "ServerConfigDialog_8cpp.html":[8,0,1,1,6,2,12],
 "ServerConfigDialog_8cpp.html#a8998f4fde8b4d01dde07d3eccfbea73d":[8,0,1,1,6,2,12,0],
-"ServerConfigDialog_8h.html":[8,0,1,1,6,2,13],
-"ServerConfigDialog_8h_source.html":[8,0,1,1,6,2,13],
-"ServerConfig_8cpp.html":[8,0,1,1,6,0,6],
-"ServerConfig_8cpp.html#a0a2f84ed7838f07779ae24c5a9086d33":[8,0,1,1,6,0,6,8],
-"ServerConfig_8cpp.html#a6150e0515f7202e2fb518f7206ed97dc":[8,0,1,1,6,0,6,7]
+"ServerConfigDialog_8h.html":[8,0,1,1,6,2,13]
 };

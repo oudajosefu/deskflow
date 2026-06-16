@@ -1,5 +1,9 @@
 var NAVTREEINDEX3 =
 {
+"Logger_8cpp.html":[8,0,1,1,6,16],
+"Logger_8h.html":[8,0,1,1,6,17],
+"Logger_8h_source.html":[8,0,1,1,6,17],
+"MSWindowsClipboardAnyTextConverter_8cpp.html":[8,0,1,1,10,11],
 "MSWindowsClipboardAnyTextConverter_8h.html":[8,0,1,1,10,12],
 "MSWindowsClipboardAnyTextConverter_8h_source.html":[8,0,1,1,10,12],
 "MSWindowsClipboardBitmapConverter_8cpp.html":[8,0,1,1,10,13],
@@ -245,9 +249,5 @@ var NAVTREEINDEX3 =
 "OSXClipboardBMPConverter_8h.html":[8,0,1,1,10,52],
 "OSXClipboardBMPConverter_8h_source.html":[8,0,1,1,10,52],
 "OSXClipboardHTMLConverter_8cpp.html":[8,0,1,1,10,53],
-"OSXClipboardHTMLConverter_8h.html":[8,0,1,1,10,54],
-"OSXClipboardHTMLConverter_8h_source.html":[8,0,1,1,10,54],
-"OSXClipboardTextConverter_8cpp.html":[8,0,1,1,10,55],
-"OSXClipboardTextConverter_8h.html":[8,0,1,1,10,56],
-"OSXClipboardTextConverter_8h_source.html":[8,0,1,1,10,56]
+"OSXClipboardHTMLConverter_8h.html":[8,0,1,1,10,54]
 };
