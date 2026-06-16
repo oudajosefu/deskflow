@@ -886,10 +886,6 @@ Additionally, check you are able to %1 the server config file: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Route audio to this computer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>System default</source>
         <translation type="unfinished"></translation>
     </message>
@@ -935,6 +931,26 @@ Additionally, check you are able to %1 the server config file: %2</source>
     </message>
     <message>
         <source>Mute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stream this computer&apos;s audio to the server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Captures this screen&apos;s system audio and plays it on the server you sit at. Audio always flows from a client to the server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Low-latency audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimises playback delay so audio stays in sync with on-screen video. Best on a wired LAN; turn off if you hear glitches on a poor network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio always routes from a client to the server, so this can only be enabled on a client screen.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

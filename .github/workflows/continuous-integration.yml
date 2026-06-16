@@ -314,6 +314,7 @@ jobs:
         shell: bash
         run: |
           if [[ `git status --porcelain` ]]; then
+            git status --porcelain
             echo "Unexpected changes to the repo, Often caused by forgetting to commit the updated translation files"
             exit 1
           fi
