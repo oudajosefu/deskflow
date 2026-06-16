@@ -503,6 +503,13 @@ void Config::setAudioMute(const std::string &name, bool mute)
   }
 }
 
+void Config::setAudioLowLatency(const std::string &name, bool lowLatency)
+{
+  if (const CellMap::iterator index = m_map.find(name); index != m_map.end()) {
+    index->second.m_audioLowLatency = lowLatency;
+  }
+}
+
 std::optional<std::string> Config::getAudioOutputDevice(const std::string &name) const
 {
   const CellMap::const_iterator index = m_map.find(name);
@@ -519,6 +526,12 @@ std::optional<bool> Config::getAudioMute(const std::string &name) const
 {
   const CellMap::const_iterator index = m_map.find(name);
   return index != m_map.end() ? index->second.m_audioMute : std::nullopt;
+}
+
+std::optional<bool> Config::getAudioLowLatency(const std::string &name) const
+{
+  const CellMap::const_iterator index = m_map.find(name);
+  return index != m_map.end() ? index->second.m_audioLowLatency : std::nullopt;
 }
 
 bool Config::hasLockToScreenAction() const
@@ -846,6 +859,8 @@ void Config::readSectionScreens(ConfigReadContext &s)
         setAudioVolume(screen, s.parseInt(value));
       } else if (name == "audioMute") {
         setAudioMute(screen, s.parseBoolean(value));
+      } else if (name == "audioLowLatency") {
+        setAudioLowLatency(screen, s.parseBoolean(value));
       } else {
         // unknown argument
         throw ServerConfigReadException(s, "unknown argument \"%{1}\"", name);

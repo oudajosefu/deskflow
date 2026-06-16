@@ -799,6 +799,16 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QCheckBox" name="chkAudioLowLatency">
+        <property name="text">
+         <string>Low-latency audio</string>
+        </property>
+        <property name="toolTip">
+         <string>Minimises playback delay so audio stays in sync with on-screen video. Best on a wired LAN; turn off if you hear glitches on a poor network.</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

@@ -270,3 +270,16 @@ void AudioServer::setClientOutputDevice(const QString &clientName, const QString
       Qt::QueuedConnection
   );
 }
+
+void AudioServer::setClientLowLatency(const QString &clientName, bool lowLatency)
+{
+  QMetaObject::invokeMethod(
+      this,
+      [this, clientName, lowLatency] {
+        if (ClientSession *s = sessionFor(clientName); s != nullptr && s->receiver) {
+          s->receiver->setLowLatency(lowLatency);
+        }
+      },
+      Qt::QueuedConnection
+  );
+}

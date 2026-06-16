@@ -32,8 +32,8 @@ std::string GstAudioSender::buildLaunch(const char *sourceDescription) const
   // Shared encode + packetise + send tail. A small leaky queue decouples the
   // live capture source from the encoder so a momentary stall never blocks
   // capture. opusenc inband-fec lets the decoder conceal lost packets.
-  return std::string(sourceDescription) +
-         " ! queue max-size-time=100000000 leaky=downstream"
+  return std::string(sourceDescription) + " ! queue max-size-time=" + std::to_string(kAudioCaptureQueueMs * 1000000LL) +
+         " leaky=downstream"
          " ! audioconvert ! audioresample"
          " ! audio/x-raw,rate=" +
          std::to_string(kAudioSampleRate) + ",channels=" + std::to_string(kAudioChannels) +

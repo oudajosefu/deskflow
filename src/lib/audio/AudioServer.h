@@ -58,6 +58,7 @@ public:
   void setClientVolume(const QString &clientName, double volume);
   void setClientMute(const QString &clientName, bool mute);
   void setClientOutputDevice(const QString &clientName, const QString &deviceId);
+  void setClientLowLatency(const QString &clientName, bool lowLatency);
 
 Q_SIGNALS:
   /// Emitted (on the AudioServer thread) when a client's playback pipeline starts

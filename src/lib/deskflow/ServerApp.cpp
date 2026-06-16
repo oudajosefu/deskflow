@@ -451,6 +451,16 @@ void ServerApp::applyClientAudioSettings(const QString &clientName)
   } else if (const QVariant v = Settings::value(Settings::Audio::muteKey(clientName)); v.isValid()) {
     m_audioServer->setClientMute(clientName, v.toBool());
   }
+
+  // Low-latency playback defaults ON; an explicit config or GUI value can disable
+  // it (e.g. for a jittery link). The receiver also defaults on, so the unset/true
+  // case rebuilds nothing.
+  if (const auto lowLatency = m_config ? m_config->getAudioLowLatency(name) : std::nullopt) {
+    m_audioServer->setClientLowLatency(clientName, *lowLatency);
+  } else {
+    const QVariant v = Settings::value(Settings::Audio::lowLatencyKey(clientName));
+    m_audioServer->setClientLowLatency(clientName, v.isValid() ? v.toBool() : true);
+  }
 }
 #endif
 

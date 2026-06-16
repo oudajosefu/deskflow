@@ -98,6 +98,10 @@ ScreenSettingsDialog::ScreenSettingsDialog(QWidget *parent, Screen *screen, cons
     ui->lblAudioVolumeValue->setText(QStringLiteral("%1%").arg(volume));
 
     ui->chkAudioMute->setChecked(Settings::value(Settings::Audio::muteKey(screenName)).toBool());
+
+    // Low-latency playback defaults on; only an explicit off should disable it.
+    const QVariant savedLowLatency = Settings::value(Settings::Audio::lowLatencyKey(screenName));
+    ui->chkAudioLowLatency->setChecked(savedLowLatency.isValid() ? savedLowLatency.toBool() : true);
   }
   connect(ui->sliderAudioVolume, &QSlider::valueChanged, this, [this](int value) {
     ui->lblAudioVolumeValue->setText(QStringLiteral("%1%").arg(value));
@@ -168,6 +172,7 @@ void ScreenSettingsDialog::accept()
   Settings::setValue(Settings::Audio::outputDeviceKey(screenName), ui->comboAudioDevice->currentData().toString());
   Settings::setValue(Settings::Audio::volumeKey(screenName), ui->sliderAudioVolume->value());
   Settings::setValue(Settings::Audio::muteKey(screenName), ui->chkAudioMute->isChecked());
+  Settings::setValue(Settings::Audio::lowLatencyKey(screenName), ui->chkAudioLowLatency->isChecked());
 
   QDialog::accept();
 }

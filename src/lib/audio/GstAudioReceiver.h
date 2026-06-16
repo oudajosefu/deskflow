@@ -58,6 +58,12 @@ public:
   /// most audio sinks cannot change device while PLAYING.
   void setOutputDeviceId(const std::string &deviceId);
 
+  /// Toggle low-latency playback. When on, the sink uses a small ring buffer and
+  /// the jitter buffer a shorter playout delay (less latency, less jitter
+  /// tolerance); when off, the original robust buffering is used. Rebuilds the
+  /// pipeline if currently running, since the sink/buffer sizing is fixed at build.
+  void setLowLatency(bool lowLatency);
+
 private:
   std::string buildLaunch() const;
   std::string sinkDescription() const;
@@ -66,6 +72,8 @@ private:
   double m_volume = 1.0;
   bool m_mute = false;
   std::string m_deviceId; // empty => system default
+  bool m_lowLatency = true;
+  bool m_forceDefaultSink = false; // set after a low-latency sink build failure
 
   bool m_running = false;
   std::unique_ptr<GstAudioPipeline> m_pipeline;

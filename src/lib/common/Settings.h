@@ -141,6 +141,10 @@ public:
     {
       return QStringLiteral("audio/screens/%1/mute").arg(screen);
     }
+    static QString lowLatencyKey(const QString &screen)
+    {
+      return QStringLiteral("audio/screens/%1/lowLatency").arg(screen);
+    }
   };
 
   // Enums types used in settings

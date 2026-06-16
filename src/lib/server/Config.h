@@ -136,11 +136,12 @@ private:
   public:
     ScreenOptions m_options;
     // Per-screen audio routing playback settings, set from the server config file
-    // (audioOutputDevice / audioVolume / audioMute). Unset = not specified, in which
-    // case the server falls back to the GUI/application settings.
+    // (audioOutputDevice / audioVolume / audioMute / audioLowLatency). Unset = not
+    // specified, in which case the server falls back to the GUI/application settings.
     std::optional<std::string> m_audioOutputDevice;
     std::optional<int> m_audioVolume;
     std::optional<bool> m_audioMute;
+    std::optional<bool> m_audioLowLatency;
   };
   using CellMap = std::map<std::string, Cell, deskflow::string::CaselessCmp>;
   using NameMap = std::map<std::string, std::string, deskflow::string::CaselessCmp>;
@@ -428,9 +429,11 @@ public:
   void setAudioOutputDevice(const std::string &name, const std::string &device);
   void setAudioVolume(const std::string &name, int volume);
   void setAudioMute(const std::string &name, bool mute);
+  void setAudioLowLatency(const std::string &name, bool lowLatency);
   std::optional<std::string> getAudioOutputDevice(const std::string &name) const;
   std::optional<int> getAudioVolume(const std::string &name) const;
   std::optional<bool> getAudioMute(const std::string &name) const;
+  std::optional<bool> getAudioLowLatency(const std::string &name) const;
   //@}
 
   //! Check for lock to screen action

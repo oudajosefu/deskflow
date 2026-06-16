@@ -40,8 +40,23 @@ static constexpr int kAudioOpusFrameMs = 20;
 /// RTP dynamic payload type used for the Opus stream (must match on both ends).
 static constexpr int kAudioRtpPayloadType = 96;
 
-/// Default jitter-buffer playout delay in milliseconds on the receive side.
+/// Jitter-buffer playout delay in milliseconds on the receive side. The "robust"
+/// value tolerates more network jitter; the "low" value trims latency for the
+/// low-latency playback mode (suited to a wired LAN / solid WiFi).
 static constexpr int kAudioJitterBufferMs = 50;
+static constexpr int kAudioJitterBufferLowMs = 30;
+
+/// Low-latency playback sink ring-buffer sizing (microseconds). buffer-time caps
+/// how much audio the sink queues ahead; latency-time is one device period.
+/// These replace the audio sink's ~200 ms default ring buffer, which is the
+/// dominant (and media-dependent) source of end-to-end latency.
+static constexpr int kAudioSinkBufferTimeUs = 40000;
+static constexpr int kAudioSinkLatencyTimeUs = 10000;
+
+/// Capture-side leaky queue depth in milliseconds. The queue only decouples the
+/// live source from the encoder, so this just bounds worst-case latency during a
+/// transient stall (it already drops oldest buffers — see leaky=downstream).
+static constexpr int kAudioCaptureQueueMs = 30;
 
 /// Magic bytes sent by the audio client at the start of the control connection.
 static constexpr char kAudioHandshakeMagic[] = "DSKFAUDIO";
