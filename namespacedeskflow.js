@@ -18,12 +18,13 @@ var namespacedeskflow =
     [ "KeyMap", "classdeskflow_1_1KeyMap.html", "classdeskflow_1_1KeyMap" ],
     [ "Screen", "classdeskflow_1_1Screen.html", "classdeskflow_1_1Screen" ],
     [ "IStream", "classdeskflow_1_1IStream.html", "classdeskflow_1_1IStream" ],
+    [ "EiClipboard", "classdeskflow_1_1EiClipboard.html", "classdeskflow_1_1EiClipboard" ],
     [ "EiEventQueueBuffer", "classdeskflow_1_1EiEventQueueBuffer.html", "classdeskflow_1_1EiEventQueueBuffer" ],
     [ "EiKeyState", "classdeskflow_1_1EiKeyState.html", "classdeskflow_1_1EiKeyState" ],
     [ "EiScreen", "classdeskflow_1_1EiScreen.html", "classdeskflow_1_1EiScreen" ],
+    [ "PortalClipboard", "classdeskflow_1_1PortalClipboard.html", "classdeskflow_1_1PortalClipboard" ],
     [ "PortalInputCapture", "classdeskflow_1_1PortalInputCapture.html", "classdeskflow_1_1PortalInputCapture" ],
     [ "PortalRemoteDesktop", "classdeskflow_1_1PortalRemoteDesktop.html", "classdeskflow_1_1PortalRemoteDesktop" ],
-    [ "WlClipboardCollection", "classdeskflow_1_1WlClipboardCollection.html", "classdeskflow_1_1WlClipboardCollection" ],
     [ "ClipboardInfo", "namespacedeskflow.html#a7e6b295055478c56c471ed9ec99905e2", null ],
     [ "EventTypes", "namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2", [
       [ "Unknown", "namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2a88183b946cc5f0e8c96b2e66e1c74a7e", null ],
@@ -92,5 +93,8 @@ var namespacedeskflow =
     [ "formatSSLFingerprintColumns", "namespacedeskflow.html#ad861c9ab209c83520015ecd34ea46d02", null ],
     [ "generateFingerprintArt", "namespacedeskflow.html#ae59df1508908bc129534f32f6865d6f0", null ],
     [ "generatePemSelfSignedCert", "namespacedeskflow.html#a99a22f603681c19d78cf0cceb1b9d11b", null ],
-    [ "sslCertFingerprint", "namespacedeskflow.html#a6cb2aaf99f20b081d331c8e1df016dca", null ]
+    [ "sslCertFingerprint", "namespacedeskflow.html#a6cb2aaf99f20b081d331c8e1df016dca", null ],
+    [ "kBmpFileHeaderSize", "namespacedeskflow.html#a010cad78ac52a222d181a3a535b144ed", null ],
+    [ "kBmpSignatureSize", "namespacedeskflow.html#a1bf9314e396ce1df7083ed7f8aeb9169", null ],
+    [ "kMinDibHeaderSize", "namespacedeskflow.html#adba9f73636111f14a71a663126fa2ef3", null ]
 ];

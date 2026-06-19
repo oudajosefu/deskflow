@@ -38,12 +38,13 @@ var annotated_dup =
       [ "KeyMap", "classdeskflow_1_1KeyMap.html", "classdeskflow_1_1KeyMap" ],
       [ "Screen", "classdeskflow_1_1Screen.html", "classdeskflow_1_1Screen" ],
       [ "IStream", "classdeskflow_1_1IStream.html", "classdeskflow_1_1IStream" ],
+      [ "EiClipboard", "classdeskflow_1_1EiClipboard.html", "classdeskflow_1_1EiClipboard" ],
       [ "EiEventQueueBuffer", "classdeskflow_1_1EiEventQueueBuffer.html", "classdeskflow_1_1EiEventQueueBuffer" ],
       [ "EiKeyState", "classdeskflow_1_1EiKeyState.html", "classdeskflow_1_1EiKeyState" ],
       [ "EiScreen", "classdeskflow_1_1EiScreen.html", "classdeskflow_1_1EiScreen" ],
+      [ "PortalClipboard", "classdeskflow_1_1PortalClipboard.html", "classdeskflow_1_1PortalClipboard" ],
       [ "PortalInputCapture", "classdeskflow_1_1PortalInputCapture.html", "classdeskflow_1_1PortalInputCapture" ],
-      [ "PortalRemoteDesktop", "classdeskflow_1_1PortalRemoteDesktop.html", "classdeskflow_1_1PortalRemoteDesktop" ],
-      [ "WlClipboardCollection", "classdeskflow_1_1WlClipboardCollection.html", "classdeskflow_1_1WlClipboardCollection" ]
+      [ "PortalRemoteDesktop", "classdeskflow_1_1PortalRemoteDesktop.html", "classdeskflow_1_1PortalRemoteDesktop" ]
     ] ],
     [ "std", "namespacestd.html", [
       [ "iterator_traits&lt; deskflow::server::Config &gt;", "structstd_1_1iterator__traits_3_01deskflow_1_1server_1_1Config_01_4.html", "structstd_1_1iterator__traits_3_01deskflow_1_1server_1_1Config_01_4" ]
@@ -312,7 +313,6 @@ var annotated_dup =
     [ "UnknownClientException", "classUnknownClientException.html", "classUnknownClientException" ],
     [ "VersionChecker", "classVersionChecker.html", "classVersionChecker" ],
     [ "Win32Modifiers", "structWin32Modifiers.html", "structWin32Modifiers" ],
-    [ "WlClipboard", "classWlClipboard.html", "classWlClipboard" ],
     [ "XDGKeyUtil", "classXDGKeyUtil.html", "classXDGKeyUtil" ],
     [ "XDGPowerManager", "classXDGPowerManager.html", "classXDGPowerManager" ],
     [ "XIOReadMismatch", "classXIOReadMismatch.html", "classXIOReadMismatch" ],

@@ -1,5 +1,16 @@
 var NAVTREEINDEX21 =
 {
+"classdeskflow_1_1string_1_1CaselessCmp.html#a944073ff460fc7cef6e6f5bab3bbbd0d":[7,0,0,1,0,3],
+"classdeskflow_1_1string_1_1CaselessCmp.html#ab4c41e2d3273a461b64781ac2612e0df":[6,0,0,1,0,0],
+"classdeskflow_1_1string_1_1CaselessCmp.html#ab4c41e2d3273a461b64781ac2612e0df":[7,0,0,1,0,0],
+"classdeskflow_1_1string_1_1CaselessCmp.html#ab63695499e23c3d1884dcc3ce9895230":[6,0,0,1,0,1],
+"classdeskflow_1_1string_1_1CaselessCmp.html#ab63695499e23c3d1884dcc3ce9895230":[7,0,0,1,0,1],
+"classes.html":[7,1],
+"classvalidators_1_1AliasValidator.html":[6,0,4,0],
+"classvalidators_1_1AliasValidator.html":[7,0,2,0],
+"classvalidators_1_1AliasValidator.html#a17d53cf8a3537763c508a8d9fb178bbd":[6,0,4,0,0],
+"classvalidators_1_1AliasValidator.html#a17d53cf8a3537763c508a8d9fb178bbd":[7,0,2,0,0],
+"classvalidators_1_1ComputerNameValidator.html":[6,0,4,1],
 "classvalidators_1_1ComputerNameValidator.html":[7,0,2,1],
 "classvalidators_1_1ComputerNameValidator.html#ab1bc0dd4f495e81b532cdf2193bf064e":[6,0,4,1,1],
 "classvalidators_1_1ComputerNameValidator.html#ab1bc0dd4f495e81b532cdf2193bf064e":[7,0,2,1,1],
@@ -238,16 +249,5 @@ var NAVTREEINDEX21 =
 "globals_vars_p.html":[8,1,2,13],
 "globals_vars_r.html":[8,1,2,14],
 "globals_vars_s.html":[8,1,2,15],
-"globals_vars_t.html":[8,1,2,16],
-"globals_vars_w.html":[8,1,2,17],
-"globals_vars_x.html":[8,1,2,18],
-"globals_vars_y.html":[8,1,2,19],
-"globals_w.html":[8,1,0,22],
-"globals_x.html":[8,1,0,23],
-"globals_y.html":[8,1,0,24],
-"group__protocol__clipboard.html":[5,2,2,2],
-"group__protocol__clipboard.html#gae9a3165781ac7a11ff3b3c7a10216b7b":[5,2,2,2,0],
-"group__protocol__commands.html":[5,2,1],
-"group__protocol__commands.html#ga299a8050499523009e1f6438b7558bd2":[5,2,1,8],
-"group__protocol__commands.html#ga35d0d7f0915dec1e257361c62375c368":[5,2,1,5]
+"globals_vars_t.html":[8,1,2,16]
 };

@@ -139,10 +139,10 @@ var NAVTREEINDEX =
 [
 "AboutDialog_8cpp.html",
 "CoreArgParser_8h_source.html",
-"KeyTypes_8h.html#a053cc9b40e263ab90466ece4f251e0c3",
-"Logger_8cpp.html",
-"OSXClipboardHTMLConverter_8h_source.html",
-"ServerConfigDialog_8h_source.html",
+"KeyTypes_8h.html#a049e29fef53418c633259320f92b2ba9",
+"Log_8h.html#ade00c678de791b27ba8ee5ee4ca6b697",
+"OSXClipboardBMPConverter_8h_source.html",
+"ServerApp_8h.html#aeee15ce451435cc7f2fdb211337d0694ac2efe4bbd13e6cb0db293e72884273c0",
 "classActionDialog.html#ac5baa7b5531578d891ad24163818d421",
 "classArchNetworkBSD.html#af82016a992cdb1ce14d4d603b5223f85",
 "classClientProxy.html#a82dd690fb8c2f8d83854893feb58d5a4",
@@ -152,16 +152,16 @@ var NAVTREEINDEX =
 "classMSWindowsDebugOutputter.html#a36d69352d0d0bd50f3a8413f20530fd2",
 "classOSXClipboardHTMLConverter.html#a5ae4d0f9e84234967be11f2ebcfd41b6",
 "classQSettingsProxy.html#a9845f46a10bd54b021181c45efec7f62",
-"classServerConfigDialog.html#a4232d07f1b3d0e7b13125e31982d06bd",
-"classSystemLogger.html#abe78f79167fed819300ffc45ab50775c",
-"classXWindowsClipboardUTF8Converter.html",
-"classdeskflow_1_1EiScreen.html#aa4702a7945c7329d29c4868f8ef1a06d",
-"classdeskflow_1_1Screen.html#a80ac0907a9559681343603883dbcd9f8",
-"classdeskflow_1_1platform_1_1MSWindowsProcess.html#a3240131b60f8ba6e8c3df928e412195b",
-"classvalidators_1_1ComputerNameValidator.html",
-"group__protocol__commands.html#ga44769e3185babe739e6572d96fe56554",
-"namespacedeskflow_1_1platform.html#a64afaecdaaca4e078c86ef30093d746e",
-"structdeskflow_1_1KeyMap_1_1KeyItem.html#a5257e07b451e2c581a41b61851983e28"
+"classServerConfigDialog.html#aac994714fff05e566bfb2e8cd3afd274",
+"classTCPListenSocket.html#a5a62daef512f9f365de2f7c9de85e069",
+"classXWindowsClipboard_1_1MotifClipItem.html",
+"classdeskflow_1_1EiScreen.html#aaca12e4fff5e3e46e39919696e35cef0",
+"classdeskflow_1_1Screen.html#a288def2c1524b6cab5a39cb1ae5d0141",
+"classdeskflow_1_1gui_1_1ipc_1_1IpcClient.html#a7bea8fe61d682c235d205f2e78dd73fe",
+"classdeskflow_1_1string_1_1CaselessCmp.html#a944073ff460fc7cef6e6f5bab3bbbd0d",
+"globals_vars_w.html",
+"namespacedeskflow_1_1gui_1_1messages.html#a3cef3788e3fae6bc7ebb84ef4969bca3",
+"structSettings_1_1Server.html#aeb1c7a58014ce4aa19d83190236c957a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

@@ -14,6 +14,5 @@ var structSettings_1_1Core =
     [ "ScreenEnterCommand", "structSettings_1_1Core.html#a4a242f770af1932879a3622154fb8025", null ],
     [ "ScreenExitCommand", "structSettings_1_1Core.html#a38e5892273e906991c28797de9de248e", null ],
     [ "ScreenName", "structSettings_1_1Core.html#aa9b297403710d920ab1182db9f551508", null ],
-    [ "UseHooks", "structSettings_1_1Core.html#a3bae5d04175c1df90108e75add4b9d54", null ],
-    [ "UseWlClipboard", "structSettings_1_1Core.html#a809849b6eb37dc36a4e6dd9a3a899bda", null ]
+    [ "UseHooks", "structSettings_1_1Core.html#a3bae5d04175c1df90108e75add4b9d54", null ]
 ];

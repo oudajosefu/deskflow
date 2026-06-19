@@ -128,8 +128,8 @@ var hierarchy =
       [ "Clipboard", "classClipboard.html", null ],
       [ "MSWindowsClipboard", "classMSWindowsClipboard.html", null ],
       [ "OSXClipboard", "classOSXClipboard.html", null ],
-      [ "WlClipboard", "classWlClipboard.html", null ],
-      [ "XWindowsClipboard", "classXWindowsClipboard.html", null ]
+      [ "XWindowsClipboard", "classXWindowsClipboard.html", null ],
+      [ "deskflow::EiClipboard", "classdeskflow_1_1EiClipboard.html", null ]
     ] ],
     [ "IEventQueue", "classIEventQueue.html", [
       [ "EventQueue", "classEventQueue.html", null ]
@@ -309,6 +309,7 @@ var hierarchy =
     [ "OSXPowerManager", "classOSXPowerManager.html", null ],
     [ "IArchNetwork::PollEntry", "classIArchNetwork_1_1PollEntry.html", null ],
     [ "IArchNetwork::PollEventMask", "structIArchNetwork_1_1PollEventMask.html", null ],
+    [ "deskflow::PortalClipboard", "classdeskflow_1_1PortalClipboard.html", null ],
     [ "deskflow::PortalInputCapture", "classdeskflow_1_1PortalInputCapture.html", null ],
     [ "deskflow::PortalRemoteDesktop", "classdeskflow_1_1PortalRemoteDesktop.html", null ],
     [ "PriorityQueue&lt; T, Container, Compare &gt;", "classPriorityQueue.html", null ],
@@ -351,7 +352,6 @@ var hierarchy =
       [ "LogLevel", "classLogLevel.html", null ],
       [ "Settings", "classSettings.html", null ],
       [ "VersionChecker", "classVersionChecker.html", null ],
-      [ "WlClipboard", "classWlClipboard.html", null ],
       [ "deskflow::core::ipc::IpcServer", "classdeskflow_1_1core_1_1ipc_1_1IpcServer.html", [
         [ "deskflow::core::ipc::CoreIpcServer", "classdeskflow_1_1core_1_1ipc_1_1CoreIpcServer.html", null ],
         [ "deskflow::core::ipc::DaemonIpcServer", "classdeskflow_1_1core_1_1ipc_1_1DaemonIpcServer.html", null ]
@@ -480,13 +480,13 @@ var hierarchy =
     [ "Stopwatch", "classStopwatch.html", null ],
     [ "StreamBuffer", "classStreamBuffer.html", null ],
     [ "StreamChunker", "classStreamChunker.html", null ],
+    [ "deskflow::PortalClipboard::SupportedMime", "structdeskflow_1_1PortalClipboard_1_1SupportedMime.html", null ],
     [ "SystemLogger", "classSystemLogger.html", null ],
     [ "Thread", "classThread.html", null ],
     [ "IEventQueue::TimerEvent", "classIEventQueue_1_1TimerEvent.html", null ],
     [ "Unicode", "classUnicode.html", null ],
     [ "IPrimaryScreen::WheelInfo", "classIPrimaryScreen_1_1WheelInfo.html", null ],
     [ "Win32Modifiers", "structWin32Modifiers.html", null ],
-    [ "deskflow::WlClipboardCollection", "classdeskflow_1_1WlClipboardCollection.html", null ],
     [ "XDGKeyUtil", "classXDGKeyUtil.html", null ],
     [ "XDGPowerManager", "classXDGPowerManager.html", null ],
     [ "XWindowsUtil", "classXWindowsUtil.html", null ]

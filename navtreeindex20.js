@@ -1,5 +1,16 @@
 var NAVTREEINDEX20 =
 {
+"classdeskflow_1_1gui_1_1ipc_1_1IpcClient.html#a7bea8fe61d682c235d205f2e78dd73fe":[7,0,0,3,0,2,1],
+"classdeskflow_1_1gui_1_1ipc_1_1IpcClient.html#a9cef6dcaf9dd3f51ffabf5ed9b6d518b":[6,0,0,4,0,2,6],
+"classdeskflow_1_1gui_1_1ipc_1_1IpcClient.html#a9cef6dcaf9dd3f51ffabf5ed9b6d518b":[7,0,0,3,0,2,6],
+"classdeskflow_1_1gui_1_1ipc_1_1IpcClient.html#ac7ab453f53d16b561552931f9cb88ca1":[6,0,0,4,0,2,7],
+"classdeskflow_1_1gui_1_1ipc_1_1IpcClient.html#ac7ab453f53d16b561552931f9cb88ca1":[7,0,0,3,0,2,7],
+"classdeskflow_1_1platform_1_1MSWindowsProcess.html":[6,0,0,3,0],
+"classdeskflow_1_1platform_1_1MSWindowsProcess.html":[7,0,0,2,0],
+"classdeskflow_1_1platform_1_1MSWindowsProcess.html#a083ad3252a2a6cda1544e76209ebd2d7":[6,0,0,3,0,0],
+"classdeskflow_1_1platform_1_1MSWindowsProcess.html#a083ad3252a2a6cda1544e76209ebd2d7":[7,0,0,2,0,0],
+"classdeskflow_1_1platform_1_1MSWindowsProcess.html#a17d6d6059e6cdf6ec4e269c8ace454a9":[6,0,0,3,0,8],
+"classdeskflow_1_1platform_1_1MSWindowsProcess.html#a17d6d6059e6cdf6ec4e269c8ace454a9":[7,0,0,2,0,8],
 "classdeskflow_1_1platform_1_1MSWindowsProcess.html#a3240131b60f8ba6e8c3df928e412195b":[6,0,0,3,0,1],
 "classdeskflow_1_1platform_1_1MSWindowsProcess.html#a3240131b60f8ba6e8c3df928e412195b":[7,0,0,2,0,1],
 "classdeskflow_1_1platform_1_1MSWindowsProcess.html#a3aaecfd023dbd70093d3b1f2d9630f7f":[6,0,0,3,0,4],
@@ -238,16 +249,5 @@ var NAVTREEINDEX20 =
 "classdeskflow_1_1string_1_1CaselessCmp.html":[7,0,0,1,0],
 "classdeskflow_1_1string_1_1CaselessCmp.html#a3c8f4f93a6200fba1f4f7015731d0fe6":[6,0,0,1,0,2],
 "classdeskflow_1_1string_1_1CaselessCmp.html#a3c8f4f93a6200fba1f4f7015731d0fe6":[7,0,0,1,0,2],
-"classdeskflow_1_1string_1_1CaselessCmp.html#a944073ff460fc7cef6e6f5bab3bbbd0d":[6,0,0,1,0,3],
-"classdeskflow_1_1string_1_1CaselessCmp.html#a944073ff460fc7cef6e6f5bab3bbbd0d":[7,0,0,1,0,3],
-"classdeskflow_1_1string_1_1CaselessCmp.html#ab4c41e2d3273a461b64781ac2612e0df":[6,0,0,1,0,0],
-"classdeskflow_1_1string_1_1CaselessCmp.html#ab4c41e2d3273a461b64781ac2612e0df":[7,0,0,1,0,0],
-"classdeskflow_1_1string_1_1CaselessCmp.html#ab63695499e23c3d1884dcc3ce9895230":[6,0,0,1,0,1],
-"classdeskflow_1_1string_1_1CaselessCmp.html#ab63695499e23c3d1884dcc3ce9895230":[7,0,0,1,0,1],
-"classes.html":[7,1],
-"classvalidators_1_1AliasValidator.html":[6,0,4,0],
-"classvalidators_1_1AliasValidator.html":[7,0,2,0],
-"classvalidators_1_1AliasValidator.html#a17d53cf8a3537763c508a8d9fb178bbd":[6,0,4,0,0],
-"classvalidators_1_1AliasValidator.html#a17d53cf8a3537763c508a8d9fb178bbd":[7,0,2,0,0],
-"classvalidators_1_1ComputerNameValidator.html":[6,0,4,1]
+"classdeskflow_1_1string_1_1CaselessCmp.html#a944073ff460fc7cef6e6f5bab3bbbd0d":[6,0,0,1,0,3]
 };

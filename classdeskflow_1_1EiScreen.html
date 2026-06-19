@@ -199,6 +199,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa4702a7945c7329d29c4868f8ef1a06d" id="r_aa4702a7945c7329d29c4868f8ef1a06d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa4702a7945c7329d29c4868f8ef1a06d">setSequenceNumber</a> (std::uint32_t) override</td></tr>
 <tr class="memitem:adaef3af320aea81b7646253b95800f2e" id="r_adaef3af320aea81b7646253b95800f2e"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#adaef3af320aea81b7646253b95800f2e">isPrimary</a> () const override</td></tr>
 <tr class="memdesc:adaef3af320aea81b7646253b95800f2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test if is primary screen.  <br /></td></tr>
+<tr class="memitem:a3c8ce405da97cd8c0b522a1d39c63232" id="r_a3c8ce405da97cd8c0b522a1d39c63232"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3c8ce405da97cd8c0b522a1d39c63232">sendClipboardEvent</a> (<a class="el" href="namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2">EventTypes</a> <a class="el" href="ArchNetworkWinsock_8cpp.html#ac765329451135abec74c45e1897abf26">type</a>, <a class="el" href="ClipboardTypes_8h.html#a63ca97102023d8f9ba64dcbe102a2647">ClipboardID</a> id) const</td></tr>
+<tr class="memitem:adde2a304eae670a1b5fa03fda050788e" id="r_adde2a304eae670a1b5fa03fda050788e"><td class="memItemLeft"><a class="el" href="classdeskflow_1_1EiClipboard.html">EiClipboard</a> *&#160;</td><td class="memItemRight"><a class="el" href="#adde2a304eae670a1b5fa03fda050788e">getClipboardCache</a> () const</td></tr>
+<tr class="memitem:a1fcdf84592c4ce7b24eae2445d33c7e1" id="r_a1fcdf84592c4ce7b24eae2445d33c7e1"><td class="memItemLeft">size_t&#160;</td><td class="memItemRight"><a class="el" href="#a1fcdf84592c4ce7b24eae2445d33c7e1">maximumClipboardSize</a> () const</td></tr>
 <tr class="inherit_header pub_methods_classPlatformScreen"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classPlatformScreen')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="classPlatformScreen.html">PlatformScreen</a></td></tr>
 <tr class="memitem:a7993f9c29cfb31017e27b684e260b6cc inherit pub_methods_classPlatformScreen" id="r_a7993f9c29cfb31017e27b684e260b6cc"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="classPlatformScreen.html#a7993f9c29cfb31017e27b684e260b6cc">PlatformScreen</a> (<a class="el" href="classIEventQueue.html">IEventQueue</a> *events)</td></tr>
 <tr class="memitem:a2f288569bd4751fa8c75b08ffc237b85 inherit pub_methods_classPlatformScreen" id="r_a2f288569bd4751fa8c75b08ffc237b85"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="classPlatformScreen.html#a2f288569bd4751fa8c75b08ffc237b85">~PlatformScreen</a> () override=default</td></tr>
@@ -824,6 +827,31 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="adde2a304eae670a1b5fa03fda050788e" name="adde2a304eae670a1b5fa03fda050788e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adde2a304eae670a1b5fa03fda050788e">&#9670;&#160;</a></span>getClipboardCache()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdeskflow_1_1EiClipboard.html">EiClipboard</a> * deskflow::EiScreen::getClipboardCache </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="adb2ac310facaab5e910f371a425e34c3" name="adb2ac310facaab5e910f371a425e34c3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb2ac310facaab5e910f371a425e34c3">&#9670;&#160;</a></span>getCursorCenter()</h2>
 
@@ -1162,6 +1190,31 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a1fcdf84592c4ce7b24eae2445d33c7e1" name="a1fcdf84592c4ce7b24eae2445d33c7e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fcdf84592c4ce7b24eae2445d33c7e1">&#9670;&#160;</a></span>maximumClipboardSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t deskflow::EiScreen::maximumClipboardSize </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a4a6d0e6d1541f1a5e46c3357951bfb1d" name="a4a6d0e6d1541f1a5e46c3357951bfb1d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4a6d0e6d1541f1a5e46c3357951bfb1d">&#9670;&#160;</a></span>openScreensaver()</h2>
 
@@ -1335,6 +1388,27 @@ Additional Inherited Members</h2></td></tr>
 <p>Forcibly activate the screen saver if <code>activate</code> is true otherwise forcibly deactivate it. </p>
 
 <p>Implements <a class="el" href="classPlatformScreen.html#a26d2ac0e9f2e3f613b3e0918a8319759">PlatformScreen</a>.</p>
+
+</div>
+</div>
+<a id="a3c8ce405da97cd8c0b522a1d39c63232" name="a3c8ce405da97cd8c0b522a1d39c63232"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c8ce405da97cd8c0b522a1d39c63232">&#9670;&#160;</a></span>sendClipboardEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void deskflow::EiScreen::sendClipboardEvent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2">EventTypes</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ClipboardTypes_8h.html#a63ca97102023d8f9ba64dcbe102a2647">ClipboardID</a></td>          <td class="paramname"><span class="paramname"><em>id</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

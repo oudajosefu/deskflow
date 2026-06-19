@@ -97,7 +97,8 @@ var searchData=
   ['m_5fy_94',['m_y',['../classIPrimaryScreen_1_1MotionInfo.html#a34dee95f96a772b553a305d0c68bc0ca',1,'IPrimaryScreen::MotionInfo::m_y'],['../classClientInfo.html#a3f23857bfa3b5fd8b335d56613ea564a',1,'ClientInfo::m_y']]],
   ['m_5fydelta_95',['m_yDelta',['../classIPrimaryScreen_1_1WheelInfo.html#a36463259d04cc2dde4154908e27d30ac',1,'IPrimaryScreen::WheelInfo']]],
   ['magic_5fsection_96',['magic_section',['../OSXScreen_8mm.html#a1a03b970897173cd5ad998e9cb2eaaf3',1,'OSXScreen.mm']]],
-  ['modifiersfromxdefaultsize_97',['ModifiersFromXDefaultSize',['../XWindowsKeyState_8cpp.html#a2cd5801a15ae657aea7ab2755550ad75',1,'XWindowsKeyState.cpp']]],
-  ['modifycursorlock_98',['ModifyCursorLock',['../structActionDialog_1_1ActionTypes.html#a8df74127a3162dc5655e5034bae6cdcd',1,'ActionDialog::ActionTypes']]],
-  ['multiinstanceoption_99',['multiInstanceOption',['../structCoreArgs.html#ac8cdc5a447a2f53a672aa1a0e561d4eb',1,'CoreArgs']]]
+  ['mime_97',['mime',['../structdeskflow_1_1PortalClipboard_1_1SupportedMime.html#ab319424dd4cfa5ed69c4d2547d420f76',1,'deskflow::PortalClipboard::SupportedMime']]],
+  ['modifiersfromxdefaultsize_98',['ModifiersFromXDefaultSize',['../XWindowsKeyState_8cpp.html#a2cd5801a15ae657aea7ab2755550ad75',1,'XWindowsKeyState.cpp']]],
+  ['modifycursorlock_99',['ModifyCursorLock',['../structActionDialog_1_1ActionTypes.html#a8df74127a3162dc5655e5034bae6cdcd',1,'ActionDialog::ActionTypes']]],
+  ['multiinstanceoption_100',['multiInstanceOption',['../structCoreArgs.html#ac8cdc5a447a2f53a672aa1a0e561d4eb',1,'CoreArgs']]]
 ];

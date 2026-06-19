@@ -47,11 +47,12 @@ var searchData=
   ['streambuffer_44',['StreamBuffer',['../classStreamBuffer.html',1,'']]],
   ['streamchunker_45',['StreamChunker',['../classStreamChunker.html',1,'']]],
   ['streamfilter_46',['StreamFilter',['../classStreamFilter.html',1,'']]],
-  ['switchindirectionaction_47',['SwitchInDirectionAction',['../classInputFilter_1_1SwitchInDirectionAction.html',1,'InputFilter']]],
-  ['switchindirectioninfo_48',['SwitchInDirectionInfo',['../classServer_1_1SwitchInDirectionInfo.html',1,'Server']]],
-  ['switchtonextscreenaction_49',['SwitchToNextScreenAction',['../classInputFilter_1_1SwitchToNextScreenAction.html',1,'InputFilter']]],
-  ['switchtoscreenaction_50',['SwitchToScreenAction',['../classInputFilter_1_1SwitchToScreenAction.html',1,'InputFilter']]],
-  ['switchtoscreeninfo_51',['SwitchToScreenInfo',['../classServer_1_1SwitchToScreenInfo.html',1,'Server']]],
-  ['systemlogger_52',['SystemLogger',['../classSystemLogger.html',1,'']]],
-  ['systemlogoutputter_53',['SystemLogOutputter',['../classSystemLogOutputter.html',1,'']]]
+  ['supportedmime_47',['SupportedMime',['../structdeskflow_1_1PortalClipboard_1_1SupportedMime.html',1,'deskflow::PortalClipboard']]],
+  ['switchindirectionaction_48',['SwitchInDirectionAction',['../classInputFilter_1_1SwitchInDirectionAction.html',1,'InputFilter']]],
+  ['switchindirectioninfo_49',['SwitchInDirectionInfo',['../classServer_1_1SwitchInDirectionInfo.html',1,'Server']]],
+  ['switchtonextscreenaction_50',['SwitchToNextScreenAction',['../classInputFilter_1_1SwitchToNextScreenAction.html',1,'InputFilter']]],
+  ['switchtoscreenaction_51',['SwitchToScreenAction',['../classInputFilter_1_1SwitchToScreenAction.html',1,'InputFilter']]],
+  ['switchtoscreeninfo_52',['SwitchToScreenInfo',['../classServer_1_1SwitchToScreenInfo.html',1,'Server']]],
+  ['systemlogger_53',['SystemLogger',['../classSystemLogger.html',1,'']]],
+  ['systemlogoutputter_54',['SystemLogOutputter',['../classSystemLogOutputter.html',1,'']]]
 ];
