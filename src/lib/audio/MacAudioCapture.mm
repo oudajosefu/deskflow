@@ -161,11 +161,12 @@ bool MacAudioCapture::start(GstElement *appsrc)
 
     SCContentFilter *filter = [[SCContentFilter alloc] initWithDisplay:display excludingWindows:@[]];
 
+    m_sampleQueue = dispatch_queue_create("com.deskflow.audio.capture", DISPATCH_QUEUE_SERIAL);
     m_delegate = [[DeskflowAudioStreamOutput alloc] initWithCapture:this];
     m_stream = [[SCStream alloc] initWithFilter:filter configuration:config delegate:nil];
 
     NSError *addError = nil;
-    [m_stream addStreamOutput:m_delegate type:SCStreamOutputTypeAudio sampleHandlerQueue:nil error:&addError];
+    [m_stream addStreamOutput:m_delegate type:SCStreamOutputTypeAudio sampleHandlerQueue:m_sampleQueue error:&addError];
     if (addError != nil) {
       LOG_ERR("SCStream addStreamOutput failed: %s", addError.localizedDescription.UTF8String);
       stop();
@@ -203,14 +204,33 @@ bool MacAudioCapture::start(GstElement *appsrc)
 void MacAudioCapture::stop()
 {
   m_running = false;
-  m_havePtsBase = false;
-  m_framesPushed = 0;
+
   if (m_stream != nullptr) {
+    // stopCaptureWithCompletionHandler is asynchronous; wait so SCStream has
+    // stopped enqueuing buffers before we release the appsrc it pushes into.
+    dispatch_semaphore_t stopSem = dispatch_semaphore_create(0);
     [m_stream stopCaptureWithCompletionHandler:^(NSError *) {
+      dispatch_semaphore_signal(stopSem);
     }];
+    if (dispatch_semaphore_wait(stopSem, dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC)) != 0) {
+      LOG_WARN("macOS audio capture: stopCapture did not finish within 5s; proceeding with teardown");
+    }
     m_stream = nullptr;
     m_delegate = nullptr;
   }
+
+  // Drain the serial sample queue: once this empty block runs, any in-flight or
+  // queued pushSamples() has fully returned, so the appsrc and this object can be
+  // freed safely.
+  if (m_sampleQueue != nullptr) {
+    dispatch_sync(m_sampleQueue, ^{
+    });
+    m_sampleQueue = nullptr;
+  }
+
+  m_havePtsBase = false;
+  m_framesPushed = 0;
+
   if (m_appsrc != nullptr) {
     gst_object_unref(m_appsrc);
     m_appsrc = nullptr;
@@ -226,10 +246,12 @@ void MacAudioCapture::pushSamples(const float *data, size_t frames)
   const size_t bytes = frames * static_cast<size_t>(kAudioChannels) * sizeof(float);
   GstBuffer *buffer = gst_buffer_new_allocate(nullptr, bytes, nullptr);
   GstMapInfo map;
-  if (gst_buffer_map(buffer, &map, GST_MAP_WRITE)) {
-    std::memcpy(map.data, data, bytes);
-    gst_buffer_unmap(buffer, &map);
+  if (!gst_buffer_map(buffer, &map, GST_MAP_WRITE)) {
+    gst_buffer_unref(buffer);
+    return;
   }
+  std::memcpy(map.data, data, bytes);
+  gst_buffer_unmap(buffer, &map);
 
   // Assign a continuous, sample-counted PTS rather than letting appsrc stamp the
   // wall-clock arrival time (do-timestamp). ScreenCaptureKit delivers audio in

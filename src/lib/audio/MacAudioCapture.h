@@ -10,6 +10,8 @@
 #include <cstddef>
 #include <cstdint>
 
+#include <dispatch/dispatch.h>
+
 typedef struct _GstElement GstElement;
 
 #ifdef __OBJC__
@@ -52,6 +54,9 @@ private:
   GstElement *m_appsrc = nullptr;
   SCStream *m_stream = nullptr;
   DeskflowAudioStreamOutput *m_delegate = nullptr;
+  // Serial queue SCStream delivers sample buffers on; we own it so teardown can
+  // drain it before releasing the appsrc the delegate pushes into.
+  dispatch_queue_t m_sampleQueue = nullptr;
   std::atomic<bool> m_running{false};
 
   // Continuous-timeline timestamping for the appsrc (do-timestamp is off): PTS is
