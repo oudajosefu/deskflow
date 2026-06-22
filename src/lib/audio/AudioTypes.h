@@ -59,6 +59,11 @@ static constexpr int kAudioSinkLatencyTimeUs = 5000;
 /// transient stall (it already drops oldest buffers — see leaky=downstream).
 static constexpr int kAudioCaptureQueueMs = 30;
 
+/// Poll slice the audio client waits on its control socket in. Short enough that
+/// a concurrent stop() (which clears the running flag) unblocks the worker within
+/// ~one slice instead of stalling teardown for the full connect/handshake wait.
+static constexpr int kAudioControlPollMs = 200;
+
 /// Magic bytes sent by the audio client at the start of the control connection.
 static constexpr char kAudioHandshakeMagic[] = "DSKFAUDIO";
 static constexpr int kAudioHandshakeMagicLen = 9;

@@ -10,6 +10,7 @@
 #include "audio/GstAudioSender.h"
 #include "base/Log.h"
 
+#include <QElapsedTimer>
 #include <QTcpSocket>
 
 #include <cstring>
@@ -42,8 +43,13 @@ void AudioClient::stop()
 {
   m_running = false;
   if (m_thread != nullptr) {
-    m_thread->wait(3000);
-    m_thread->deleteLater();
+    // runControl() polls m_running on short slices, so it returns promptly once
+    // we clear it above. Join unconditionally -- never abandon the worker while
+    // it still touches *this* -- then delete directly. deleteLater() would leak
+    // here: the core thread that owns this QThread runs Deskflow's native
+    // EventQueue, not a Qt event loop, so deferred-delete events never fire.
+    m_thread->wait();
+    delete m_thread;
     m_thread = nullptr;
   }
 }
@@ -53,8 +59,20 @@ void AudioClient::runControl()
   // Blocking control I/O happens here, off the Qt event loop.
   QTcpSocket socket;
   socket.connectToHost(m_serverHost, m_port);
-  if (!socket.waitForConnected(5000)) {
-    LOG_ERR("AudioClient: cannot connect to %s:%d", qPrintable(m_serverHost), m_port);
+
+  // Poll the connect in short slices so a concurrent stop() (which clears
+  // m_running) unblocks us within ~one slice instead of stalling teardown for
+  // the full connect timeout.
+  QElapsedTimer timer;
+  timer.start();
+  while (m_running && timer.elapsed() < 5000 && socket.state() != QAbstractSocket::ConnectedState &&
+         socket.state() != QAbstractSocket::UnconnectedState) {
+    socket.waitForConnected(kAudioControlPollMs);
+  }
+  if (socket.state() != QAbstractSocket::ConnectedState) {
+    if (m_running) {
+      LOG_ERR("AudioClient: cannot connect to %s:%d", qPrintable(m_serverHost), m_port);
+    }
     m_running = false;
     return;
   }
@@ -73,9 +91,11 @@ void AudioClient::runControl()
 
   // Reply is either "ER" or "OK" + uint16 big-endian RTP UDP port.
   QByteArray reply;
-  while (reply.size() < kAudioHandshakeOkReplyLen && socket.state() == QAbstractSocket::ConnectedState) {
-    if (!socket.waitForReadyRead(5000)) {
-      break;
+  timer.restart();
+  while (m_running && reply.size() < kAudioHandshakeOkReplyLen && socket.state() == QAbstractSocket::ConnectedState &&
+         timer.elapsed() < 5000) {
+    if (!socket.waitForReadyRead(kAudioControlPollMs)) {
+      continue; // poll-slice timeout or disconnect -- re-check m_running / deadline / state
     }
     reply.append(socket.readAll());
     if (reply.size() >= kAudioHandshakeReplyTagLen &&
@@ -88,7 +108,9 @@ void AudioClient::runControl()
 
   if (reply.size() < kAudioHandshakeOkReplyLen ||
       std::memcmp(reply.constData(), kAudioHandshakeOk, kAudioHandshakeReplyTagLen) != 0) {
-    LOG_ERR("AudioClient: incomplete or invalid handshake reply");
+    if (m_running) {
+      LOG_ERR("AudioClient: incomplete or invalid handshake reply");
+    }
     m_running = false;
     return;
   }
