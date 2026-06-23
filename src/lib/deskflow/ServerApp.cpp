@@ -37,6 +37,7 @@
 #include <QFileInfo>
 
 #include <optional>
+#include <utility>
 
 #if defined(Q_OS_WIN)
 #include "platform/MSWindowsScreen.h"
@@ -57,6 +58,22 @@
 #include <fstream>
 
 using namespace deskflow::server;
+
+#if defined(HAVE_AUDIO_SUPPORT)
+namespace {
+// Carries the client name across the audio-thread -> core-thread hop. The core
+// thread owns m_config and the QSettings store, so only the name crosses the
+// boundary; the settings themselves are read on the core side.
+class AudioSettingsEventData : public EventData
+{
+public:
+  explicit AudioSettingsEventData(QString clientName) : m_clientName(std::move(clientName))
+  {
+  }
+  QString m_clientName;
+};
+} // namespace
+#endif
 
 //
 // ServerApp
@@ -394,11 +411,17 @@ bool ServerApp::startServer()
         audioPortSetting.isValid() ? static_cast<quint16>(audioPortSetting.toUInt()) : kDefaultAudioPort;
     m_audioServer = new AudioServer(audioPort);
     // When a client's audio stream starts, apply that client's persisted
-    // server-side playback settings (output device / volume / mute). The context
-    // object is m_audioServer, so this runs on the audio thread that owns the
-    // receivers. Connect before start() so no early signal is missed.
+    // server-side playback settings (output device / volume / mute). The signal
+    // fires on the audio thread, but m_config and the QSettings store belong to
+    // the core thread, so the slot only posts an event; applyClientAudioSettings
+    // runs from the core event loop (see mainLoop). Connect before start() so no
+    // early signal is missed.
     QObject::connect(m_audioServer, &AudioServer::clientAudioStarted, m_audioServer, [this](const QString &name) {
-      applyClientAudioSettings(name);
+      // Emitted on the audio thread; hop to the core thread (which has no Qt event
+      // loop) before reading m_config / Settings inside applyClientAudioSettings.
+      getEvents()->addEvent(
+          Event(EventTypes::ServerAppApplyAudioSettings, getEvents()->getSystemTarget(), new AudioSettingsEventData(name))
+      );
     });
     // Starts the control plane on its own Qt-event-loop thread; binding happens
     // asynchronously there (a bind failure is logged by AudioServer::listen).
@@ -613,6 +636,19 @@ int ServerApp::mainLoop()
     resetServer();
   });
 
+#if defined(HAVE_AUDIO_SUPPORT)
+  // Apply a client's persisted server-side audio settings on the core thread when
+  // its stream starts (posted from the audio thread in startServer()).
+  getEvents()->addHandler(
+      EventTypes::ServerAppApplyAudioSettings, getEvents()->getSystemTarget(),
+      [this](const Event &e) {
+        if (const auto *data = static_cast<const AudioSettingsEventData *>(e.getDataObject()); data != nullptr) {
+          applyClientAudioSettings(data->m_clientName);
+        }
+      }
+  );
+#endif
+
   // run event loop.  if startServer() failed we're supposed to retry
   // later.  the timer installed by startServer() will take care of
   // that.
@@ -620,6 +656,9 @@ int ServerApp::mainLoop()
 
   // close down
   LOG_DEBUG("stopping server");
+#if defined(HAVE_AUDIO_SUPPORT)
+  getEvents()->removeHandler(EventTypes::ServerAppApplyAudioSettings, getEvents()->getSystemTarget());
+#endif
   getEvents()->removeHandler(EventTypes::ServerAppForceReconnect, getEvents()->getSystemTarget());
   getEvents()->removeHandler(EventTypes::ServerAppReloadConfig, getEvents()->getSystemTarget());
   cleanupServer();
