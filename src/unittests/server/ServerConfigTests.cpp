@@ -161,4 +161,21 @@ void ServerConfigTests::equalityCheck_diff_neighbours3()
   QVERIFY(a != b);
 }
 
+void ServerConfigTests::getAudio_resolvesAlias()
+{
+  Config config(nullptr);
+  QVERIFY(config.addScreen("laptop"));
+  QVERIFY(config.addAlias("laptop", "lappy"));
+
+  // Written on the canonical name, read back through the alias the client uses.
+  config.setAudioOutputDevice("laptop", "hdmi");
+  const auto device = config.getAudioOutputDevice("lappy");
+  QVERIFY(device.has_value());
+  QCOMPARE(QString::fromStdString(*device), QStringLiteral("hdmi"));
+
+  // ...and the reverse: a setter called with the alias lands on the canonical cell.
+  config.setAudioVolume("lappy", 50);
+  QCOMPARE(config.getAudioVolume("laptop"), std::optional<int>(50));
+}
+
 QTEST_MAIN(ServerConfigTests)

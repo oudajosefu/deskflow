@@ -484,53 +484,53 @@ const Config::ScreenOptions *Config::getOptions(const std::string &name) const
 
 void Config::setAudioOutputDevice(const std::string &name, const std::string &device)
 {
-  if (const CellMap::iterator index = m_map.find(name); index != m_map.end()) {
+  if (const CellMap::iterator index = m_map.find(getCanonicalName(name)); index != m_map.end()) {
     index->second.m_audioOutputDevice = device;
   }
 }
 
 void Config::setAudioVolume(const std::string &name, int volume)
 {
-  if (const CellMap::iterator index = m_map.find(name); index != m_map.end()) {
+  if (const CellMap::iterator index = m_map.find(getCanonicalName(name)); index != m_map.end()) {
     index->second.m_audioVolume = volume;
   }
 }
 
 void Config::setAudioMute(const std::string &name, bool mute)
 {
-  if (const CellMap::iterator index = m_map.find(name); index != m_map.end()) {
+  if (const CellMap::iterator index = m_map.find(getCanonicalName(name)); index != m_map.end()) {
     index->second.m_audioMute = mute;
   }
 }
 
 void Config::setAudioLowLatency(const std::string &name, bool lowLatency)
 {
-  if (const CellMap::iterator index = m_map.find(name); index != m_map.end()) {
+  if (const CellMap::iterator index = m_map.find(getCanonicalName(name)); index != m_map.end()) {
     index->second.m_audioLowLatency = lowLatency;
   }
 }
 
 std::optional<std::string> Config::getAudioOutputDevice(const std::string &name) const
 {
-  const CellMap::const_iterator index = m_map.find(name);
+  const CellMap::const_iterator index = m_map.find(getCanonicalName(name));
   return index != m_map.end() ? index->second.m_audioOutputDevice : std::nullopt;
 }
 
 std::optional<int> Config::getAudioVolume(const std::string &name) const
 {
-  const CellMap::const_iterator index = m_map.find(name);
+  const CellMap::const_iterator index = m_map.find(getCanonicalName(name));
   return index != m_map.end() ? index->second.m_audioVolume : std::nullopt;
 }
 
 std::optional<bool> Config::getAudioMute(const std::string &name) const
 {
-  const CellMap::const_iterator index = m_map.find(name);
+  const CellMap::const_iterator index = m_map.find(getCanonicalName(name));
   return index != m_map.end() ? index->second.m_audioMute : std::nullopt;
 }
 
 std::optional<bool> Config::getAudioLowLatency(const std::string &name) const
 {
-  const CellMap::const_iterator index = m_map.find(name);
+  const CellMap::const_iterator index = m_map.find(getCanonicalName(name));
   return index != m_map.end() ? index->second.m_audioLowLatency : std::nullopt;
 }
 
