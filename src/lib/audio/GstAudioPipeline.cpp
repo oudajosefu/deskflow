@@ -6,6 +6,7 @@
 
 #include "audio/GstAudioPipeline.h"
 
+#include "audio/AudioDeviceId.h"
 #include "base/Log.h"
 
 #include <gst/gst.h>
@@ -158,6 +159,27 @@ void GstAudioPipeline::setElementBool(const char *elementName, const char *prope
     return;
   }
   g_object_set(G_OBJECT(el), property, static_cast<gboolean>(value), nullptr);
+  gst_object_unref(el);
+}
+
+void GstAudioPipeline::setElementDevice(const char *elementName, const std::string &deviceId)
+{
+  if (m_pipeline == nullptr) {
+    return;
+  }
+  GstElement *el = gst_bin_get_by_name(GST_BIN(m_pipeline), elementName);
+  if (el == nullptr) {
+    return;
+  }
+  // "device" is a string on pulsesink/wasapi2sink but an int (AudioDeviceID) on
+  // osxaudiosink -- set it by its declared type, never through parse-launch text.
+  if (GParamSpec *pspec = g_object_class_find_property(G_OBJECT_GET_CLASS(el), "device")) {
+    if (pspec->value_type == G_TYPE_INT) {
+      g_object_set(G_OBJECT(el), "device", static_cast<gint>(audioDeviceIdToInt(deviceId)), nullptr);
+    } else if (pspec->value_type == G_TYPE_STRING) {
+      g_object_set(G_OBJECT(el), "device", deviceId.c_str(), nullptr);
+    }
+  }
   gst_object_unref(el);
 }
 

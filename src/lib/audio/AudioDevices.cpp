@@ -67,15 +67,22 @@ QList<AudioDeviceInfo> AudioDevices::outputDevices()
       g_free(displayName);
     }
 
-    // The exact string the sink element expects on its "device" property.
+    // The value the sink's "device" property expects. It is a string on
+    // pulsesink/wasapi2sink but an int (AudioDeviceID) on osxaudiosink, so read
+    // it by its declared type; stringified ints round-trip to the receiver.
     if (GstElement *element = gst_device_create_element(device, nullptr)) {
-      if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "device") != nullptr) {
+      GParamSpec *pspec = g_object_class_find_property(G_OBJECT_GET_CLASS(element), "device");
+      if (pspec != nullptr && pspec->value_type == G_TYPE_STRING) {
         gchar *deviceId = nullptr;
         g_object_get(element, "device", &deviceId, nullptr);
         if (deviceId != nullptr) {
           info.id = QString::fromUtf8(deviceId);
           g_free(deviceId);
         }
+      } else if (pspec != nullptr && pspec->value_type == G_TYPE_INT) {
+        gint deviceId = 0;
+        g_object_get(element, "device", &deviceId, nullptr);
+        info.id = QString::number(deviceId);
       }
       gst_object_unref(element);
     }

@@ -58,10 +58,9 @@ std::string GstAudioReceiver::sinkDescription() const
 #endif
   }
 
-  if (!m_deviceId.empty()) {
-    sink += " device=\"" + m_deviceId + "\"";
-  }
-
+  // The device is applied after the pipeline is built (setElementDevice), not
+  // embedded here: a device id can contain backslashes/quotes that
+  // gst_parse_launch would mangle, and is an int on macOS, not a string.
   return sink;
 }
 
@@ -86,32 +85,35 @@ bool GstAudioReceiver::start()
   m_forceDefaultSink = false;
 
   if (!m_pipeline->build(buildLaunch())) {
-    // Fallback cascade so audio still plays if a specific device or the
-    // low-latency sink element is unavailable.
-    bool built = false;
-
-    // 1) A specific device failed -> retry with the system default device.
-    if (!m_deviceId.empty()) {
-      LOG_WARN("audio receiver: output device '%s' unavailable, falling back to default", m_deviceId.c_str());
-      m_deviceId.clear();
-      built = m_pipeline->build(buildLaunch());
+    // Only the explicit low-latency sink element fails at parse time -> retry
+    // with autoaudiosink. A bad device, by contrast, fails later (at PLAYING).
+    if (!m_lowLatency) {
+      LOG_ERR("audio receiver: failed to build playback pipeline");
+      m_pipeline.reset();
+      return false;
     }
-
-    // 2) The explicit low-latency sink failed -> retry with autoaudiosink.
-    if (!built && m_lowLatency) {
-      LOG_WARN("audio receiver: low-latency sink unavailable, falling back to default sink");
-      m_forceDefaultSink = true;
-      built = m_pipeline->build(buildLaunch());
-    }
-
-    if (!built) {
+    LOG_WARN("audio receiver: low-latency sink unavailable, falling back to default sink");
+    m_forceDefaultSink = true;
+    if (!m_pipeline->build(buildLaunch())) {
       LOG_ERR("audio receiver: failed to build playback pipeline");
       m_pipeline.reset();
       return false;
     }
   }
 
+  // Apply the selected output device by its real type after the pipeline is
+  // built -- never through the gst_parse_launch string.
+  if (!m_deviceId.empty()) {
+    m_pipeline->setElementDevice("sink", m_deviceId);
+  }
+
   if (!m_pipeline->start()) {
+    // A selected device may be unavailable -> drop it and retry once on default.
+    if (!m_deviceId.empty()) {
+      LOG_WARN("audio receiver: output device '%s' unavailable, falling back to default", m_deviceId.c_str());
+      m_deviceId.clear();
+      return start();
+    }
     LOG_ERR("audio receiver: pipeline failed to start on RTP port %u", m_rtpPort);
     stop();
     return false;

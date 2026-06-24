@@ -22,6 +22,7 @@ set(AUDIO_SOURCES
   AudioServer.cpp
   AudioServer.h
   AudioTypes.h
+  AudioDeviceId.h
   AudioDevices.cpp
   AudioDevices.h
   GstAudioPipeline.cpp

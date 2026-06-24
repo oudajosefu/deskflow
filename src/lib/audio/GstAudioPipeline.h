@@ -65,6 +65,12 @@ public:
   /// Set a boolean property on a named element (e.g. the "volume" element's "mute").
   void setElementBool(const char *elementName, const char *property, bool value);
 
+  /// Set the "device" property on a named element by its declared type — a string
+  /// on pulsesink/wasapi2sink, an int (AudioDeviceID) on osxaudiosink. No-op if the
+  /// element or a "device" property is absent. Keeps device ids out of the
+  /// gst_parse_launch string, where backslashes/quotes would be mangled.
+  void setElementDevice(const char *elementName, const std::string &deviceId);
+
   /// Look up a named element in the pipeline. Returns a new reference (transfer
   /// full): the caller must gst_object_unref() it. Returns nullptr if absent.
   GstElement *elementByName(const char *name) const;
