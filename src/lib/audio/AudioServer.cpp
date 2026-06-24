@@ -11,6 +11,7 @@
 #include "base/Log.h"
 
 #include <QHostAddress>
+#include <QTimer>
 
 #include <algorithm>
 #include <cstring>
@@ -120,6 +121,20 @@ void AudioServer::onNewConnection()
 
     connect(sock, &QTcpSocket::readyRead, this, &AudioServer::onClientReadyRead);
     connect(sock, &QTcpSocket::disconnected, this, &AudioServer::onClientDisconnected);
+
+    // Drop the connection if it never completes the handshake. The socket is the
+    // timer's context object, so it self-cancels when the socket is destroyed and
+    // fires on the audio thread's event loop.
+    QTimer::singleShot(kAudioHandshakeTimeoutMs, sock, [this, sock] {
+      auto it = std::find_if(m_sessions.begin(), m_sessions.end(), [sock](const ClientSession *s) {
+        return s->socket == sock;
+      });
+      if (it != m_sessions.end() && !(*it)->handshakeDone) {
+        LOG_WARN("AudioServer: handshake timeout, dropping %s", qPrintable(sock->peerAddress().toString()));
+        sock->disconnectFromHost(); // -> onClientDisconnected cleans up the session
+      }
+    });
+
     LOG_INFO("AudioServer: new control connection from %s", qPrintable(sock->peerAddress().toString()));
   }
 }
@@ -138,13 +153,16 @@ void AudioServer::onClientReadyRead()
   }
 
   ClientSession &session = **it;
-  session.buffer.append(sock->readAll());
 
   // After the handshake there is nothing more to read on the control channel
-  // (media flows over UDP); we just keep the connection open as a liveness link.
-  if (!session.handshakeDone) {
-    processHandshake(session);
+  // (media flows over UDP); drain and discard so the buffer can't grow unbounded.
+  if (session.handshakeDone) {
+    sock->readAll();
+    return;
   }
+
+  session.buffer.append(sock->readAll());
+  processHandshake(session);
 }
 
 void AudioServer::onClientDisconnected()
@@ -193,6 +211,13 @@ void AudioServer::processHandshake(ClientSession &session)
       static_cast<uint8_t>(session.buffer[kAudioHandshakeMagicLen]) << 8 |
       static_cast<uint8_t>(session.buffer[kAudioHandshakeMagicLen + 1])
   );
+
+  if (nameLen > kAudioMaxNameLen) {
+    LOG_WARN("AudioServer: handshake name length %u exceeds limit, dropping connection", nameLen);
+    session.socket->write(kAudioHandshakeErr, kAudioHandshakeReplyTagLen);
+    session.socket->disconnectFromHost();
+    return;
+  }
 
   const int totalHandshake = kAudioHandshakeMagicLen + 2 + nameLen;
   if (session.buffer.size() < totalHandshake) {

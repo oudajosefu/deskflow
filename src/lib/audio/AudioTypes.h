@@ -76,6 +76,17 @@ static constexpr char kAudioHandshakeErr[] = "ER";
 static constexpr int kAudioHandshakeReplyTagLen = 2;
 static constexpr int kAudioHandshakeOkReplyLen = kAudioHandshakeReplyTagLen + 2; // tag + uint16 port
 
+/// Max UTF-8 bytes accepted for the client (screen) name in the handshake. Screen
+/// names are short hostnames; this bounds the pre-handshake buffer and rejects a
+/// peer that claims a 64 KB name (mirrors kMaxHelloLength in the main protocol).
+static constexpr int kAudioMaxNameLen = 255;
+
+/// Drop a control connection that has not completed the handshake within this
+/// window so a half-open peer cannot hold a socket/fd open forever. Matches the
+/// main protocol's ClientProxyUnknown timeout; well above the client's own 5 s
+/// handshake deadline (see AudioClient::runControl).
+static constexpr int kAudioHandshakeTimeoutMs = 30000;
+
 ///
 /// Build the RTP caps string that the receiving udpsrc must advertise so the
 /// jitter buffer / depayloader / decoder know how to interpret the stream.
