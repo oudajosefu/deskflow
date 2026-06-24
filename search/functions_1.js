@@ -78,9 +78,10 @@ var searchData=
   ['atomstostring_75',['atomsToString',['../classXWindowsUtil.html#a709f164a95f839252d36c21b08005e60',1,'XWindowsUtil']]],
   ['atomtostring_76',['atomToString',['../classXWindowsUtil.html#aca62fbe907ff6c95b6081258b10f3f0f',1,'XWindowsUtil']]],
   ['audioclient_77',['AudioClient',['../classAudioClient.html#afc00f30c178f4bb94d0594f4f61ac048',1,'AudioClient']]],
-  ['audiorouting_78',['audioRouting',['../classScreen.html#a6d407eab0710e50c39412a74ba0fa0ff',1,'Screen']]],
-  ['audiortpcaps_79',['audioRtpCaps',['../AudioTypes_8h.html#a9b9c9294f6506afe1d8788262374abae',1,'AudioTypes.h']]],
-  ['audioserver_80',['AudioServer',['../classAudioServer.html#a2585e0fa091f20054cae6673ef6a0f36',1,'AudioServer']]],
-  ['avoidhesitatingcursor_81',['avoidHesitatingCursor',['../OSXScreen_8mm.html#a3ed592b4f1ae656616b993fad167d04f',1,'OSXScreen.mm']]],
-  ['avoidsupression_82',['avoidSupression',['../OSXScreen_8mm.html#aacd901c10242511e6f7c110592d1bdfd',1,'OSXScreen.mm']]]
+  ['audiodeviceidtoint_78',['audioDeviceIdToInt',['../AudioDeviceId_8h.html#af66cc167af31623c1559979683100911',1,'AudioDeviceId.h']]],
+  ['audiorouting_79',['audioRouting',['../classScreen.html#a6d407eab0710e50c39412a74ba0fa0ff',1,'Screen']]],
+  ['audiortpcaps_80',['audioRtpCaps',['../AudioTypes_8h.html#a9b9c9294f6506afe1d8788262374abae',1,'AudioTypes.h']]],
+  ['audioserver_81',['AudioServer',['../classAudioServer.html#a2585e0fa091f20054cae6673ef6a0f36',1,'AudioServer']]],
+  ['avoidhesitatingcursor_82',['avoidHesitatingCursor',['../OSXScreen_8mm.html#a3ed592b4f1ae656616b993fad167d04f',1,'OSXScreen.mm']]],
+  ['avoidsupression_83',['avoidSupression',['../OSXScreen_8mm.html#aacd901c10242511e6f7c110592d1bdfd',1,'OSXScreen.mm']]]
 ];

@@ -64,6 +64,7 @@ var namespacedeskflow =
       [ "ServerAppReloadConfig", "namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2a0ae6e170e568c20bb7238c4c97737050", null ],
       [ "ServerAppForceReconnect", "namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2a87779aca6f652e7b1edb7a999ede22f3", null ],
       [ "ServerAppResetServer", "namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2aafcedfec63fc7f07f162450b4955ebdc", null ],
+      [ "ServerAppApplyAudioSettings", "namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2a994156e09d7970727718a47978522639", null ],
       [ "KeyStateKeyDown", "namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2a80f4b125846735ec3a6e99f6b9d68f0b", null ],
       [ "KeyStateKeyUp", "namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2a0eadd8fb22f5ae32670ec0c5f24755b1", null ],
       [ "KeyStateKeyRepeat", "namespacedeskflow.html#a34787a880fd439e02383f336665d7bc2a793b6080c7b0badaa569b76f0988d139", null ],

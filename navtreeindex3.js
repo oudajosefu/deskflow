@@ -1,5 +1,11 @@
 var NAVTREEINDEX3 =
 {
+"Log_8h.html#aaf3a42324e3a3a4e3ca3a7a974f21167":[8,0,1,1,2,18,23],
+"Log_8h.html#ab1b2239af749ea76d3f9e7f4daa13523":[8,0,1,1,2,18,8],
+"Log_8h.html#ac2c0dbe55ad449a4f4ea00e1f5a93160":[8,0,1,1,2,18,5],
+"Log_8h.html#acd40494251e76e5a5e82d3ff26507fd0":[8,0,1,1,2,18,9],
+"Log_8h.html#ad6db28c61c838c1f7316417e1e4847f2":[8,0,1,1,2,18,21],
+"Log_8h.html#add82efa459e0af380b68522c29b9fd44":[8,0,1,1,2,18,25],
 "Log_8h.html#ade00c678de791b27ba8ee5ee4ca6b697":[8,0,1,1,2,18,15],
 "Log_8h.html#ae540a914cab70d94fb4963a03cd4f363":[8,0,1,1,2,18,3],
 "Log_8h_source.html":[8,0,1,1,2,18],
@@ -182,11 +188,11 @@ var NAVTREEINDEX3 =
 "MTException_8cpp.html":[8,0,1,1,8,4],
 "MTException_8h.html":[8,0,1,1,8,5],
 "MTException_8h_source.html":[8,0,1,1,8,5],
-"MacAudioCapture_8h.html":[8,0,1,1,1,13],
-"MacAudioCapture_8h.html#abdaadcb8f51c9c4423ab848590111983":[8,0,1,1,1,13,1],
-"MacAudioCapture_8h.html#afaf832e82143f75a1d44a1131e4e8061":[8,0,1,1,1,13,2],
-"MacAudioCapture_8h_source.html":[8,0,1,1,1,13],
-"MacAudioCapture_8mm.html":[8,0,1,1,1,14],
+"MacAudioCapture_8h.html":[8,0,1,1,1,14],
+"MacAudioCapture_8h.html#abdaadcb8f51c9c4423ab848590111983":[8,0,1,1,1,14,1],
+"MacAudioCapture_8h.html#afaf832e82143f75a1d44a1131e4e8061":[8,0,1,1,1,14,2],
+"MacAudioCapture_8h_source.html":[8,0,1,1,1,14],
+"MacAudioCapture_8mm.html":[8,0,1,1,1,15],
 "MainWindow_8cpp.html":[8,0,1,1,6,18],
 "MainWindow_8h.html":[8,0,1,1,6,19],
 "MainWindow_8h_source.html":[8,0,1,1,6,19],
@@ -243,11 +249,5 @@ var NAVTREEINDEX3 =
 "OSXClipboardAnyBitmapConverter_8cpp.html":[8,0,1,1,10,49],
 "OSXClipboardAnyBitmapConverter_8h.html":[8,0,1,1,10,50],
 "OSXClipboardAnyBitmapConverter_8h_source.html":[8,0,1,1,10,50],
-"OSXClipboardAnyTextConverter_8cpp.html":[8,0,1,1,10,51],
-"OSXClipboardAnyTextConverter_8cpp.html#aa234529397757d7cc43d41c49cc4affb":[8,0,1,1,10,51,0],
-"OSXClipboardAnyTextConverter_8cpp.html#ad4df07f0566d1dec5d7a5a526e66c7cf":[8,0,1,1,10,51,1],
-"OSXClipboardAnyTextConverter_8h.html":[8,0,1,1,10,52],
-"OSXClipboardAnyTextConverter_8h_source.html":[8,0,1,1,10,52],
-"OSXClipboardBMPConverter_8cpp.html":[8,0,1,1,10,53],
-"OSXClipboardBMPConverter_8h.html":[8,0,1,1,10,54]
+"OSXClipboardAnyTextConverter_8cpp.html":[8,0,1,1,10,51]
 };

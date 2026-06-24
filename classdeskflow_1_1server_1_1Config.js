@@ -26,6 +26,7 @@ var classdeskflow_1_1server_1_1Config =
     [ "getAudioLowLatency", "classdeskflow_1_1server_1_1Config.html#a3be8c97f8f9ab6ebf18a24df9fb7c410", null ],
     [ "getAudioMute", "classdeskflow_1_1server_1_1Config.html#a93aad40c6ec836efd88db223035983f5", null ],
     [ "getAudioOutputDevice", "classdeskflow_1_1server_1_1Config.html#a4a9b7941f667a3fe90a3feca1a26bbb3", null ],
+    [ "getAudioPort", "classdeskflow_1_1server_1_1Config.html#afd6b21663ad16e28bd07e8cb85410cc7", null ],
     [ "getAudioVolume", "classdeskflow_1_1server_1_1Config.html#a538fec17fd773bee911d4fcc2502528a", null ],
     [ "getCanonicalName", "classdeskflow_1_1server_1_1Config.html#af409de3b8d399c0869787e1f73093e17", null ],
     [ "getDeskflowAddress", "classdeskflow_1_1server_1_1Config.html#a73a1ab5a56f039d5b5b6225d27ac0947", null ],

@@ -154,6 +154,7 @@ Variables</h2></td></tr>
 <tr class="memitem:af7c64d76e6f99066d1d239f39ff439f3" id="r_af7c64d76e6f99066d1d239f39ff439f3"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#af7c64d76e6f99066d1d239f39ff439f3">kAudioSinkBufferTimeUs</a> = 20000</td></tr>
 <tr class="memitem:afb490b71717e7e8b0c072ecbf3853d2a" id="r_afb490b71717e7e8b0c072ecbf3853d2a"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#afb490b71717e7e8b0c072ecbf3853d2a">kAudioSinkLatencyTimeUs</a> = 5000</td></tr>
 <tr class="memitem:a15a3c32393223f0883937c7164a18c3b" id="r_a15a3c32393223f0883937c7164a18c3b"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a15a3c32393223f0883937c7164a18c3b">kAudioCaptureQueueMs</a> = 30</td></tr>
+<tr class="memitem:a89d507c148f11ffe4a113da0b2489dff" id="r_a89d507c148f11ffe4a113da0b2489dff"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a89d507c148f11ffe4a113da0b2489dff">kAudioControlPollMs</a> = 200</td></tr>
 <tr class="memitem:abb6cae275cd30a4dfc2d368115fc43e4" id="r_abb6cae275cd30a4dfc2d368115fc43e4"><td class="memItemLeft">static constexpr char&#160;</td><td class="memItemRight"><a class="el" href="#abb6cae275cd30a4dfc2d368115fc43e4">kAudioHandshakeMagic</a> [] = &quot;DSKFAUDIO&quot;</td></tr>
 <tr class="memdesc:abb6cae275cd30a4dfc2d368115fc43e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magic bytes sent by the audio client at the start of the control connection.  <br /></td></tr>
 <tr class="memitem:a5e1c5e4858772138e6401a5eb6f60a18" id="r_a5e1c5e4858772138e6401a5eb6f60a18"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5e1c5e4858772138e6401a5eb6f60a18">kAudioHandshakeMagicLen</a> = 9</td></tr>
@@ -162,6 +163,8 @@ Variables</h2></td></tr>
 <tr class="memdesc:a14df9f201c9076c3aa6e7df51f9e495b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Failure reply: server could not start a receiver for this client.  <br /></td></tr>
 <tr class="memitem:ae9ca4f1629fd8c832ee3d647919524dd" id="r_ae9ca4f1629fd8c832ee3d647919524dd"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae9ca4f1629fd8c832ee3d647919524dd">kAudioHandshakeReplyTagLen</a> = 2</td></tr>
 <tr class="memitem:a1d9398feba570394bdb4a7a42d9e863d" id="r_a1d9398feba570394bdb4a7a42d9e863d"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1d9398feba570394bdb4a7a42d9e863d">kAudioHandshakeOkReplyLen</a> = <a class="el" href="#ae9ca4f1629fd8c832ee3d647919524dd">kAudioHandshakeReplyTagLen</a> + 2</td></tr>
+<tr class="memitem:a6cde0998d725c75f0f7b3f5e56aa72de" id="r_a6cde0998d725c75f0f7b3f5e56aa72de"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6cde0998d725c75f0f7b3f5e56aa72de">kAudioMaxNameLen</a> = 255</td></tr>
+<tr class="memitem:a11858580ae25acc1cc8d41d381f3e7fd" id="r_a11858580ae25acc1cc8d41d381f3e7fd"><td class="memItemLeft">static constexpr <a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a>&#160;</td><td class="memItemRight"><a class="el" href="#a11858580ae25acc1cc8d41d381f3e7fd">kAudioHandshakeTimeoutMs</a> = 30000</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a9b9c9294f6506afe1d8788262374abae" name="a9b9c9294f6506afe1d8788262374abae"></a>
@@ -259,6 +262,29 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Number of PCM channels (stereo). </p>
+
+</div>
+</div>
+<a id="a89d507c148f11ffe4a113da0b2489dff" name="a89d507c148f11ffe4a113da0b2489dff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89d507c148f11ffe4a113da0b2489dff">&#9670;&#160;</a></span>kAudioControlPollMs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioControlPollMs = 200</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Poll slice the audio client waits on its control socket in. Short enough that a concurrent stop() (which clears the running flag) unblocks the worker within ~one slice instead of stalling teardown for the full connect/handshake wait. </p>
 
 </div>
 </div>
@@ -399,6 +425,29 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a11858580ae25acc1cc8d41d381f3e7fd" name="a11858580ae25acc1cc8d41d381f3e7fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11858580ae25acc1cc8d41d381f3e7fd">&#9670;&#160;</a></span>kAudioHandshakeTimeoutMs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioHandshakeTimeoutMs = 30000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Drop a control connection that has not completed the handshake within this window so a half-open peer cannot hold a socket/fd open forever. Matches the main protocol's <a class="el" href="classClientProxyUnknown.html">ClientProxyUnknown</a> timeout; well above the client's own 5 s handshake deadline (see AudioClient::runControl). </p>
+
+</div>
+</div>
 <a id="abaff3b786565f838b3cd09f09b3669c1" name="abaff3b786565f838b3cd09f09b3669c1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abaff3b786565f838b3cd09f09b3669c1">&#9670;&#160;</a></span>kAudioJitterBufferLowMs</h2>
 
@@ -441,6 +490,29 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Jitter-buffer playout delay in milliseconds on the receive side. The "robust" value tolerates more network jitter; the "low" value is tuned for a wired LAN where packet jitter is negligible. On a flaky link (weak WiFi) the low value can drop late packets — raise it back toward the robust value if you hear gaps. </p>
+
+</div>
+</div>
+<a id="a6cde0998d725c75f0f7b3f5e56aa72de" name="a6cde0998d725c75f0f7b3f5e56aa72de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cde0998d725c75f0f7b3f5e56aa72de">&#9670;&#160;</a></span>kAudioMaxNameLen</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ArchNetworkWinsock_8cpp.html#ad2573eea84512de995e58415e5512fec">int</a> kAudioMaxNameLen = 255</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Max UTF-8 bytes accepted for the client (screen) name in the handshake. <a class="el" href="classScreen.html">Screen</a> names are short hostnames; this bounds the pre-handshake buffer and rejects a peer that claims a 64 KB name (mirrors kMaxHelloLength in the main protocol). </p>
 
 </div>
 </div>

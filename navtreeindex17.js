@@ -1,5 +1,13 @@
 var NAVTREEINDEX17 =
 {
+"classXWindowsClipboard_1_1MotifClipHeader.html#a018408d44e2abfe1a15040d4469029a7":[7,0,258,1,5],
+"classXWindowsClipboard_1_1MotifClipHeader.html#a28d4a0513b3ce28b80837c54e7faf8b6":[7,0,258,1,4],
+"classXWindowsClipboard_1_1MotifClipHeader.html#a6eee9b76547cc0c40d24e186ffd16443":[7,0,258,1,2],
+"classXWindowsClipboard_1_1MotifClipHeader.html#a91c056330530380c3105671e72825444":[7,0,258,1,7],
+"classXWindowsClipboard_1_1MotifClipHeader.html#ac0985a62d41c08709dcf0da5891520fe":[7,0,258,1,0],
+"classXWindowsClipboard_1_1MotifClipHeader.html#ad31b1c93dccda3cafb2d2c236975527c":[7,0,258,1,6],
+"classXWindowsClipboard_1_1MotifClipHeader.html#ad8a2a427d8a68c9496c7cb22cb020550":[7,0,258,1,1],
+"classXWindowsClipboard_1_1MotifClipHeader.html#ae61ff477775bbc4ff031bd735101b8a2":[7,0,258,1,3],
 "classXWindowsClipboard_1_1MotifClipItem.html":[7,0,258,2],
 "classXWindowsClipboard_1_1MotifClipItem.html#a1eb62c3e656d3b77e618a91aa4d50de0":[7,0,258,2,2],
 "classXWindowsClipboard_1_1MotifClipItem.html#a4ec616bbcd525c7d43a8bc9d3da55d9f":[7,0,258,2,4],
@@ -241,13 +249,5 @@ var NAVTREEINDEX17 =
 "classdeskflow_1_1EiScreen.html#a9535566ce9ce4b699e8f7a1cac047bba":[7,0,0,13,42],
 "classdeskflow_1_1EiScreen.html#a99d5647706869ff1fb8c2fbb8c5f5e5c":[6,0,0,14,32],
 "classdeskflow_1_1EiScreen.html#a99d5647706869ff1fb8c2fbb8c5f5e5c":[7,0,0,13,32],
-"classdeskflow_1_1EiScreen.html#a9beae2c611dda740692393cba83dc4d3":[6,0,0,14,11],
-"classdeskflow_1_1EiScreen.html#a9beae2c611dda740692393cba83dc4d3":[7,0,0,13,11],
-"classdeskflow_1_1EiScreen.html#a9dab63c3aabe1864a39e5a8a47f472c1":[6,0,0,14,17],
-"classdeskflow_1_1EiScreen.html#a9dab63c3aabe1864a39e5a8a47f472c1":[7,0,0,13,17],
-"classdeskflow_1_1EiScreen.html#aa4702a7945c7329d29c4868f8ef1a06d":[6,0,0,14,40],
-"classdeskflow_1_1EiScreen.html#aa4702a7945c7329d29c4868f8ef1a06d":[7,0,0,13,40],
-"classdeskflow_1_1EiScreen.html#aab794f17042337d3583107f3ab308fd3":[6,0,0,14,25],
-"classdeskflow_1_1EiScreen.html#aab794f17042337d3583107f3ab308fd3":[7,0,0,13,25],
-"classdeskflow_1_1EiScreen.html#aaca12e4fff5e3e46e39919696e35cef0":[6,0,0,14,36]
+"classdeskflow_1_1EiScreen.html#a9beae2c611dda740692393cba83dc4d3":[6,0,0,14,11]
 };

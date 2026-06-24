@@ -1,5 +1,12 @@
 var NAVTREEINDEX14 =
 {
+"classQSettingsProxy.html#a229e79c06c60f73f8de8c4822d0bba8d":[7,0,198,6],
+"classQSettingsProxy.html#a2ae838e88d69a664acb54d2ce4baa6da":[7,0,198,2],
+"classQSettingsProxy.html#a363f2e373181c3b6b8248760b19ed953":[7,0,198,13],
+"classQSettingsProxy.html#a6735b3a2eda9ddff113992cf1845708a":[7,0,198,10],
+"classQSettingsProxy.html#a6e77527183cf2df78993ad0f67a8d2f0":[7,0,198,7],
+"classQSettingsProxy.html#a84f6cb4a45e167601573b99517815b13":[7,0,198,17],
+"classQSettingsProxy.html#a93bbea472045378f8a58a1c2ebdcbbf6":[7,0,198,4],
 "classQSettingsProxy.html#a9845f46a10bd54b021181c45efec7f62":[7,0,198,5],
 "classQSettingsProxy.html#a9a45601615425cccd8ff5585221c63c7":[7,0,198,15],
 "classQSettingsProxy.html#aaaed336c8c079b3d6f8af2f5b2e2ce76":[7,0,198,16],
@@ -169,12 +176,13 @@ var NAVTREEINDEX14 =
 "classServer.html#a68ded4d1c097cede948fca9298d32eea":[7,0,214,9],
 "classServer.html#a7350ff05dceefad892dc8213a1e20dc2":[7,0,214,7],
 "classServer.html#a8195b7d8e6d9030d92b66a77e99774bf":[7,0,214,15],
-"classServer.html#a8199404a0bf861058b092f7c254f11d4":[7,0,214,17],
+"classServer.html#a8199404a0bf861058b092f7c254f11d4":[7,0,214,18],
 "classServer.html#a97612e4d51a2a93d3493d68f8390bc3e":[7,0,214,11],
-"classServer.html#aa285a51da766b95457fbf3785caa0fbc":[7,0,214,18],
+"classServer.html#aa285a51da766b95457fbf3785caa0fbc":[7,0,214,19],
 "classServer.html#aa81a435fdc7e73a4c8cda571b75e450d":[7,0,214,12],
 "classServer.html#ac0a402ca54125d9f8f97d191a5649965":[7,0,214,6],
 "classServer.html#acd0114484495cfd2749816ddb12e4246":[7,0,214,10],
+"classServer.html#adbc3d97f0ba49f8cf863298a5f521397":[7,0,214,17],
 "classServerApp.html":[7,0,215],
 "classServerApp.html#a02270e0dbd7f9740fe19c8df54f5d466":[7,0,215,1],
 "classServerApp.html#a1544154b41b1d44baa1dfafe44fcae21":[7,0,215,28],
@@ -241,13 +249,5 @@ var NAVTREEINDEX14 =
 "classServerConfigDialog.html#a3785d8a6e4f53a724d762b1c496008ef":[7,0,217,31],
 "classServerConfigDialog.html#a40ae8761c71cc2c925c8ea2dc8fbe7fd":[7,0,217,16],
 "classServerConfigDialog.html#a4232d07f1b3d0e7b13125e31982d06bd":[7,0,217,17],
-"classServerConfigDialog.html#a4392a6e67c28319c7276685889c08c5a":[7,0,217,38],
-"classServerConfigDialog.html#a650a1ab5b793f3d000c8f2e285279b3a":[7,0,217,13],
-"classServerConfigDialog.html#a6db0469cdaa620f16cfb1027595c3237":[7,0,217,3],
-"classServerConfigDialog.html#a6f763b8f7f10c261c76165ac19d2246a":[7,0,217,24],
-"classServerConfigDialog.html#a799279161b343bd54c11096890d9f995":[7,0,217,33],
-"classServerConfigDialog.html#a8bb7866a8f9ecd02fda0785191f01c27":[7,0,217,19],
-"classServerConfigDialog.html#a8e088fc7f66d30f21fd710916247f9d3":[7,0,217,37],
-"classServerConfigDialog.html#a8efd3a0cfcea2fccd8595d7ed598a723":[7,0,217,6],
-"classServerConfigDialog.html#aa044879ac395019ccc6db813abc16743":[7,0,217,25]
+"classServerConfigDialog.html#a4392a6e67c28319c7276685889c08c5a":[7,0,217,38]
 };

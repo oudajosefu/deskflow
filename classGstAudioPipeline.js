@@ -10,6 +10,7 @@ var classGstAudioPipeline =
     [ "isValid", "classGstAudioPipeline.html#a62c0eb531eb9fc2aa52bed8209df69f5", null ],
     [ "operator=", "classGstAudioPipeline.html#ac4e4c69b933e6da643e47b5ea0ba4bd2", null ],
     [ "setElementBool", "classGstAudioPipeline.html#a645af89bb4f42c177cc17cf8898bd5e4", null ],
+    [ "setElementDevice", "classGstAudioPipeline.html#ad619a0a1a7e0fa5c593b7391673289d9", null ],
     [ "setElementDouble", "classGstAudioPipeline.html#aebcf0fec43b464beb036c89312ccf4cf", null ],
     [ "setStatusCallback", "classGstAudioPipeline.html#a092e1260d311501d91c4791e6c0ea1fe", null ],
     [ "start", "classGstAudioPipeline.html#a3177ae67f01e69f4e3e9dfcf88d005a3", null ],

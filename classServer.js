@@ -17,6 +17,7 @@ var classServer =
     [ "operator=", "classServer.html#a076a19001adecbb221be49022b52d91b", null ],
     [ "protocolString", "classServer.html#a8195b7d8e6d9030d92b66a77e99774bf", null ],
     [ "sendConnectedClientsIpc", "classServer.html#a01074799de394f9ad453138fa8eadb51", null ],
+    [ "setAudioControlPort", "classServer.html#adbc3d97f0ba49f8cf863298a5f521397", null ],
     [ "setConfig", "classServer.html#a8199404a0bf861058b092f7c254f11d4", null ],
     [ "setListener", "classServer.html#aa285a51da766b95457fbf3785caa0fbc", null ]
 ];
