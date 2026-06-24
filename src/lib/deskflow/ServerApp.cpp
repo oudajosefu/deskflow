@@ -423,9 +423,9 @@ bool ServerApp::startServer()
     QObject::connect(m_audioServer, &AudioServer::clientAudioStarted, m_audioServer, [this](const QString &name) {
       // Emitted on the audio thread; hop to the core thread (which has no Qt event
       // loop) before reading m_config / Settings inside applyClientAudioSettings.
-      getEvents()->addEvent(
-          Event(EventTypes::ServerAppApplyAudioSettings, getEvents()->getSystemTarget(), new AudioSettingsEventData(name))
-      );
+      getEvents()->addEvent(Event(
+          EventTypes::ServerAppApplyAudioSettings, getEvents()->getSystemTarget(), new AudioSettingsEventData(name)
+      ));
     });
     // Starts the control plane on its own Qt-event-loop thread; binding happens
     // asynchronously there (a bind failure is logged by AudioServer::listen).
