@@ -1368,6 +1368,10 @@ L&apos;abilitazione di questa impostazione disabiliterà l&apos;interfaccia graf
         <source>Using a log level higher than Info may affect performance.</source>
         <translation type="unfinished">L&apos;utilizzo di un livello di log superiore a Info potrebbe influire sulle prestazioni.</translation>
     </message>
+    <message>
+        <source>Audio control port</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StatusBar</name>

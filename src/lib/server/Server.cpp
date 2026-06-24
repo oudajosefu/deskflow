@@ -1087,6 +1087,17 @@ void Server::sendOptions(BaseClientProxy *client) const
     }
   }
 
+#if defined(HAVE_AUDIO_SUPPORT)
+  // The audio control port is a server-global runtime value (one AudioServer for
+  // all clients), not a per-screen config option, so inject it directly here.
+  // Sending it makes the server the single source of truth for the port instead
+  // of each side reading its own audio/port setting.
+  if (client != m_primaryClient && m_audioControlPort != 0) {
+    optionsList.push_back(kOptionAudioPort);
+    optionsList.push_back(m_audioControlPort);
+  }
+#endif
+
   // send the options
   client->resetOptions();
   client->setOptions(optionsList);

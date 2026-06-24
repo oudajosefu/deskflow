@@ -19,4 +19,5 @@ private Q_SLOTS:
   void equalityCheck_diff_neighbours2();
   void equalityCheck_diff_neighbours3();
   void getAudio_resolvesAlias();
+  void audioPort_parsesFromConfig();
 };

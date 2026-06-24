@@ -194,6 +194,11 @@ QVariant Settings::defaultValue(const QString &key)
   if (key == Core::Port)
     return 24800;
 
+  // Mirrors kDefaultAudioPort (audio/AudioTypes.h); kept as a literal here to
+  // avoid a common -> audio include dependency.
+  if (key == Audio::Port)
+    return 24801;
+
   if (key == Core::ProcessMode) {
 #ifdef Q_OS_WIN
     if (!Settings::isPortableMode())

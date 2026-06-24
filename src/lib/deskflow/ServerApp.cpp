@@ -30,7 +30,6 @@
 
 #if defined(HAVE_AUDIO_SUPPORT)
 #include "audio/AudioServer.h"
-#include "audio/AudioTypes.h"
 #endif
 
 // must be before screen header includes
@@ -406,10 +405,15 @@ bool ServerApp::startServer()
     m_listener = listener;
 
 #if defined(HAVE_AUDIO_SUPPORT)
-    const QVariant audioPortSetting = Settings::value(Settings::Audio::Port);
-    const quint16 audioPort =
-        audioPortSetting.isValid() ? static_cast<quint16>(audioPortSetting.toUInt()) : kDefaultAudioPort;
+    // Effective audio control port: a config-file value wins, else the app
+    // setting. Bind and advertise the same value so the server can't announce a
+    // port it didn't bind, and the client never guesses from its own settings.
+    quint16 audioPort = static_cast<quint16>(Settings::value(Settings::Audio::Port).toUInt());
+    if (const auto configuredPort = m_config->getAudioPort()) {
+      audioPort = *configuredPort;
+    }
     m_audioServer = new AudioServer(audioPort);
+    m_server->setAudioControlPort(audioPort);
     // When a client's audio stream starts, apply that client's persisted
     // server-side playback settings (output device / volume / mute). The signal
     // fires on the audio thread, but m_config and the QSettings store belong to

@@ -534,6 +534,11 @@ std::optional<bool> Config::getAudioLowLatency(const std::string &name) const
   return index != m_map.end() ? index->second.m_audioLowLatency : std::nullopt;
 }
 
+std::optional<uint16_t> Config::getAudioPort() const
+{
+  return m_audioPort;
+}
+
 bool Config::hasLockToScreenAction() const
 {
   return m_hasLockToScreenAction;
@@ -553,6 +558,11 @@ bool Config::operator==(const Config &x) const
 
   // compare global options
   if (m_globalOptions != x.m_globalOptions) {
+    return false;
+  }
+
+  // compare global audio control port
+  if (m_audioPort != x.m_audioPort) {
     return false;
   }
 
@@ -708,6 +718,10 @@ void Config::readSectionOptions(ConfigReadContext &s)
       addOption("", kOptionScreenSwitchNeedsControl, s.parseBoolean(value));
     } else if (name == "switchNeedsAlt") {
       addOption("", kOptionScreenSwitchNeedsAlt, s.parseBoolean(value));
+    } else if (name == "audioPort") {
+      // Global audio control port; stored on Config (not added to the option
+      // list -- the server injects it separately as kOptionAudioPort).
+      m_audioPort = static_cast<uint16_t>(s.parseInt(value));
     } else {
       handled = false;
     }

@@ -9,6 +9,8 @@
 
 #include "server/Config.h"
 
+#include <sstream>
+
 class OnlySystemFilter : public InputFilter::Condition
 {
 public:
@@ -176,6 +178,21 @@ void ServerConfigTests::getAudio_resolvesAlias()
   // ...and the reverse: a setter called with the alias lands on the canonical cell.
   config.setAudioVolume("lappy", 50);
   QCOMPARE(config.getAudioVolume("laptop"), std::optional<int>(50));
+}
+
+void ServerConfigTests::audioPort_parsesFromConfig()
+{
+  // The global audioPort option in the config file is parsed onto the Config.
+  Config parsed(nullptr);
+  std::istringstream in("section: options\n\taudioPort = 24999\nend\n");
+  in >> parsed;
+  QCOMPARE(parsed.getAudioPort(), std::optional<uint16_t>(24999));
+
+  // A config that omits it leaves the port unset (server falls back to settings),
+  // and the port participates in equality.
+  Config noPort(nullptr);
+  QVERIFY(!noPort.getAudioPort().has_value());
+  QVERIFY(parsed != noPort);
 }
 
 QTEST_MAIN(ServerConfigTests)

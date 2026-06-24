@@ -14,8 +14,12 @@
 #include "common/Enums.h"
 #include "deskflow/IClipboard.h"
 #include "net/NetworkAddress.h"
+#if defined(HAVE_AUDIO_SUPPORT)
+#include "audio/AudioTypes.h"
+#endif
 
 #include <climits>
+#include <cstdint>
 #include <memory>
 
 class Event;
@@ -212,6 +216,8 @@ private:
   size_t m_maximumClipboardSize = INT_MAX;
   size_t m_resolvedAddressesCount = 0;
 #if defined(HAVE_AUDIO_SUPPORT)
+  uint16_t m_audioPort = kDefaultAudioPort; // negotiated from the server (kOptionAudioPort)
+  bool m_audioRoutingEnabled = false;
   std::unique_ptr<AudioClient> m_audioClient;
 #endif
 };

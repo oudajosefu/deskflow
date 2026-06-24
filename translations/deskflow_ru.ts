@@ -1366,6 +1366,10 @@ Enabling this setting will disable the server config GUI.</source>
         <source>Using a log level higher than Info may affect performance.</source>
         <translation type="unfinished">Использование уровня логирования выше Info может повлиять на производительность.</translation>
     </message>
+    <message>
+        <source>Audio control port</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StatusBar</name>

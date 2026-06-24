@@ -15,6 +15,7 @@
 #include "net/NetworkAddress.h"
 #include "server/InputFilter.h"
 
+#include <cstdint>
 #include <iosfwd>
 #include <map>
 #include <optional>
@@ -434,6 +435,13 @@ public:
   std::optional<int> getAudioVolume(const std::string &name) const;
   std::optional<bool> getAudioMute(const std::string &name) const;
   std::optional<bool> getAudioLowLatency(const std::string &name) const;
+
+  //! Get the global audio control port from the config file's `audioPort` option.
+  /*!
+  Unset means it was not given in the config file; the server then falls back to
+  the application setting.
+  */
+  std::optional<uint16_t> getAudioPort() const;
   //@}
 
   //! Check for lock to screen action
@@ -501,6 +509,7 @@ private:
   NameMap m_nameToCanonicalName;
   NetworkAddress m_deskflowAddress;
   ScreenOptions m_globalOptions;
+  std::optional<uint16_t> m_audioPort;
   InputFilter m_inputFilter;
   bool m_hasLockToScreenAction = false;
   IEventQueue *m_events;

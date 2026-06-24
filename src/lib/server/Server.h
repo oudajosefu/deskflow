@@ -18,6 +18,7 @@
 #include "server/Config.h"
 
 #include <climits>
+#include <cstdint>
 #include <map>
 #include <set>
 #include <vector>
@@ -174,6 +175,12 @@ public:
   void setListener(ClientListener *p)
   {
     m_clientListener = p;
+  }
+
+  //! Set the audio control port to advertise to clients (0 = don't advertise)
+  void setAudioControlPort(uint16_t port)
+  {
+    m_audioControlPort = port;
   }
 
   //@}
@@ -380,6 +387,9 @@ private:
 
   // current configuration
   ServerConfig *m_config = nullptr;
+
+  // audio control port advertised to clients via kOptionAudioPort (0 = none)
+  uint16_t m_audioControlPort = 0;
 
   // input filter (from m_config);
   InputFilter *m_inputFilter = nullptr;

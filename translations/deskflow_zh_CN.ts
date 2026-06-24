@@ -1370,6 +1370,10 @@ Enabling this setting will disable the server config GUI.</source>
         <source>Using a log level higher than Info may affect performance.</source>
         <translation type="unfinished">使用高于 Info 级别的日志级别可能会影响性能。</translation>
     </message>
+    <message>
+        <source>Audio control port</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StatusBar</name>

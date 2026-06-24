@@ -120,6 +120,7 @@ void SettingsDialog::initConnections() const
   // Connect modifiable controls
   connect(ui->rbIconMono, &QRadioButton::toggled, this, &SettingsDialog::setButtonBoxEnabledButtons);
   connect(ui->sbPort, &QSpinBox::valueChanged, this, &SettingsDialog::setButtonBoxEnabledButtons);
+  connect(ui->sbAudioPort, &QSpinBox::valueChanged, this, &SettingsDialog::setButtonBoxEnabledButtons);
   connect(ui->comboLogLevel, &QComboBox::currentIndexChanged, this, &SettingsDialog::setButtonBoxEnabledButtons);
   connect(ui->comboInterface, &QComboBox::currentIndexChanged, this, &SettingsDialog::setButtonBoxEnabledButtons);
   connect(ui->comboTlsKeyLength, &QComboBox::currentIndexChanged, this, &SettingsDialog::setButtonBoxEnabledButtons);
@@ -225,6 +226,7 @@ void SettingsDialog::updateText()
 void SettingsDialog::accept()
 {
   Settings::setValue(Settings::Core::Port, ui->sbPort->value());
+  Settings::setValue(Settings::Audio::Port, ui->sbAudioPort->value());
   Settings::setValue(Settings::Core::Interface, ui->comboInterface->currentData());
   Settings::setValue(Settings::Log::Level, ui->comboLogLevel->currentData());
   Settings::setValue(Settings::Log::ToFile, ui->groupLogToFile->isChecked());
@@ -260,6 +262,7 @@ void SettingsDialog::accept()
 void SettingsDialog::loadFromConfig()
 {
   ui->sbPort->setValue(Settings::value(Settings::Core::Port).toInt());
+  ui->sbAudioPort->setValue(Settings::value(Settings::Audio::Port).toInt());
   ui->comboLogLevel->setCurrentIndex(
       ui->comboLogLevel->findData(Settings::logLevelText(), Qt::UserRole, Qt::MatchFixedString)
   );
@@ -374,6 +377,7 @@ void SettingsDialog::updateControls()
   ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(writable);
 
   ui->sbPort->setEnabled(writable);
+  ui->sbAudioPort->setEnabled(writable);
   ui->comboInterface->setEnabled(writable);
   ui->comboLogLevel->setEnabled(writable);
   ui->groupLogToFile->setEnabled(writable);
@@ -423,6 +427,7 @@ bool SettingsDialog::isModified() const
 
   bool modified =
       (ui->sbPort->value() != Settings::value(Settings::Core::Port).toInt()) ||
+      (ui->sbAudioPort->value() != Settings::value(Settings::Audio::Port).toInt()) ||
       (ui->comboLogLevel->currentData() != Settings::logLevelText()) ||
       (ui->groupLogToFile->isChecked() != Settings::value(Settings::Log::ToFile).toBool()) ||
       (ui->lineLogFilename->text() != Settings::value(Settings::Log::File).toString()) ||
@@ -458,6 +463,7 @@ bool SettingsDialog::isDefault() const
 
   return (
       (ui->sbPort->value() == Settings::defaultValue(Settings::Core::Port).toInt()) &&
+      (ui->sbAudioPort->value() == Settings::defaultValue(Settings::Audio::Port).toInt()) &&
       (ui->comboLogLevel->currentIndex() == logLevelIndex) &&
       (ui->groupLogToFile->isChecked() == Settings::defaultValue(Settings::Log::ToFile).toBool()) &&
       (ui->lineLogFilename->text() == Settings::defaultValue(Settings::Log::File).toString()) &&
@@ -486,6 +492,7 @@ bool SettingsDialog::isDefault() const
 void SettingsDialog::resetToDefault()
 {
   ui->sbPort->setValue(Settings::defaultValue(Settings::Core::Port).toInt());
+  ui->sbAudioPort->setValue(Settings::defaultValue(Settings::Audio::Port).toInt());
   ui->comboLogLevel->setCurrentIndex(
       static_cast<int>(LogLevel::fromOption(Settings::defaultValue(Settings::Log::Level).toString()))
   );

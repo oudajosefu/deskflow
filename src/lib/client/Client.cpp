@@ -29,7 +29,6 @@
 
 #if defined(HAVE_AUDIO_SUPPORT)
 #include "audio/AudioClient.h"
-#include "audio/AudioTypes.h"
 #endif
 
 #include <QMetaEnum>
@@ -330,24 +329,15 @@ void Client::setOptions(const OptionsList &options)
         }
       }
 #if defined(HAVE_AUDIO_SUPPORT)
+    } else if (id == kOptionAudioPort) {
+      index++;
+      if (index != options.end()) {
+        m_audioPort = static_cast<uint16_t>(*index);
+      }
     } else if (id == kOptionAudioRouting) {
       index++;
       if (index != options.end()) {
-        const bool enabled = (*index != 0);
-        if (enabled && m_audioClient == nullptr) {
-          const QVariant audioPortSetting = Settings::value(Settings::Audio::Port);
-          const quint16 audioPort =
-              audioPortSetting.isValid() ? static_cast<quint16>(audioPortSetting.toUInt()) : kDefaultAudioPort;
-          const QString serverHost = QString::fromStdString(m_serverAddress.getHostname());
-          const QString clientName = QString::fromStdString(m_name);
-          m_audioClient = std::make_unique<AudioClient>(serverHost, audioPort, clientName);
-          m_audioClient->start();
-          LOG_INFO("audio routing enabled — streaming to %s:%d", qPrintable(serverHost), audioPort);
-        } else if (!enabled && m_audioClient != nullptr) {
-          m_audioClient->stop();
-          m_audioClient.reset();
-          LOG_INFO("audio routing disabled by server");
-        }
+        m_audioRoutingEnabled = (*index != 0);
       }
 #endif
     }
@@ -357,6 +347,22 @@ void Client::setOptions(const OptionsList &options)
     m_enableClipboard = false;
     LOG_INFO("clipboard sharing is disabled because the server set the maximum clipboard size to 0");
   }
+
+#if defined(HAVE_AUDIO_SUPPORT)
+  // Apply audio routing after the option loop so kOptionAudioPort / kOptionAudioRouting
+  // order in the list doesn't matter (mirrors the clipboard post-loop handling above).
+  if (m_audioRoutingEnabled && m_audioClient == nullptr) {
+    const QString serverHost = QString::fromStdString(m_serverAddress.getHostname());
+    const QString clientName = QString::fromStdString(m_name);
+    m_audioClient = std::make_unique<AudioClient>(serverHost, m_audioPort, clientName);
+    m_audioClient->start();
+    LOG_INFO("audio routing enabled — streaming to %s:%d", qPrintable(serverHost), m_audioPort);
+  } else if (!m_audioRoutingEnabled && m_audioClient != nullptr) {
+    m_audioClient->stop();
+    m_audioClient.reset();
+    LOG_INFO("audio routing disabled by server");
+  }
+#endif
 
   m_screen->setOptions(options);
 }
